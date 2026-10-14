@@ -8,10 +8,10 @@
     <application
         android:allowBackup="false"
         android:label="Izumi Offline Player"
+        android:icon="@drawable/ic_arzu_v"
         android:theme="@android:style/Theme.Material.NoActionBar"
         android:usesCleartextTraffic="false">
-
-        <activity
+       
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="true">
