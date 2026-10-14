@@ -12,96 +12,153 @@
     box-sizing: border-box;
 }
 
+:root {
+    --black: #070b12;
+    --navy: #0c1424;
+    --panel: #111d32;
+    --panel-light: #172642;
+    --blue: #247bff;
+    --blue-light: #65b5ff;
+    --text: #edf5ff;
+    --muted: #91a8c8;
+    --border: #233b5d;
+}
+
 body {
     margin: 0;
     padding: 16px;
-    background: #100d18;
-    color: #f5efff;
+    background:
+        radial-gradient(
+            circle at top,
+            #152c4e 0%,
+            var(--black) 55%
+        );
+    background-color: var(--black);
+    color: var(--text);
     font-family: Arial, sans-serif;
+    min-height: 100vh;
 }
 
 header {
     text-align: center;
-    padding: 12px 0 20px;
+    padding: 20px 0 25px;
 }
 
 h1 {
-    color: #c9a7ff;
-    margin-bottom: 6px;
-    font-size: 25px;
+    color: var(--blue-light);
+    margin: 0 0 8px;
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-shadow: 0 0 15px #247bff55;
 }
 
 .subtitle {
-    color: #aaa0bd;
-    font-size: 13px;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 1px;
 }
 
 .card {
-    background: #1d1828;
-    border: 1px solid #382b4e;
-    border-radius: 15px;
-    padding: 15px;
+    background: linear-gradient(
+        145deg,
+        var(--panel),
+        #0c1321
+    );
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
     margin-bottom: 15px;
+    box-shadow: 0 6px 20px #00000030;
+}
+
+h3 {
+    color: var(--blue-light);
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 12px;
 }
 
 video {
     width: 100%;
     max-height: 55vh;
     background: #000;
-    border-radius: 10px;
+    border: 1px solid #263c5b;
+    border-radius: 12px;
     display: block;
+}
+
+#videoTitle {
+    color: var(--text);
+    font-size: 16px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+#status {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 10px;
+    overflow-wrap: anywhere;
 }
 
 button,
 input[type="text"] {
     width: 100%;
-    border: 0;
     border-radius: 10px;
-    padding: 12px;
+    padding: 13px;
     margin-top: 9px;
     font-size: 14px;
+    font-family: Arial, sans-serif;
 }
 
 button {
-    background: #8151c9;
+    border: 1px solid #398bff;
+    background: linear-gradient(
+        135deg,
+        #247bff,
+        #1552bd
+    );
     color: white;
     font-weight: bold;
     cursor: pointer;
+    transition: background 0.15s;
 }
 
 button:active {
-    background: #6034a2;
+    background: #103c88;
+}
+
+button:disabled {
+    opacity: 0.6;
 }
 
 .secondary {
-    background: #352746;
+    background: var(--panel-light);
+    border: 1px solid #304d75;
+    color: #c6e0ff;
 }
 
 input[type="text"] {
-    background: #110d19;
-    color: white;
-    border: 1px solid #49375f;
+    background: #080f1c;
+    color: var(--text);
+    border: 1px solid #2c466b;
     outline: none;
+}
+
+input[type="text"]:focus {
+    border-color: var(--blue);
+}
+
+input[type="text"]::placeholder {
+    color: #7185a3;
 }
 
 input[type="file"] {
     width: 100%;
     margin: 10px 0;
-    color: #d9c9f2;
+    color: var(--muted);
     font-size: 13px;
-}
-
-#videoTitle {
-    color: #dfc9ff;
-    font-size: 16px;
-    overflow-wrap: anywhere;
-}
-
-#status {
-    color: #bca7d9;
-    font-size: 12px;
-    margin-top: 10px;
-    overflow-wrap: anywhere;
 }
 
 #playlist {
@@ -111,38 +168,78 @@ input[type="file"] {
 }
 
 #playlist li {
-    background: #15111e;
-    border: 1px solid #30243e;
-    border-radius: 9px;
+    background: #0b1424;
+    border: 1px solid #233753;
+    border-radius: 10px;
     margin-top: 8px;
-    padding: 12px;
+    padding: 13px;
     font-size: 13px;
+    color: #d7e7ff;
     overflow-wrap: anywhere;
     cursor: pointer;
 }
 
 #playlist li.active {
-    border-color: #b18aff;
-    background: #30203f;
+    background: #142b4b;
+    border-color: var(--blue);
+    color: var(--blue-light);
+    box-shadow: inset 3px 0 0 var(--blue);
+}
+
+#updateStatus {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #0a1322;
+    border: 1px solid #203958;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+#updateStatus a {
+    display: block;
+    margin-top: 10px;
+    padding: 12px;
+    border-radius: 9px;
+    background: #173c70;
+    border: 1px solid #327ce0;
+    color: #d8eaff;
+    text-align: center;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+#updateStatus a:active {
+    background: #24599b;
+}
+
+#updateStatus p {
+    color: #c4d6ed;
 }
 
 footer {
     text-align: center;
-    color: #8f839f;
+    color: #7185a3;
     font-size: 11px;
-    padding: 10px;
+    line-height: 1.8;
+    padding: 15px 5px;
 }
+      
+          
 </style>
 </head>
 
 <body>
 
 <header>
-    <h1>🎬 Izumi Player</h1>
+    <h1>IZUMI PLAYER</h1>
     <div class="subtitle">
-        Pemutar video pribadi • Offline
+        MIDNIGHT BLUE EDITION
     </div>
 </header>
+
 
 <section class="card">
 
