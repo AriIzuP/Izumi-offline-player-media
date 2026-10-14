@@ -30,6 +30,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.InputStream;
 import java.io.FileOutputStream;
+import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -101,22 +102,22 @@ public class MainActivity extends Activity {
 
                 fileCallback = callback;
 
-                Intent intent = new Intent(
-                        Intent.ACTION_OPEN_DOCUMENT
-                );
-
-                intent.addCategory(
-                        Intent.CATEGORY_OPENABLE
-                );
-
-                intent.setType("video/*");
-
-                intent.putExtra(
-                        Intent.EXTRA_ALLOW_MULTIPLE,
-                        true
-                );
-
                 try {
+                    Intent intent = new Intent(
+                            Intent.ACTION_OPEN_DOCUMENT
+                    );
+
+                    intent.addCategory(
+                            Intent.CATEGORY_OPENABLE
+                    );
+
+                    intent.setType("video/*");
+
+                    intent.putExtra(
+                            Intent.EXTRA_ALLOW_MULTIPLE,
+                            true
+                    );
+
                     startActivityForResult(
                             intent,
                             FILE_REQUEST_CODE
@@ -206,6 +207,37 @@ public class MainActivity extends Activity {
     }
 
     // =====================================
+    // FULLSCREEN
+    // =====================================
+
+    private void exitFullscreen() {
+
+        if (customView == null) {
+            return;
+        }
+
+        fullscreenContainer.removeView(customView);
+
+        customView = null;
+
+        setContentView(webView);
+
+        getWindow().clearFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+        );
+
+        getWindow().getDecorView()
+                .setSystemUiVisibility(
+                        originalSystemUiVisibility
+                );
+
+        if (customViewCallback != null) {
+            customViewCallback.onCustomViewHidden();
+            customViewCallback = null;
+        }
+    }
+
+    // =====================================
     // IZIN AKSES VIDEO
     // =====================================
 
@@ -239,6 +271,22 @@ public class MainActivity extends Activity {
         requestPermissions(
                 new String[]{getVideoPermission()},
                 MEDIA_PERMISSION_CODE
+        );
+    }
+
+    private void notifyPermissionResult(boolean granted) {
+
+        if (webView == null) {
+            return;
+        }
+
+        String script =
+                "if(window.onNativeMediaPermissionResult){" +
+                "window.onNativeMediaPermissionResult(" +
+                granted + ");}";
+
+        webView.post(() ->
+                webView.evaluateJavascript(script, null)
         );
     }
 
@@ -309,9 +357,11 @@ public class MainActivity extends Activity {
 
                     item.put("id", id);
                     item.put("name", name);
+                    item.put("title", name);
                     item.put("duration", duration);
                     item.put("size", size);
                     item.put("uri", videoUri.toString());
+                    item.put("url", videoUri.toString());
 
                     videos.put(item);
                 }
@@ -335,20 +385,48 @@ public class MainActivity extends Activity {
         return videos.toString();
     }
 
-    private void notifyPermissionResult(boolean granted) {
+    // =====================================
+    // PEMILIHAN FILE ZIP
+    // =====================================
 
-        if (webView == null) {
-            return;
+    private void openZipPicker() {
+
+        try {
+            Intent intent = new Intent(
+                    Intent.ACTION_OPEN_DOCUMENT
+            );
+
+            intent.addCategory(
+                    Intent.CATEGORY_OPENABLE
+            );
+
+            intent.setType("application/zip");
+
+            String[] mimeTypes = {
+                    "application/zip",
+                    "application/x-zip-compressed",
+                    "application/octet-stream",
+                    "*/*"
+            };
+
+            intent.putExtra(
+                    Intent.EXTRA_MIME_TYPES,
+                    mimeTypes
+            );
+
+            startActivityForResult(
+                    intent,
+                    ZIP_REQUEST_CODE
+            );
+
+        } catch (Exception e) {
+
+            Toast.makeText(
+                    MainActivity.this,
+                    "Tidak bisa membuka pemilih ZIP",
+                    Toast.LENGTH_SHORT
+            ).show();
         }
-
-        String script =
-                "if(window.onNativeMediaPermissionResult){" +
-                "window.onNativeMediaPermissionResult(" +
-                granted + ");}";
-
-        webView.post(() ->
-                webView.evaluateJavascript(script, null)
-        );
     }
 
     // =====================================
@@ -361,9 +439,7 @@ public class MainActivity extends Activity {
             return false;
         }
 
-        String lower = name.toLowerCase(
-                java.util.Locale.ROOT
-        );
+        String lower = name.toLowerCase(Locale.ROOT);
 
         return lower.endsWith(".mp4")
                 || lower.endsWith(".m4v")
@@ -388,7 +464,7 @@ public class MainActivity extends Activity {
         return "ERROR:" + message;
     }
 
-    // Daftar episode tanpa mengekstrak file video.
+    // Daftar episode tanpa mengekstrak semua video.
 
     private String listZipEntries(String uriString) {
 
@@ -529,7 +605,7 @@ public class MainActivity extends Activity {
         if (dot >= 0) {
 
             String ext = name.substring(dot).toLowerCase(
-                    java.util.Locale.ROOT
+                    Locale.ROOT
             );
 
             if (ext.matches("\\.[a-z0-9]{1,8}")) {
@@ -562,7 +638,11 @@ public class MainActivity extends Activity {
                 );
 
                 if (column >= 0) {
-                    return cursor.getString(column);
+                    String name = cursor.getString(column);
+
+                    if (name != null) {
+                        return name;
+                    }
                 }
             }
 
@@ -570,7 +650,7 @@ public class MainActivity extends Activity {
 
             android.util.Log.e(
                     "ARZU_V",
-                    "Gagal membaca nama file ZIP",
+                    "Gagal membaca nama file",
                     e
             );
 
@@ -609,31 +689,7 @@ public class MainActivity extends Activity {
         public void openZipPicker() {
 
             runOnUiThread(() -> {
-
-                try {
-                    Intent intent = new Intent(
-                            Intent.ACTION_OPEN_DOCUMENT
-                    );
-
-                    intent.addCategory(
-                            Intent.CATEGORY_OPENABLE
-                    );
-
-                    intent.setType("*/*");
-
-                    startActivityForResult(
-                            intent,
-                            ZIP_REQUEST_CODE
-                    );
-
-                } catch (Exception e) {
-
-                    Toast.makeText(
-                            MainActivity.this,
-                            "Tidak bisa membuka pemilih ZIP",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                }
+                MainActivity.this.openZipPicker();
             });
         }
 
@@ -682,6 +738,121 @@ public class MainActivity extends Activity {
     }
 
     // =====================================
+    // HASIL PEMILIHAN FILE
+    // =====================================
+
+    @Override
+    protected void onActivityResult(
+            int requestCode,
+            int resultCode,
+            Intent data) {
+
+        super.onActivityResult(
+                requestCode,
+                resultCode,
+                data
+        );
+
+        // Pemilihan video biasa.
+
+        if (requestCode == FILE_REQUEST_CODE) {
+
+            if (fileCallback == null) {
+                return;
+            }
+
+            Uri[] results = null;
+
+            if (resultCode == RESULT_OK && data != null) {
+
+                if (data.getClipData() != null) {
+
+                    int count = data.getClipData().getItemCount();
+
+                    results = new Uri[count];
+
+                    for (int i = 0; i < count; i++) {
+                        results[i] =
+                                data.getClipData()
+                                        .getItemAt(i)
+                                        .getUri();
+                    }
+
+                } else if (data.getData() != null) {
+
+                    results = new Uri[]{
+                            data.getData()
+                    };
+                }
+            }
+
+            fileCallback.onReceiveValue(results);
+            fileCallback = null;
+
+            return;
+        }
+
+        // Pemilihan file ZIP anime.
+
+        if (requestCode == ZIP_REQUEST_CODE) {
+
+            if (resultCode != RESULT_OK
+                    || data == null
+                    || data.getData() == null) {
+
+                return;
+            }
+
+            Uri uri = data.getData();
+
+            try {
+                getContentResolver()
+                        .takePersistableUriPermission(
+                                uri,
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        );
+
+            } catch (Exception ignored) {
+                // Beberapa penyedia file tidak mendukung izin persisten.
+            }
+
+            String uriString = uri.toString();
+            String displayName = getDisplayName(uri);
+
+            try {
+                JSONObject result = new JSONObject();
+
+                result.put("uri", uriString);
+                result.put("name", displayName);
+
+                String script =
+                        "if(window.onZipPicked){" +
+                        "window.onZipPicked(" +
+                        JSONObject.quote(uriString) + "," +
+                        JSONObject.quote(displayName) +
+                        ");}";
+
+                if (webView != null) {
+                    webView.post(() ->
+                            webView.evaluateJavascript(
+                                    script,
+                                    null
+                            )
+                    );
+                }
+
+            } catch (Exception e) {
+
+                Toast.makeText(
+                        this,
+                        "Gagal membaca file ZIP",
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        }
+    }
+
+    // =====================================
     // HASIL PERMINTAAN IZIN
     // =====================================
 
@@ -715,4 +886,46 @@ public class MainActivity extends Activity {
                 ).show();
             }
         }
- 
+    }
+
+    // =====================================
+    // TOMBOL KEMBALI
+    // =====================================
+
+    @Override
+    public void onBackPressed() {
+
+        if (customView != null) {
+            exitFullscreen();
+            return;
+        }
+
+        if (webView != null && webView.canGoBack()) {
+            webView.goBack();
+            return;
+        }
+
+        super.onBackPressed();
+    }
+
+    // =====================================
+    // PEMBERSIHAN
+    // =====================================
+
+    @Override
+    protected void onDestroy() {
+
+        if (fileCallback != null) {
+            fileCallback.onReceiveValue(null);
+            fileCallback = null;
+        }
+
+        if (webView != null) {
+            webView.removeJavascriptInterface("AndroidMedia");
+            webView.destroy();
+            webView = null;
+        }
+
+        super.onDestroy();
+    }
+}
