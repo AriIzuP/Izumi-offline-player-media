@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Izumi Offline Player</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 16px;
+    background: #100d18;
+    color: #f5efff;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    text-align: center;
+    padding: 12px 0 20px;
+}
+
+h1 {
+    color: #c9a7ff;
+    margin-bottom: 6px;
+    font-size: 25px;
+}
+
+.subtitle {
+    color: #aaa0bd;
+    font-size: 13px;
+}
+
+.card {
+    background: #1d1828;
+    border: 1px solid #382b4e;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+video {
+    width: 100%;
+    max-height: 55vh;
+    background: #000;
+    border-radius: 10px;
+    display: block;
+}
+
+button,
+input[type="text"] {
+    width: 100%;
+    border: 0;
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 9px;
+    font-size: 14px;
+}
+
+button {
+    background: #8151c9;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:active {
+    background: #6034a2;
+}
+
+.secondary {
+    background: #352746;
+}
+
+input[type="text"] {
+    background: #110d19;
+    color: white;
+    border: 1px solid #49375f;
+    outline: none;
+}
+
+input[type="file"] {
+    width: 100%;
+    margin: 10px 0;
+    color: #d9c9f2;
+    font-size: 13px;
+}
+
+#videoTitle {
+    color: #dfc9ff;
+    font-size: 16px;
+    overflow-wrap: anywhere;
+}
+
+#status {
+    color: #bca7d9;
+    font-size: 12px;
+    margin-top: 10px;
+    overflow-wrap: anywhere;
+}
+
+#playlist {
+    padding: 0;
+    margin: 10px 0 0;
+    list-style: none;
+}
+
+#playlist li {
+    background: #15111e;
+    border: 1px solid #30243e;
+    border-radius: 9px;
+    margin-top: 8px;
+    padding: 12px;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+}
+
+#playlist li.active {
+    border-color: #b18aff;
+    background: #30203f;
+}
+
+footer {
+    text-align: center;
+    color: #8f839f;
+    font-size: 11px;
+    padding: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎬 Izumi Player</h1>
+    <div class="subtitle">
+        Pemutar video pribadi • Offline
+    </div>
+</header>
+
+<section class="card">
+
+    <video id="player"
+           controls
+           playsinline
+           preload="metadata">
+    </video>
+
+    <p id="videoTitle">Belum ada video dipilih</p>
+
+    <div id="status">
+        Pilih video dari penyimpanan HP kamu.
+    </div>
+
+</section>
+
+<section class="card">
+
+    <h3>📂 Tambahkan Video</h3>
+
+    <input
+        type="file"
+        id="videoInput"
+        accept="video/*"
+        multiple>
+
+    <button id="addButton">
+        Tambahkan ke Daftar Putar
+    </button>
+
+    <button class="secondary" id="clearButton">
+        Hapus Semua dari Daftar
+    </button>
+
+</section>
+
+<section class="card">
+
+    <h3>🎵 Daftar Putar</h3>
+
+    <input
+        type="text"
+        id="search"
+        placeholder="Cari nama video...">
+
+    <ul id="playlist"></ul>
+
+</section>
+
+<section class="card">
+
+    <h3>⚙️ Pengaturan</h3>
+
+    <button class="secondary" id="volumeButton">
+        Volume: 100%
+    </button>
+
+    <button class="secondary" id="updateButton">
+        🔄 Periksa Pembaruan
+    </button>
+
+    <div id="updateStatus">
+        Pemeriksaan update GitHub belum dihubungkan.
+    </div>
+
+</section>
+
+<footer>
+    Izumi Offline Player v1.0.0<br>
+    Dibuat untuk pemutaran video lokal.
+</footer>
+
+<script>
+(function () {
+    var player = document.getElementById("player");
+    var videoInput = document.getElementById("videoInput");
+    var addButton = document.getElementById("addButton");
+    var clearButton = document.getElementById("clearButton");
+    var search = document.getElementById("search");
+    var playlistElement = document.getElementById("playlist");
+    var videoTitle = document.getElementById("videoTitle");
+    var status = document.getElementById("status");
+    var volumeButton = document.getElementById("volumeButton");
+
+    var videos = [];
+    var currentIndex = -1;
+    var currentVolume = 1;
+
+    function formatName(name) {
+        return name || "Video tanpa nama";
+    }
+
+    function playVideo(index) {
+        if (index < 0 || index >= videos.length) {
+            return;
+        }
+
+        currentIndex = index;
+
+        player.src = videos[index].url;
+        videoTitle.textContent = videos[index].name;
+        status.textContent =
+            "Video " + (index + 1) +
+            " dari " + videos.length;
+
+        renderPlaylist();
+
+        player.play().catch(function () {
+            status.textContent =
+                "Video siap. Tekan tombol Play untuk memulai.";
+        });
+    }
+
+    function renderPlaylist() {
+        var query = search.value.toLowerCase();
+
+        playlistElement.innerHTML = "";
+
+        for (var i = 0; i < videos.length; i++) {
+            if (
+                videos[i].name.toLowerCase().indexOf(query) === -1
+            ) {
+                continue;
+            }
+
+            var item = document.createElement("li");
+
+            item.textContent =
+                (i + 1) + ". " + videos[i].name;
+
+            if (i === currentIndex) {
+                item.className = "active";
+            }
+
+            item.setAttribute("data-index", i);
+
+            item.addEventListener("click", function () {
+                var index = parseInt(
+                    this.getAttribute("data-index"),
+                    10
+                );
+
+                playVideo(index);
+            });
+
+            playlistElement.appendChild(item);
+        }
+
+        if (videos.length === 0) {
+            var empty = document.createElement("li");
+            empty.textContent = "Daftar putar masih kosong.";
+            empty.style.cursor = "default";
+            playlistElement.appendChild(empty);
+        }
+    }
+
+    addButton.addEventListener("click", function () {
+        var files = videoInput.files;
+
+        if (!files || files.length === 0) {
+            status.textContent =
+                "Pilih satu atau beberapa video terlebih dahulu.";
+            return;
+        }
+
+        var added = 0;
+
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+
+            if (
+                file.type.indexOf("video/") !== 0 &&
+                !/\.(mp4|mkv|webm|mov|3gp|avi|m4v)$/i.test(file.name)
+            ) {
+                continue;
+            }
+
+            videos.push({
+                name: formatName(file.name),
+                url: URL.createObjectURL(file)
+            });
+
+            added++;
+        }
+
+        renderPlaylist();
+
+        status.textContent =
+            added + " video ditambahkan.";
+
+        videoInput.value = "";
+
+        if (currentIndex === -1 && videos.length > 0) {
+            playVideo(0);
+        }
+    });
+
+    clearButton.addEventListener("click", function () {
+        player.pause();
+        player.removeAttribute("src");
+        player.load();
+
+        for (var i = 0; i < videos.length; i++) {
+            URL.revokeObjectURL(videos[i].url);
+        }
+
+        videos = [];
+        currentIndex = -1;
+
+        videoTitle.textContent = "Belum ada video dipilih";
+        status.textContent = "Daftar putar telah dikosongkan.";
+
+        renderPlaylist();
+    });
+
+    search.addEventListener("input", renderPlaylist);
+
+    player.addEventListener("ended", function () {
+        if (currentIndex + 1 < videos.length) {
+            playVideo(currentIndex + 1);
+        }
+    });
+
+    volumeButton.addEventListener("click", function () {
+        if (currentVolume === 1) {
+            currentVolume = 0.5;
+        } else if (currentVolume === 0.5) {
+            currentVolume = 0;
+        } else {
+            currentVolume = 1;
+        }
+
+        player.volume = currentVolume;
+
+        volumeButton.textContent =
+            "Volume: " +
+            Math.round(currentVolume * 100) + "%";
+    });
+
+    document.getElementById("updateButton")
+        .addEventListener("click", function () {
+            document.getElementById("updateStatus")
+                .textContent =
+                "Fitur pemeriksaan update GitHub akan ditambahkan pada tahap berikutnya.";
+        });
+
+    renderPlaylist();
+})();
+</script>
+
+</body>
+</html>
