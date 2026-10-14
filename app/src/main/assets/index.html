@@ -226,8 +226,187 @@ footer {
     line-height: 1.8;
     padding: 15px 5px;
 }
+      /* ===== CUSTOM FILE PICKER ===== */
+
+.file-picker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    margin: 10px 0 14px;
+    background: linear-gradient(
+        135deg,
+        #142744,
+        #0b1424
+    );
+    border: 1px solid #315783;
+    border-radius: 13px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.file-picker:active {
+    background: #1b365b;
+}
+
+.file-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    background: #1c477b;
+    border: 1px solid #438ce5;
+    border-radius: 12px;
+    color: #8cc8ff;
+    font-size: 25px;
+}
+
+.file-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.file-info strong {
+    display: block;
+    color: #e4f1ff;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.file-info small {
+    display: block;
+    color: #91a8c8;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.file-arrow {
+    color: #65b5ff;
+    font-size: 26px;
+}
+
+#videoInput {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+      }
+/* ===== CUSTOM VIDEO PLAYER ===== */
+
+.video-player {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid #294a73;
+    border-radius: 14px;
+    box-shadow: 0 0 18px #1264b522;
+}
+
+.video-player video {
+    display: block;
+    width: 100%;
+    max-height: 55vh;
+    background: #000;
+    border: none;
+    border-radius: 0;
+}
+
+/* Lapisan tombol Play besar */
+
+.player-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #00000018;
+    transition: opacity 0.2s;
+    pointer-events: none;
+}
+
+.player-overlay button {
+    pointer-events: auto;
+    width: 62px;
+    height: 62px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #8ac8ff;
+    border-radius: 50%;
+    background: #1459a9dd;
+    color: white;
+    font-size: 25px;
+    box-shadow: 0 0 24px #248bff55;
+}
+
+.video-player.is-playing .player-overlay {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Panel kontrol bawah */
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px;
+    background: linear-gradient(
+        135deg,
+        #102440,
+        #080f1b
+    );
+    border-top: 1px solid #24466e;
+}
+
+.player-controls button {
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #3479c5;
+    border-radius: 50%;
+    background: #173b65;
+    color: #b8ddff;
+    font-size: 16px;
+}
+
+.player-controls button:active {
+    background: #2466aa;
+}
+
+.player-time {
+    flex-shrink: 0;
+    color: #d5e8ff;
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+}
+
+#seekBar {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    height: 5px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    accent-color: #3995ff;
+    cursor: pointer;
+}
+
+.player-caption {
+    padding: 9px 12px;
+    background: #0b1525;
+    color: #8faed3;
+    font-size: 11px;
+    text-align: center;
+      }
       
-          
 </style>
 </head>
 
@@ -243,11 +422,54 @@ footer {
 
 <section class="card">
 
+    <div class="video-player" id="videoPlayer">
+
     <video id="player"
-           controls
            playsinline
            preload="metadata">
     </video>
+
+    <div class="player-overlay" id="playerOverlay">
+        <button
+            type="button"
+            id="bigPlayButton"
+            aria-label="Putar video">
+            ▶
+        </button>
+    </div>
+
+    <div class="player-controls">
+
+        <button
+            type="button"
+            id="playPauseButton"
+            aria-label="Putar atau jeda">
+            ▶
+        </button>
+
+        <span class="player-time" id="currentTime">
+            0:00
+        </span>
+
+        <input
+            type="range"
+            id="seekBar"
+            min="0"
+            max="1000"
+            value="0"
+            aria-label="Posisi video">
+
+        <span class="player-time" id="duration">
+            0:00
+        </span>
+
+    </div>
+
+    <div class="player-caption">
+        IZUMI PLAYER · MIDNIGHT BLUE
+    </div>
+
+    </div>
 
     <p id="videoTitle">Belum ada video dipilih</p>
 
@@ -261,12 +483,28 @@ footer {
 
     <h3>📂 Tambahkan Video</h3>
 
-    <input
-        type="file"
-        id="videoInput"
-        accept="video/*"
-        multiple>
+    <label class="file-picker" for="videoInput">
 
+    <span class="file-icon">＋</span>
+
+    <span class="file-info">
+        <strong>Pilih Video</strong>
+        <small>
+            Pilih satu atau beberapa video
+            dari penyimpanan HP
+        </small>
+    </span>
+
+    <span class="file-arrow">›</span>
+
+</label>
+
+<input
+    type="file"
+    id="videoInput"
+    accept="video/*"
+    multiple>
+      
     <button id="addButton">
         Tambahkan ke Daftar Putar
     </button>
@@ -324,7 +562,101 @@ footer {
     var videoTitle = document.getElementById("videoTitle");
     var status = document.getElementById("status");
     var volumeButton = document.getElementById("volumeButton");
+    // ===== CUSTOM VIDEO PLAYER CONTROLS =====
 
+var videoPlayer = document.getElementById("videoPlayer");
+var playPauseButton = document.getElementById("playPauseButton");
+var bigPlayButton = document.getElementById("bigPlayButton");
+var seekBar = document.getElementById("seekBar");
+var currentTimeLabel = document.getElementById("currentTime");
+var durationLabel = document.getElementById("duration");
+
+function formatPlayerTime(seconds) {
+    if (!isFinite(seconds) || seconds < 0) {
+        return "0:00";
+    }
+
+    var minutes = Math.floor(seconds / 60);
+    var remainingSeconds = Math.floor(seconds % 60);
+
+    return minutes + ":" +
+        (remainingSeconds < 10 ? "0" : "") +
+        remainingSeconds;
+}
+
+function updatePlayerButtons() {
+    if (player.paused) {
+        playPauseButton.textContent = "▶";
+        bigPlayButton.textContent = "▶";
+        videoPlayer.classList.remove("is-playing");
+    } else {
+        playPauseButton.textContent = "Ⅱ";
+        bigPlayButton.textContent = "▶";
+        videoPlayer.classList.add("is-playing");
+    }
+}
+
+function togglePlayerPlayback() {
+    if (player.paused) {
+        var result = player.play();
+
+        if (result && result.catch) {
+            result.catch(function () {
+                status.textContent =
+                    "Video belum bisa diputar. Coba tekan Play lagi.";
+            });
+        }
+    } else {
+        player.pause();
+    }
+}
+
+playPauseButton.addEventListener("click", function () {
+    togglePlayerPlayback();
+});
+
+bigPlayButton.addEventListener("click", function () {
+    togglePlayerPlayback();
+});
+
+player.addEventListener("play", updatePlayerButtons);
+player.addEventListener("pause", updatePlayerButtons);
+player.addEventListener("ended", updatePlayerButtons);
+
+player.addEventListener("loadedmetadata", function () {
+    durationLabel.textContent =
+        formatPlayerTime(player.duration);
+
+    currentTimeLabel.textContent = "0:00";
+    seekBar.value = 0;
+});
+
+player.addEventListener("timeupdate", function () {
+    currentTimeLabel.textContent =
+        formatPlayerTime(player.currentTime);
+
+    if (isFinite(player.duration) && player.duration > 0) {
+        seekBar.value =
+            (player.currentTime / player.duration) * 1000;
+    }
+});
+
+seekBar.addEventListener("input", function () {
+    if (isFinite(player.duration) && player.duration > 0) {
+        player.currentTime =
+            (Number(seekBar.value) / 1000) * player.duration;
+    }
+});
+
+player.addEventListener("emptied", function () {
+    currentTimeLabel.textContent = "0:00";
+    durationLabel.textContent = "0:00";
+    seekBar.value = 0;
+
+    updatePlayerButtons();
+});
+
+updatePlayerButtons();
     var videos = [];
     var currentIndex = -1;
     var currentVolume = 1;
