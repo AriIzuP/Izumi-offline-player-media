@@ -467,48 +467,70 @@ main {
     background: linear-gradient(transparent, #000e 35%);
     transition: opacity .25s;
 }
-
 .player-control-row {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 9px;
+    gap: 5px;
+    flex-wrap: nowrap;
+    width: 100%;
 }
 
 .p-control {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-shrink: 0;
-    width: 37px;
-    height: 37px;
+    flex: 0 0 32px;
+    width: 32px;
+    height: 36px;
     padding: 0;
     color: white;
     background: #142b48e8;
     border: 1px solid #6aaaff80;
     border-radius: 50%;
-    font-size: 15px;
-}
-
-.p-control:active {
-    background: #247bff;
+    font-size: 13px;
 }
 
 .p-control.primary {
-    width: 44px;
-    height: 44px;
+    flex-basis: 39px;
+    width: 39px;
+    height: 39px;
     background: #247bff;
     border-color: #8ac8ff;
-    font-size: 19px;
+    font-size: 18px;
 }
 
-.p-control.text-control {
-    width: auto;
-    min-width: 37px;
-    padding: 0 9px;
-    border-radius: 10px;
-    font-size: 11px;
+/* VOLUME DI DALAM KONTROL VIDEO */
+
+.inline-volume {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 55px;
+    min-width: 40px;
+    max-width: 90px;
+    gap: 4px;
 }
+
+.inline-volume button {
+    flex-shrink: 0;
+    width: 27px;
+    height: 34px;
+    padding: 0;
+    color: white;
+    background: transparent;
+    border: none;
+    font-size: 17px;
+}
+
+#inlineVolumeRange {
+    width: 100%;
+    min-width: 0;
+    height: 4px;
+    margin: 0;
+    padding: 0;
+    accent-color: #3995ff;
+          }
 
 .player-time-row {
     display: flex;
@@ -649,15 +671,63 @@ main {
     background: #000;
 }
 
+/* FULLSCREEN ARZU V */
+
+.player-shell.css-fullscreen {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+    border: none;
+    border-radius: 0;
+    background: #000;
+    box-shadow: none;
+}
+
 .player-shell.css-fullscreen .player-screen {
-    flex: 1;
+    position: relative;
+    flex: 1 1 auto;
+
+    width: 100%;
+    height: 100%;
     min-height: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #000;
 }
 
 .player-shell.css-fullscreen .player-screen video {
+    display: block;
+
     width: 100%;
     height: 100%;
     max-height: none;
+
+    object-fit: contain;
+}
+
+.player-shell.css-fullscreen .player-top-controls {
+    top: 0;
+}
+
+.player-shell.css-fullscreen .player-bottom-controls {
+    bottom: 0;
+    padding-bottom: 20px;
 }
 
 .player-shell.css-fullscreen .player-footer {
@@ -666,7 +736,18 @@ main {
 
 body.fullscreen-active {
     overflow: hidden;
+    padding: 0;
 }
+
+body.fullscreen-active .app-header,
+body.fullscreen-active main,
+body.fullscreen-active .bottom-nav {
+    visibility: hidden;
+}
+
+body.fullscreen-active .player-shell {
+    visibility: visible;
+      }
 
 /* LIBRARY */
 
@@ -1172,14 +1253,27 @@ footer {
                             aria-label="Maju 10 detik">↷</button>
 
                     <button class="p-control"
-                            id="nextButton"
-                            type="button"
-                            aria-label="Video berikutnya">▶|</button>
+        id="nextButton"
+        type="button"
+        aria-label="Video berikutnya">▶|</button>
 
-                    <button class="p-control"
-                            id="fullscreenButton"
-                            type="button"
-                            aria-label="Layar penuh">⛶</button>
+<div class="inline-volume">
+    <button id="inlineMuteButton"
+            type="button"
+            aria-label="Matikan suara">🔊</button>
+
+    <input type="range"
+           id="inlineVolumeRange"
+           min="0"
+           max="100"
+           value="100"
+           aria-label="Atur volume">
+</div>
+
+<button class="p-control"
+        id="fullscreenButton"
+        type="button"
+        aria-label="Layar penuh">⛶</button>
                 </div>
             </div>
         </div>
@@ -1194,28 +1288,6 @@ footer {
     <p id="status">
         Pilih video dari koleksi untuk memulai.
     </p>
-
-    <div class="card">
-        <h3 class="card-title">🔊 Volume</h3>
-
-        <div class="volume-row">
-            <span id="volumeIcon">🔊</span>
-
-            <input type="range"
-                   id="volumeRange"
-                   min="0"
-                   max="100"
-                   value="100"
-                   aria-label="Volume">
-
-            <span id="volumeValue">100%</span>
-        </div>
-
-        <button class="btn btn-secondary"
-                id="muteButton">
-            Matikan Suara
-        </button>
-    </div>
 
     <div class="card">
         <h3 class="card-title">💬 Subtitle</h3>
@@ -1495,11 +1567,10 @@ footer {
     var currentTimeLabel = document.getElementById("currentTime");
     var durationLabel = document.getElementById("duration");
 
-    var volumeRange = document.getElementById("volumeRange");
-    var volumeValue = document.getElementById("volumeValue");
-    var volumeIcon = document.getElementById("volumeIcon");
-    var muteButton = document.getElementById("muteButton");
-
+    var volumeRange = document.getElementById("inlineVolumeRange");
+    var volumeIcon = document.getElementById("inlineMuteButton");
+    var muteButton = volumeIcon;
+      
     var scanMediaButton = document.getElementById("scanMediaButton");
     var mediaScanStatus = document.getElementById("mediaScanStatus");
 
@@ -1905,20 +1976,7 @@ footer {
         if (event.target.closest &&
             event.target.closest("button")) {
             return;
-        }
-
-        if (playerShell.classList.contains("controls-hidden")) {
-            showControls();
-        } else {
-            hideControls();
-        }
-    });
-
-    playerScreen.addEventListener("touchstart", function () {
-        if (playerShell.classList.contains("controls-hidden")) {
-            showControls();
-        }
-    }, { passive: true });
+      }
 
     playerScreen.addEventListener("mousemove", showControls);
 
@@ -1934,112 +1992,118 @@ footer {
     ===================================== */
 
     function enterCssFullscreen() {
-        playerShell.classList.add("css-fullscreen");
-        document.body.classList.add("fullscreen-active");
-        fullscreenButton.textContent = "×";
-        fullscreenButton.setAttribute(
-            "aria-label",
-            "Keluar dari layar penuh"
-        );
-    }
+    playerShell.classList.add("css-fullscreen");
+    document.body.classList.add("fullscreen-active");
 
-    function exitCssFullscreen() {
-        playerShell.classList.remove("css-fullscreen");
-        document.body.classList.remove("fullscreen-active");
-        fullscreenButton.textContent = "⛶";
-        fullscreenButton.setAttribute(
-            "aria-label",
-            "Layar penuh"
-        );
+    fullscreenButton.textContent = "×";
+
+    fullscreenButton.setAttribute(
+        "aria-label",
+        "Keluar dari layar penuh"
+    );
+
+    try {
+        if (
+            typeof AndroidMedia !== "undefined" &&
+            typeof AndroidMedia.setImmersiveMode === "function"
+        ) {
+            AndroidMedia.setImmersiveMode(true);
+        }
+    } catch (error) {
+        // Mode CSS tetap tersedia.
     }
+}
+
+function exitCssFullscreen() {
+    playerShell.classList.remove("css-fullscreen");
+    document.body.classList.remove("fullscreen-active");
+
+    fullscreenButton.textContent = "⛶";
+
+    fullscreenButton.setAttribute(
+        "aria-label",
+        "Layar penuh"
+    );
+
+    try {
+        if (
+            typeof AndroidMedia !== "undefined" &&
+            typeof AndroidMedia.setImmersiveMode === "function"
+        ) {
+            AndroidMedia.setImmersiveMode(false);
+        }
+    } catch (error) {
+        // Tidak menghalangi keluar dari fullscreen CSS.
+    }
+      }
 
     function toggleFullscreen() {
-        var isCssFullscreen =
-            playerShell.classList.contains("css-fullscreen");
-
-        if (isCssFullscreen) {
-            exitCssFullscreen();
-            return;
-        }
-
-        /*
-         * Android WebView dapat menyediakan
-         * webkitEnterFullscreen untuk elemen video.
-         */
-        try {
-            if (typeof player.webkitEnterFullscreen === "function") {
-                nativeFullscreenRequested = true;
-                player.webkitEnterFullscreen();
-                return;
-            }
-        } catch (error) {
-            nativeFullscreenRequested = false;
-        }
-
-        /*
-         * Fallback CSS tetap dapat memenuhi area WebView.
-         */
-        enterCssFullscreen();
+    if (playerShell.classList.contains("css-fullscreen")) {
+        exitCssFullscreen();
+        showControls();
+        return;
     }
 
-    fullscreenButton.addEventListener("click", function (event) {
-        event.stopPropagation();
-        toggleFullscreen();
-    });
+    enterCssFullscreen();
+    showControls();
 
-    player.addEventListener("webkitbeginfullscreen", function () {
-        nativeFullscreenRequested = true;
-        fullscreenButton.textContent = "×";
-    });
-
-    player.addEventListener("webkitendfullscreen", function () {
-        nativeFullscreenRequested = false;
-        fullscreenButton.textContent = "⛶";
-        showControls();
-    });
-
-    document.addEventListener("fullscreenchange", function () {
-        if (!document.fullscreenElement) {
-            exitCssFullscreen();
+    /*
+     * Meminta Android menyembunyikan status bar
+     * dan navigation bar jika penghubung tersedia.
+     */
+    try {
+        if (
+            typeof AndroidMedia !== "undefined" &&
+            typeof AndroidMedia.setImmersiveMode === "function"
+        ) {
+            AndroidMedia.setImmersiveMode(true);
         }
+    } catch (error) {
+        // Fullscreen CSS tetap berjalan jika bridge gagal.
+    }
+      }
     });
 
     /* =====================================
        VOLUME
     ===================================== */
-
     function setVolume(value) {
-        currentVolume = Math.max(0, Math.min(1, value));
-        player.volume = currentVolume;
+    currentVolume = Math.max(0, Math.min(1, value));
 
-        if (currentVolume > 0) {
-            lastNonZeroVolume = currentVolume;
-        }
+    player.volume = currentVolume;
 
-        volumeRange.value = Math.round(currentVolume * 100);
-        volumeValue.textContent =
-            Math.round(currentVolume * 100) + "%";
-
-        volumeIcon.textContent =
-            currentVolume === 0 ? "🔇" :
-            currentVolume < 0.5 ? "🔉" : "🔊";
-
-        muteButton.textContent =
-            currentVolume === 0 ? "Nyalakan Suara" : "Matikan Suara";
+    if (currentVolume > 0) {
+        lastNonZeroVolume = currentVolume;
     }
 
-    volumeRange.addEventListener("input", function () {
-        setVolume(Number(volumeRange.value) / 100);
-    });
+    volumeRange.value = Math.round(currentVolume * 100);
 
-    muteButton.addEventListener("click", function () {
-        if (currentVolume > 0) {
-            setVolume(0);
-        } else {
-            setVolume(lastNonZeroVolume || 1);
-        }
-    });
+    volumeIcon.textContent =
+        currentVolume === 0 ? "🔇" :
+        currentVolume < 0.5 ? "🔉" : "🔊";
 
+    volumeIcon.setAttribute(
+        "aria-label",
+        currentVolume === 0 ? "Nyalakan suara" : "Matikan suara"
+    );
+}
+
+volumeRange.addEventListener("input", function () {
+    setVolume(Number(volumeRange.value) / 100);
+});
+
+muteButton.addEventListener("click", function (event) {
+    event.stopPropagation();
+
+    if (currentVolume > 0) {
+        setVolume(0);
+    } else {
+        setVolume(lastNonZeroVolume || 1);
+    }
+
+    showControls();
+});
+    
     /* =====================================
        SUBTITLES
     ===================================== */
