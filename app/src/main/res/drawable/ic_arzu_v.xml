@@ -1,0 +1,42 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Background Midnight Blue -->
+    <path
+        android:fillColor="#071426"
+        android:pathData="M24,4 H84 C95,4 104,13 104,24 V84 C104,95 95,104 84,104 H24 C13,104 4,95 4,84 V24 C4,13 13,4 24,4 Z" />
+
+    <!-- Border biru -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#28578B"
+        android:strokeWidth="2"
+        android:pathData="M24,5 H84 C94,5 103,14 103,24 V84 C103,94 94,103 84,103 H24 C14,103 5,94 5,84 V24 C5,14 14,5 24,5 Z" />
+
+    <!-- Huruf A -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#8BD4FF"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M19,69 L34,34 L49,69 M25,56 H43" />
+
+    <!-- Huruf Z -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#438CFF"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M56,35 H82 L56,68 H82" />
+
+    <!-- Aksen bawah -->
+    <path
+        android:fillColor="#8BD4FF"
+        android:pathData="M24,79 H84 V81 H24 Z" />
+
+</vector>
