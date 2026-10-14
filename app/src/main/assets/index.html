@@ -6,7 +6,7 @@
       content="width=device-width, initial-scale=1.0">
 
 <title>Izumi Offline Player</title>
-
+      
 <style>
 * {
     box-sizing: border-box;
@@ -406,12 +406,127 @@ footer {
     font-size: 11px;
     text-align: center;
       }
+    /* ===== ARZU V BRANDING ===== */
+.arzu-logo {
+    width: 100px;
+    height: 100px;
+    display: block;
+    margin: 0 auto 18px;
+    filter: drop-shadow(0 0 15px #258cff66);
+}
+
+.arzu-brand {
+    text-align: center;
+    color: #e5f2ff;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 5px;
+}
+
+.arzu-subtitle {
+    margin-top: 8px;
+    color: #68b7ff;
+    font-size: 10px;
+    letter-spacing: 4px;
+}  
+      .arzu-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #07111f;
+    animation: splashFadeOut 0.7s ease 2.3s forwards;
+}
+
+.arzu-logo {
+    animation: logoAppear 0.8s ease both;
+}
+
+@keyframes logoAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes splashFadeOut {
+    to {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+            }
       
 </style>
 </head>
 
 <body>
+      
+<div class="arzu-splash" id="arzuSplash">
 
+    <svg class="arzu-logo"
+         viewBox="0 0 100 100"
+         xmlns="http://www.w3.org/2000/svg">
+
+        <defs>
+            <linearGradient id="arzuBlue"
+                            x1="0" y1="0"
+                            x2="1" y2="1">
+                <stop offset="0%" stop-color="#8bd4ff"/>
+                <stop offset="100%" stop-color="#237cff"/>
+            </linearGradient>
+        </defs>
+
+        <rect x="3" y="3"
+              width="94" height="94"
+              rx="24"
+              fill="#0b1729"
+              stroke="#28578b"
+              stroke-width="1.5"/>
+
+        <path d="M20 65 L34 31 L48 65
+                 M25 54 H43"
+              fill="none"
+              stroke="url(#arzuBlue)"
+              stroke-width="4"
+              stroke-linecap="round"
+              stroke-linejoin="round"/>
+
+        <path d="M53 32 H76 L53 64 H77"
+              fill="none"
+              stroke="url(#arzuBlue)"
+              stroke-width="4"
+              stroke-linecap="round"
+              stroke-linejoin="round"/>
+
+        <path d="M18 77 H82"
+              stroke="#28578b"
+              stroke-width="1.5"/>
+
+        <text x="50" y="88"
+              text-anchor="middle"
+              font-size="9"
+              font-weight="bold"
+              letter-spacing="2"
+              fill="#d8edff">ARZU V</text>
+
+    </svg>
+
+    <div class="arzu-brand">ARZU V</div>
+
+    <div class="arzu-subtitle">
+        MIDNIGHT BLUE EDITION
+    </div>
+
+      </div>
 <header>
     <h1>IZUMI PLAYER</h1>
     <div class="subtitle">
