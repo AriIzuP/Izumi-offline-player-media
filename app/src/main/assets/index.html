@@ -34,13 +34,8 @@ html,body {
     font-family:Arial,Helvetica,sans-serif;
 }
 
-body {
-    padding-bottom:78px;
-}
-
-button,input {
-    font:inherit;
-}
+body { padding-bottom:78px; }
+button,input,select { font:inherit; }
 
 button {
     border:0;
@@ -48,15 +43,12 @@ button {
     color:var(--text);
 }
 
-button:focus,input:focus {
+button:focus,input:focus,select:focus {
     outline:2px solid rgba(81,216,255,.5);
     outline-offset:2px;
 }
 
-button:disabled {
-    opacity:.45;
-    cursor:default;
-}
+button:disabled { opacity:.45; cursor:default; }
 
 .app-header {
     position:sticky;
@@ -70,11 +62,7 @@ button:disabled {
     border-bottom:1px solid var(--border);
 }
 
-.brand {
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
+.brand { display:flex; align-items:center; gap:10px; }
 
 .brand-logo {
     width:39px;
@@ -88,11 +76,7 @@ button:disabled {
     font-weight:900;
 }
 
-.brand-name {
-    font-size:19px;
-    font-weight:900;
-    letter-spacing:1.5px;
-}
+.brand-name { font-size:19px; font-weight:900; letter-spacing:1.5px; }
 
 .brand-subtitle {
     margin-top:3px;
@@ -109,15 +93,9 @@ button:disabled {
     font-size:19px;
 }
 
-main {
-    max-width:850px;
-    margin:auto;
-    padding:18px;
-}
+main { max-width:850px; margin:auto; padding:18px; }
 
-.page {
-    display:none;
-}
+.page { display:none; }
 
 .page.active {
     display:block;
@@ -146,11 +124,7 @@ main {
     font-weight:bold;
 }
 
-.hero h1 {
-    margin:12px 0 9px;
-    font-size:28px;
-    line-height:1.2;
-}
+.hero h1 { margin:12px 0 9px; font-size:28px; line-height:1.2; }
 
 .hero p {
     color:var(--muted);
@@ -181,15 +155,8 @@ main {
     margin:22px 0 13px;
 }
 
-.section-heading h2 {
-    font-size:17px;
-    margin:0;
-}
-
-.muted {
-    color:var(--muted);
-    font-size:12px;
-}
+.section-heading h2 { font-size:17px; margin:0; }
+.muted { color:var(--muted); font-size:12px; }
 
 .stat-grid {
     display:grid;
@@ -211,21 +178,20 @@ main {
     overflow-wrap:anywhere;
 }
 
-.stat-label {
-    margin-top:5px;
-    color:var(--muted);
-    font-size:12px;
-}
+.stat-label { margin-top:5px; color:var(--muted); font-size:12px; }
 
-.search-box {
+.search-box,.sort-select {
     width:100%;
     padding:13px 14px;
     border-radius:12px;
     border:1px solid var(--border);
     background:var(--panel);
     color:var(--text);
-    margin-bottom:12px;
 }
+
+.search-box { margin-bottom:10px; }
+.sort-select { margin-bottom:12px; }
+.sort-select option { background:var(--panel); color:var(--text); }
 
 .toolbar {
     display:flex;
@@ -234,11 +200,7 @@ main {
     margin-bottom:17px;
 }
 
-.video-list {
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-}
+.video-list { display:flex; flex-direction:column; gap:10px; }
 
 .video-item {
     display:flex;
@@ -262,10 +224,7 @@ main {
     font-size:23px;
 }
 
-.video-info {
-    min-width:0;
-    flex:1;
-}
+.video-info { min-width:0; flex:1; }
 
 .video-title {
     font-size:13px;
@@ -274,17 +233,9 @@ main {
     line-height:1.4;
 }
 
-.video-meta {
-    color:var(--muted);
-    font-size:11px;
-    margin-top:5px;
-}
+.video-meta { color:var(--muted); font-size:11px; margin-top:5px; }
 
-.video-actions {
-    display:flex;
-    flex-direction:column;
-    gap:7px;
-}
+.video-actions { display:flex; flex-direction:column; gap:7px; }
 
 .small-button {
     padding:8px 10px;
@@ -302,10 +253,7 @@ main {
     line-height:1.7;
 }
 
-.empty-icon {
-    font-size:38px;
-    margin-bottom:10px;
-}
+.empty-icon { font-size:38px; margin-bottom:10px; }
 
 .notice {
     margin-top:13px;
@@ -316,6 +264,85 @@ main {
     color:#bcdcff;
     font-size:12px;
     line-height:1.6;
+}
+
+/* ZIP ANIME MANAGER */
+
+.zip-panel {
+    margin:15px 0;
+    padding:15px;
+    border:1px solid rgba(81,216,255,.25);
+    border-radius:16px;
+    background:linear-gradient(145deg,#122644,#101a30);
+}
+
+.zip-panel[hidden] { display:none; }
+
+.zip-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+}
+
+.zip-title {
+    font-weight:bold;
+    font-size:14px;
+    overflow-wrap:anywhere;
+}
+
+.zip-subtitle {
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.5;
+    margin-top:5px;
+}
+
+.zip-entry-list {
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:14px;
+}
+
+.zip-entry {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:11px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    background:rgba(8,15,32,.55);
+}
+
+.zip-entry-info { min-width:0; flex:1; }
+
+.zip-entry-name {
+    font-size:12px;
+    line-height:1.5;
+    overflow-wrap:anywhere;
+}
+
+.zip-entry-size {
+    font-size:10px;
+    color:var(--muted);
+    margin-top:4px;
+}
+
+.zip-entry-button {
+    flex-shrink:0;
+    background:var(--blue);
+    padding:9px 11px;
+    border-radius:9px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.zip-status {
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.6;
+    padding:10px 0 0;
 }
 
 /* PEMUTAR VIDEO */
@@ -346,8 +373,7 @@ main {
     background:#000;
 }
 
-.player-top-controls,
-.player-bottom-controls {
+.player-top-controls,.player-bottom-controls {
     position:absolute;
     left:0;
     right:0;
@@ -382,29 +408,11 @@ main {
     background:linear-gradient(transparent,rgba(0,0,0,.94) 35%);
 }
 
-.player-time-row {
-    display:flex;
-    align-items:center;
-    gap:8px;
-    margin-bottom:10px;
-}
+.player-time-row { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.time-label { min-width:35px; font-size:10px; text-align:center; color:white; }
+#seekBar { flex:1; min-width:0; }
 
-.time-label {
-    min-width:35px;
-    font-size:10px;
-    text-align:center;
-    color:white;
-}
-
-#seekBar {
-    flex:1;
-    min-width:0;
-}
-
-input[type="range"] {
-    accent-color:var(--blue);
-    cursor:pointer;
-}
+input[type="range"] { accent-color:var(--blue); cursor:pointer; }
 
 .player-control-row {
     display:flex;
@@ -440,34 +448,9 @@ input[type="range"] {
     font-weight:bold;
 }
 
-.center-play {
-    position:absolute;
-    z-index:4;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width:58px;
-    height:58px;
-    border-radius:50%;
-    background:rgba(22,140,255,.9);
-    font-size:23px;
-}
-
-.inline-volume {
-    display:flex;
-    align-items:center;
-    gap:4px;
-}
-
-#inlineMuteButton {
-    background:transparent;
-    font-size:16px;
-    padding:3px;
-}
-
-#inlineVolumeRange {
-    width:56px;
-}
+.inline-volume { display:flex; align-items:center; gap:4px; }
+#inlineMuteButton { background:transparent; font-size:16px; padding:3px; }
+#inlineVolumeRange { width:56px; }
 
 .player-footer {
     background:#0d1728;
@@ -491,13 +474,25 @@ input[type="range"] {
     pointer-events:auto;
 }
 
+.center-play {
+    position:absolute;
+    z-index:4;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:rgba(22,140,255,.9);
+    font-size:23px;
+}
+
 .player-shell.css-fullscreen {
     position:fixed;
     top:0;
     left:0;
     z-index:10000;
     width:100%;
-    height:100%;
     height:100vh;
     border:0;
     border-radius:0;
@@ -505,35 +500,16 @@ input[type="range"] {
     overflow:hidden;
 }
 
-.player-shell.css-fullscreen .player-screen {
-    width:100%;
-    height:100%;
-    height:100vh;
-    border-radius:0;
-}
-
-.player-shell.css-fullscreen .player-footer {
-    display:none;
-}
-
-body.fullscreen-active {
-    overflow:hidden;
-    padding:0!important;
-}
+.player-shell.css-fullscreen .player-screen { width:100%; height:100vh; border-radius:0; }
+.player-shell.css-fullscreen .player-footer { display:none; }
+body.fullscreen-active { overflow:hidden; padding:0!important; }
 
 body.fullscreen-active .app-header,
 body.fullscreen-active main,
-body.fullscreen-active .bottom-nav {
-    visibility:hidden;
-}
+body.fullscreen-active .bottom-nav { visibility:hidden; }
 
-body.fullscreen-active .player-shell {
-    visibility:visible;
-}
-
-body.fullscreen-active .player-shell.css-fullscreen {
-    display:block;
-}
+body.fullscreen-active .player-shell { visibility:visible; }
+body.fullscreen-active .player-shell.css-fullscreen { display:block; }
 
 /* PENGATURAN */
 
@@ -545,11 +521,7 @@ body.fullscreen-active .player-shell.css-fullscreen {
     margin-bottom:12px;
 }
 
-.settings-title {
-    font-size:14px;
-    font-weight:bold;
-    margin-bottom:7px;
-}
+.settings-title { font-size:14px; font-weight:bold; margin-bottom:7px; }
 
 .settings-description {
     font-size:12px;
@@ -567,20 +539,9 @@ body.fullscreen-active .player-shell.css-fullscreen {
     border-bottom:1px solid var(--border);
 }
 
-.setting-row:last-child {
-    border-bottom:0;
-}
-
-.setting-row label {
-    font-size:13px;
-}
-
-.setting-row input[type="checkbox"] {
-    width:19px;
-    height:19px;
-    accent-color:var(--blue);
-    flex-shrink:0;
-}
+.setting-row:last-child { border-bottom:0; }
+.setting-row label { font-size:13px; }
+.setting-row input[type="checkbox"] { width:19px; height:19px; accent-color:var(--blue); flex-shrink:0; }
 
 .bottom-nav {
     position:fixed;
@@ -608,13 +569,8 @@ body.fullscreen-active .player-shell.css-fullscreen {
     font-size:10px;
 }
 
-.nav-icon {
-    font-size:20px;
-}
-
-.nav-button.active {
-    color:var(--cyan);
-}
+.nav-icon { font-size:20px; }
+.nav-button.active { color:var(--cyan); }
 
 .toast {
     position:fixed;
@@ -658,52 +614,21 @@ body.fullscreen-active .player-shell.css-fullscreen {
     background:linear-gradient(135deg,var(--blue),#675aff);
 }
 
-.splash-title {
-    margin-top:22px;
-    font-size:25px;
-    font-weight:900;
-    letter-spacing:4px;
-}
-
-.splash-subtitle {
-    margin-top:8px;
-    font-size:11px;
-    color:var(--muted);
-    letter-spacing:2px;
-}
+.splash-title { margin-top:22px; font-size:25px; font-weight:900; letter-spacing:4px; }
+.splash-subtitle { margin-top:8px; font-size:11px; color:var(--muted); letter-spacing:2px; }
 
 @media (min-width:600px) {
-    .player-screen {
-        height:390px;
-    }
+    .player-screen { height:390px; }
 }
 
 @media (max-width:370px) {
-    main {
-        padding:12px;
-    }
-
-    .player-screen {
-        height:205px;
-    }
-
-    .player-control-row {
-        gap:3px;
-    }
-
-    .p-control {
-        min-width:27px;
-        padding:0 4px;
-        font-size:13px;
-    }
-
-    .inline-volume input {
-        width:38px!important;
-    }
-
-    .hero h1 {
-        font-size:24px;
-    }
+    main { padding:12px; }
+    .player-screen { height:205px; }
+    .player-control-row { gap:3px; }
+    .p-control { min-width:27px; padding:0 4px; font-size:13px; }
+    .inline-volume input { width:38px!important; }
+    .hero h1 { font-size:24px; }
+    .video-thumb { width:55px; }
 }
 </style>
 </head>
@@ -737,9 +662,7 @@ body.fullscreen-active .player-shell.css-fullscreen {
         <button class="primary-button" id="homeBrowseButton">▶ Buka koleksi video</button>
     </div>
 
-    <div class="section-heading">
-        <h2>Ringkasan koleksi</h2>
-    </div>
+    <div class="section-heading"><h2>Ringkasan koleksi</h2></div>
 
     <div class="stat-grid">
         <div class="stat-card">
@@ -773,18 +696,43 @@ body.fullscreen-active .player-shell.css-fullscreen {
     <input type="search" class="search-box" id="searchInput"
            placeholder="Cari nama video..." autocomplete="off">
 
+    <label class="muted" for="sortSelect" style="display:block;margin:0 0 7px">
+        Urutkan koleksi
+    </label>
+    <select class="sort-select" id="sortSelect">
+        <option value="name-asc">Nama: A–Z</option>
+        <option value="name-desc">Nama: Z–A</option>
+        <option value="duration-asc">Durasi: terpendek</option>
+        <option value="duration-desc">Durasi: terpanjang</option>
+    </select>
+
     <div class="toolbar">
         <button class="primary-button" id="scanButton">↻ Pindai perangkat</button>
         <button class="secondary-button" id="pickFileButton">＋ Pilih file</button>
+        <button class="secondary-button" id="openZipButton">📦 Buka ZIP Anime</button>
     </div>
 
-    <input type="file" id="filePicker" accept="video/*" hidden>
+    <input type="file" id="filePicker" accept="video/*" multiple hidden>
     <input type="file" id="subtitlePicker" accept=".srt,.vtt,.txt,text/plain,text/vtt" hidden>
+
+    <div class="zip-panel" id="zipPanel" hidden>
+        <div class="zip-header">
+            <div style="min-width:0;flex:1">
+                <div class="zip-title" id="zipArchiveName">Arsip anime</div>
+                <div class="zip-subtitle" id="zipArchiveInfo">
+                    Pilih episode untuk mengekstrak dan memutarnya.
+                </div>
+            </div>
+            <button class="small-button" id="closeZipButton">Tutup</button>
+        </div>
+        <div class="zip-status" id="zipStatus">Belum ada arsip yang dipilih.</div>
+        <div class="zip-entry-list" id="zipEntryList"></div>
+    </div>
 
     <div id="libraryList" class="video-list"></div>
 
     <div class="notice">
-        Jika pemindaian tidak menemukan video, periksa izin media aplikasi melalui pengaturan Android.
+        ZIP Anime Manager membaca daftar episode tanpa mengekstrak semua video sekaligus. Episode yang dipilih diekstrak ke cache aplikasi untuk diputar.
     </div>
 </section>
 
@@ -796,7 +744,6 @@ body.fullscreen-active .player-shell.css-fullscreen {
 
     <div class="player-shell paused" id="playerShell">
         <div class="player-screen" id="playerScreen">
-
             <video id="player" playsinline webkit-playsinline preload="metadata"></video>
 
             <div class="player-top-controls">
@@ -829,13 +776,10 @@ body.fullscreen-active .player-shell.css-fullscreen {
                 </div>
             </div>
         </div>
-
         <div class="player-footer">ARZU V · LOCAL VIDEO PLAYER</div>
     </div>
 
-    <div class="section-heading">
-        <h2 id="nowPlayingTitle">Belum ada video</h2>
-    </div>
+    <div class="section-heading"><h2 id="nowPlayingTitle">Belum ada video</h2></div>
 
     <div class="toolbar">
         <button class="secondary-button" id="playerLibraryButton">☰ Koleksi video</button>
@@ -848,9 +792,7 @@ body.fullscreen-active .player-shell.css-fullscreen {
 </section>
 
 <section class="page" id="settingsPage">
-    <div class="section-heading">
-        <h2>Pengaturan</h2>
-    </div>
+    <div class="section-heading"><h2>Pengaturan</h2></div>
 
     <div class="settings-card">
         <div class="settings-title">Pemutar video</div>
@@ -920,10 +862,6 @@ body.fullscreen-active .player-shell.css-fullscreen {
 (function () {
 "use strict";
 
-/* =========================
-   ARZU V - KONFIGURASI
-========================= */
-
 var CURRENT_VERSION = "2.0.0";
 var RELEASES_API =
     "https://api.github.com/repos/AriIzuP/Izumi-offline-player-media/releases/latest";
@@ -935,11 +873,13 @@ var currentSubtitleUrl = null;
 var hideControlsTimer = null;
 var toastTimer = null;
 var scanning = false;
-var scanWaitingForPermission = false;
 var seekDragging = false;
 var lastVolume = 1;
-var lastPlayedKey = "";
-var savedSettings = {};
+
+/* ZIP yang sedang dibuka */
+var activeZipUri = "";
+var activeZipName = "";
+var activeZipEntries = [];
 
 function $(id) {
     return document.getElementById(id);
@@ -968,9 +908,7 @@ function toast(message) {
 }
 
 function formatTime(seconds) {
-    if (!isFinite(seconds) || seconds < 0) {
-        return "0:00";
-    }
+    if (!isFinite(seconds) || seconds < 0) return "0:00";
 
     seconds = Math.floor(seconds);
 
@@ -989,6 +927,17 @@ function formatTime(seconds) {
     return minutes + ":" + twoDigits(secs);
 }
 
+function formatBytes(bytes) {
+    bytes = Number(bytes);
+
+    if (!isFinite(bytes) || bytes < 0) return "Ukuran tidak diketahui";
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + " KB";
+    if (bytes < 1073741824) return (bytes / 1048576).toFixed(1) + " MB";
+
+    return (bytes / 1073741824).toFixed(2) + " GB";
+}
+
 function cleanTitle(path) {
     var name = String(path || "Video");
 
@@ -1004,23 +953,18 @@ function cleanTitle(path) {
 }
 
 function safeLocalStorageGet(key) {
-    try {
-        return localStorage.getItem(key);
-    } catch (error) {
-        return null;
-    }
+    try { return localStorage.getItem(key); }
+    catch (error) { return null; }
 }
 
 function safeLocalStorageSet(key, value) {
-    try {
-        localStorage.setItem(key, value);
-    } catch (error) {}
+    try { localStorage.setItem(key, value); }
+    catch (error) {}
 }
 
 function safeLocalStorageRemove(key) {
-    try {
-        localStorage.removeItem(key);
-    } catch (error) {}
+    try { localStorage.removeItem(key); }
+    catch (error) {}
 }
 
 function getVideoTitle(video) {
@@ -1028,13 +972,7 @@ function getVideoTitle(video) {
 }
 
 function getVideoKey(video) {
-    return String(
-        video.path ||
-        video.url ||
-        video.title ||
-        video.name ||
-        ""
-    );
+    return String(video.path || video.url || video.title || video.name || "");
 }
 
 /* =========================
@@ -1097,9 +1035,7 @@ $("autoNextSetting").addEventListener("change", function () {
 ========================= */
 
 function showPage(pageName) {
-    if (isFullscreen()) {
-        exitFullscreen();
-    }
+    if (isFullscreen()) exitFullscreen();
 
     var pageIds = {
         home: "homePage",
@@ -1119,13 +1055,9 @@ function showPage(pageName) {
         );
     });
 
-    if (pageName === "player") {
-        updatePlayerTitle();
-    } else if (pageName === "library") {
-        renderLibrary();
-    } else if (pageName === "home") {
-        renderHome();
-    }
+    if (pageName === "player") updatePlayerTitle();
+    if (pageName === "library") renderLibrary();
+    if (pageName === "home") renderHome();
 }
 
 document.querySelectorAll(".nav-button").forEach(function (button) {
@@ -1147,7 +1079,7 @@ $("playerLibraryButton").addEventListener("click", function () {
 });
 
 /* =========================
-   KOLEKSI VIDEO
+   KOLEKSI DAN PENGURUTAN
 ========================= */
 
 function normalizeVideo(item) {
@@ -1186,18 +1118,64 @@ function mergeVideos(incoming) {
         var video = normalizeVideo(item);
         var key = getVideoKey(video);
 
-        if (!key || map[key]) {
-            return;
-        }
+        if (!key || map[key]) return;
 
         map[key] = true;
         merged.push(video);
     });
 
     videos = merged;
-
     renderLibrary();
     renderHome();
+}
+
+function getDurationSeconds(video) {
+    var duration = Number(video.duration || 0);
+
+    /* Durasi MediaStore Android umumnya dalam milidetik. */
+    if (duration > 100000) duration = duration / 1000;
+
+    return duration;
+}
+
+function getSortedVideoEntries() {
+    var entries = videos.map(function (video, index) {
+        return {video:video, index:index};
+    });
+
+    var mode = $("sortSelect").value;
+
+    entries.sort(function (a, b) {
+        var titleA = getVideoTitle(a.video).toLocaleLowerCase();
+        var titleB = getVideoTitle(b.video).toLocaleLowerCase();
+
+        if (mode === "name-asc") {
+            return titleA.localeCompare(titleB) || a.index - b.index;
+        }
+
+        if (mode === "name-desc") {
+            return titleB.localeCompare(titleA) || a.index - b.index;
+        }
+
+        var durationA = getDurationSeconds(a.video);
+        var durationB = getDurationSeconds(b.video);
+
+        /* Video tanpa durasi diketahui diletakkan di bagian akhir. */
+        if (durationA <= 0 && durationB > 0) return 1;
+        if (durationB <= 0 && durationA > 0) return -1;
+
+        if (mode === "duration-asc") {
+            return durationA - durationB || titleA.localeCompare(titleB);
+        }
+
+        if (mode === "duration-desc") {
+            return durationB - durationA || titleA.localeCompare(titleB);
+        }
+
+        return a.index - b.index;
+    });
+
+    return entries;
 }
 
 function renderVideoItem(video, index) {
@@ -1218,18 +1196,11 @@ function renderVideoItem(video, index) {
     var meta = document.createElement("div");
     meta.className = "video-meta";
 
-    if (video.duration > 0) {
-        var duration = Number(video.duration);
+    var duration = getDurationSeconds(video);
 
-        /* Beberapa bridge mengirim durasi dalam milidetik. */
-        if (duration > 100000) {
-            duration = duration / 1000;
-        }
-
-        meta.textContent = "Durasi: " + formatTime(duration);
-    } else {
-        meta.textContent = "Video lokal";
-    }
+    meta.textContent = duration > 0
+        ? "Durasi: " + formatTime(duration)
+        : "Video lokal";
 
     info.appendChild(title);
     info.appendChild(meta);
@@ -1246,7 +1217,6 @@ function renderVideoItem(video, index) {
     });
 
     actions.appendChild(playButton);
-
     item.appendChild(thumb);
     item.appendChild(info);
     item.appendChild(actions);
@@ -1258,19 +1228,21 @@ function renderLibrary() {
     var list = $("libraryList");
     var query = $("searchInput").value.toLowerCase().trim();
 
-    while (list.firstChild) {
-        list.removeChild(list.firstChild);
-    }
+    while (list.firstChild) list.removeChild(list.firstChild);
 
     var shown = 0;
+    var entries = getSortedVideoEntries();
 
-    videos.forEach(function (video, index) {
+    entries.forEach(function (entry) {
+        var video = entry.video;
+
         if (query &&
             getVideoTitle(video).toLowerCase().indexOf(query) === -1) {
             return;
         }
 
-        list.appendChild(renderVideoItem(video, index));
+        /* Pakai indeks asli supaya pengurutan tidak salah memutar video. */
+        list.appendChild(renderVideoItem(video, entry.index));
         shown++;
     });
 
@@ -1287,7 +1259,7 @@ function renderLibrary() {
         var message = document.createElement("div");
         message.textContent = query
             ? "Tidak ada video yang cocok dengan pencarian."
-            : "Belum ada video. Pindai perangkat atau pilih file.";
+            : "Belum ada video. Pindai perangkat, pilih file, atau buka ZIP anime.";
 
         empty.appendChild(icon);
         empty.appendChild(message);
@@ -1299,15 +1271,10 @@ function renderHome() {
     $("homeVideoCount").textContent = String(videos.length);
 
     var recent = $("recentList");
-
-    while (recent.firstChild) {
-        recent.removeChild(recent.firstChild);
-    }
+    while (recent.firstChild) recent.removeChild(recent.firstChild);
 
     if (currentIndex >= 0 && videos[currentIndex]) {
-        recent.appendChild(
-            renderVideoItem(videos[currentIndex], currentIndex)
-        );
+        recent.appendChild(renderVideoItem(videos[currentIndex], currentIndex));
     } else if (videos.length > 0) {
         recent.appendChild(renderVideoItem(videos[0], 0));
     } else {
@@ -1319,15 +1286,265 @@ function renderHome() {
 }
 
 $("searchInput").addEventListener("input", renderLibrary);
+$("sortSelect").addEventListener("change", renderLibrary);
+
+/* =========================
+   ZIP ANIME MANAGER
+========================= */
+
+function showZipPanel() {
+    $("zipPanel").hidden = false;
+}
+
+function clearZipPanel() {
+    activeZipUri = "";
+    activeZipName = "";
+    activeZipEntries = [];
+
+    $("zipArchiveName").textContent = "Arsip anime";
+    $("zipArchiveInfo").textContent =
+        "Pilih episode untuk mengekstrak dan memutarnya.";
+    $("zipStatus").textContent = "Belum ada arsip yang dipilih.";
+
+    while ($("zipEntryList").firstChild) {
+        $("zipEntryList").removeChild($("zipEntryList").firstChild);
+    }
+
+    $("zipPanel").hidden = true;
+}
+
+$("openZipButton").addEventListener("click", function () {
+    if (!window.AndroidMedia ||
+        typeof window.AndroidMedia.openZipPicker !== "function") {
+        toast("Pemilih ZIP memerlukan versi Android dengan dukungan ZIP.");
+        return;
+    }
+
+    try {
+        window.AndroidMedia.openZipPicker();
+    } catch (error) {
+        console.log("ZIP picker:", error);
+        toast("Gagal membuka pemilih ZIP.");
+    }
+});
+
+$("closeZipButton").addEventListener("click", clearZipPanel);
+
+/*
+ * Dipanggil MainActivity.java setelah pengguna memilih arsip.
+ * Nama callback ini harus sama persis dengan nama di Java.
+ */
+window.onZipPicked = function (uri, name) {
+    activeZipUri = String(uri || "");
+    activeZipName = String(name || "Anime.zip");
+    activeZipEntries = [];
+
+    showZipPanel();
+
+    $("zipArchiveName").textContent = activeZipName;
+    $("zipArchiveInfo").textContent = "Sedang membaca isi arsip...";
+    $("zipStatus").textContent =
+        "Memindai daftar episode. Arsip besar mungkin membutuhkan waktu.";
+
+    while ($("zipEntryList").firstChild) {
+        $("zipEntryList").removeChild($("zipEntryList").firstChild);
+    }
+
+    if (!activeZipUri) {
+        $("zipStatus").textContent = "URI arsip tidak tersedia.";
+        return;
+    }
+
+    if (!window.AndroidMedia ||
+        typeof window.AndroidMedia.listZipEntries !== "function") {
+        $("zipStatus").textContent =
+            "Dukungan ZIP tidak ditemukan. Periksa MainActivity.java.";
+        return;
+    }
+
+    /*
+     * Bridge Java membaca arsip secara berurutan.
+     * Tidak semua episode diekstrak pada tahap ini.
+     */
+    setTimeout(function () {
+        try {
+            var result = window.AndroidMedia.listZipEntries(activeZipUri);
+
+            if (typeof result !== "string") {
+                result = String(result || "[]");
+            }
+
+            if (result.indexOf("ERROR:") === 0) {
+                $("zipStatus").textContent =
+                    "Gagal membaca ZIP: " + result.substring(6);
+                return;
+            }
+
+            var entries = JSON.parse(result);
+
+            if (!Array.isArray(entries)) {
+                throw new Error("Format daftar episode tidak valid.");
+            }
+
+            activeZipEntries = entries;
+            renderZipEntries();
+
+        } catch (error) {
+            console.log("ZIP list error:", error);
+            $("zipStatus").textContent =
+                "Gagal membaca arsip. Pastikan file ZIP valid dan dapat diakses.";
+            $("zipArchiveInfo").textContent = "Daftar episode gagal dimuat.";
+        }
+    }, 30);
+};
+
+function renderZipEntries() {
+    var list = $("zipEntryList");
+
+    while (list.firstChild) list.removeChild(list.firstChild);
+
+    $("zipArchiveInfo").textContent =
+        activeZipEntries.length + " file video ditemukan";
+
+    if (activeZipEntries.length === 0) {
+        $("zipStatus").textContent =
+            "Tidak ada episode video yang didukung di dalam ZIP.";
+        return;
+    }
+
+    $("zipStatus").textContent =
+        "Pilih Putar pada episode yang ingin ditonton.";
+
+    activeZipEntries.forEach(function (entry) {
+        var row = document.createElement("div");
+        row.className = "zip-entry";
+
+        var info = document.createElement("div");
+        info.className = "zip-entry-info";
+
+        var name = document.createElement("div");
+        name.className = "zip-entry-name";
+        name.textContent = entry.name || "Episode";
+
+        var size = document.createElement("div");
+        size.className = "zip-entry-size";
+        size.textContent = formatBytes(entry.size);
+
+        var button = document.createElement("button");
+        button.className = "zip-entry-button";
+        button.textContent = "▶ Putar";
+
+        button.addEventListener("click", function () {
+            playZipEntry(entry, button);
+        });
+
+        info.appendChild(name);
+        info.appendChild(size);
+        row.appendChild(info);
+        row.appendChild(button);
+        list.appendChild(row);
+    });
+}
+
+function playZipEntry(entry, button) {
+    if (!activeZipUri) {
+        toast("Pilih file ZIP terlebih dahulu.");
+        return;
+    }
+
+    if (!window.AndroidMedia ||
+        typeof window.AndroidMedia.extractZipEntry !== "function") {
+        toast("Fungsi ekstraksi ZIP tidak tersedia di aplikasi.");
+        return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Memproses...";
+    $("zipStatus").textContent =
+        "Mengekstrak episode yang dipilih. Tunggu sebentar...";
+
+    /*
+     * Fungsi native hanya mengekstrak entry yang dipilih.
+     * Ekstraksi berlangsung pada thread bridge Java, bukan
+     * dengan mengekstrak semua episode ke penyimpanan.
+     */
+    setTimeout(function () {
+        try {
+            var uri = window.AndroidMedia.extractZipEntry(
+                activeZipUri,
+                entry.name
+            );
+
+            if (typeof uri !== "string") uri = String(uri || "");
+
+            if (uri.indexOf("ERROR:") === 0) {
+                $("zipStatus").textContent =
+                    "Ekstraksi gagal: " + uri.substring(6);
+                toast("Gagal mengekstrak episode.");
+                return;
+            }
+
+            if (!uri) {
+                $("zipStatus").textContent =
+                    "Lokasi episode hasil ekstraksi tidak tersedia.";
+                return;
+            }
+
+            /*
+             * Tambahkan video sementara ke daftar koleksi.
+             * Identitasnya unik berdasarkan arsip dan nama entry.
+             */
+            var uniqueKey = "zip-entry:" +
+                activeZipUri + "#" + entry.name;
+
+            var video = {
+                name: entry.name,
+                title: cleanTitle(entry.name),
+                url: uri,
+                path: uniqueKey,
+                duration: 0,
+                mimeType: "video/*",
+                file: null
+            };
+
+            mergeVideos([video]);
+
+            var index = -1;
+
+            for (var i = 0; i < videos.length; i++) {
+                if (getVideoKey(videos[i]) === uniqueKey) {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index >= 0) {
+                $("zipStatus").textContent =
+                    "Episode siap diputar: " + entry.name;
+                playVideo(index);
+            } else {
+                $("zipStatus").textContent =
+                    "Episode diekstrak, tetapi gagal dimasukkan ke koleksi.";
+            }
+
+        } catch (error) {
+            console.log("ZIP extract error:", error);
+            $("zipStatus").textContent =
+                "Terjadi kesalahan ketika mengekstrak episode.";
+            toast("Gagal memproses episode ZIP.");
+        } finally {
+            button.disabled = false;
+            button.textContent = "▶ Putar";
+        }
+    }, 30);
+}
 
 /* =========================
    PEMINDAIAN MEDIA ANDROID
 ========================= */
 
 function scanVideos() {
-    if (scanning) {
-        return;
-    }
+    if (scanning) return;
 
     scanning = true;
     toast("Memindai video di perangkat...");
@@ -1335,7 +1552,7 @@ function scanVideos() {
     try {
         if (!window.AndroidMedia) {
             scanning = false;
-            toast("Pemindaian otomatis membutuhkan dukungan Android aplikasi.");
+            toast("Pemindaian otomatis membutuhkan aplikasi Android.");
             return;
         }
 
@@ -1343,7 +1560,6 @@ function scanVideos() {
             !window.AndroidMedia.hasPermission()) {
 
             if (typeof window.AndroidMedia.requestPermission === "function") {
-                scanWaitingForPermission = true;
                 window.AndroidMedia.requestPermission();
                 scanning = false;
                 toast("Izinkan akses media Android terlebih dahulu.");
@@ -1357,19 +1573,14 @@ function scanVideos() {
 
         if (typeof window.AndroidMedia.getVideos !== "function") {
             scanning = false;
-            toast("Fungsi pemindaian tidak tersedia di aplikasi Android.");
+            toast("Fungsi pemindaian tidak tersedia.");
             return;
         }
 
         var result = window.AndroidMedia.getVideos();
 
-        if (typeof result === "string") {
-            result = JSON.parse(result);
-        }
-
-        if (!Array.isArray(result)) {
-            result = [];
-        }
+        if (typeof result === "string") result = JSON.parse(result);
+        if (!Array.isArray(result)) result = [];
 
         var incoming = result.map(normalizeVideo);
 
@@ -1380,30 +1591,23 @@ function scanVideos() {
         } else {
             renderLibrary();
             renderHome();
-            toast("Video tidak ditemukan atau izin media belum diberikan.");
+            toast("Video tidak ditemukan atau izin belum diberikan.");
         }
+
     } catch (error) {
         console.log("ARZU V scan error:", error);
-        toast("Pemindaian gagal. Periksa izin dan dukungan Android.");
+        toast("Pemindaian gagal. Periksa izin media.");
     }
 
     scanning = false;
 }
 
-/*
- * MainActivity.java dapat memanggil fungsi ini setelah
- * dialog izin Android selesai.
- *
- * Nama callback harus sesuai dengan implementasi Java.
- */
 window.onNativeMediaPermissionResult = function (granted) {
     scanning = false;
 
     if (granted) {
-        scanWaitingForPermission = false;
         setTimeout(scanVideos, 250);
     } else {
-        scanWaitingForPermission = false;
         toast("Izin media tidak diberikan.");
     }
 };
@@ -1427,25 +1631,19 @@ $("playerPickButton").addEventListener("click", function () {
 $("filePicker").addEventListener("change", function (event) {
     var files = Array.prototype.slice.call(event.target.files || []);
 
-    if (files.length === 0) {
-        return;
-    }
+    if (files.length === 0) return;
 
     var incoming = files.map(function (file) {
         return {
-            name: file.name,
-            title: cleanTitle(file.name),
-            file: file,
-            url: "",
-            path: "picked:" + file.name + ":" + file.size + ":" + file.lastModified,
-            duration: 0
+            name:file.name,
+            title:cleanTitle(file.name),
+            file:file,
+            url:"",
+            path:"picked:" + file.name + ":" + file.size + ":" + file.lastModified,
+            duration:0
         };
     });
 
-    /*
-     * Simpan identitas file pertama supaya video yang diputar
-     * tidak bergantung pada asumsi indeks koleksi.
-     */
     var firstKey = getVideoKey(incoming[0]);
 
     mergeVideos(incoming);
@@ -1461,11 +1659,7 @@ $("filePicker").addEventListener("change", function (event) {
 
     event.target.value = "";
 
-    if (firstIndex >= 0) {
-        playVideo(firstIndex);
-    } else {
-        toast("File tidak dapat ditambahkan ke koleksi.");
-    }
+    if (firstIndex >= 0) playVideo(firstIndex);
 });
 
 /* =========================
@@ -1483,9 +1677,8 @@ function updatePlayerTitle() {
 
 function revokeCurrentObjectUrl() {
     if (currentObjectUrl) {
-        try {
-            URL.revokeObjectURL(currentObjectUrl);
-        } catch (error) {}
+        try { URL.revokeObjectURL(currentObjectUrl); }
+        catch (error) {}
 
         currentObjectUrl = null;
     }
@@ -1493,24 +1686,19 @@ function revokeCurrentObjectUrl() {
 
 function clearSubtitle() {
     if (currentSubtitleUrl) {
-        try {
-            URL.revokeObjectURL(currentSubtitleUrl);
-        } catch (error) {}
+        try { URL.revokeObjectURL(currentSubtitleUrl); }
+        catch (error) {}
 
         currentSubtitleUrl = null;
     }
 
     var tracks = player.querySelectorAll("track");
 
-    for (var i = 0; i < tracks.length; i++) {
-        tracks[i].remove();
-    }
+    for (var i = 0; i < tracks.length; i++) tracks[i].remove();
 }
 
 function playVideo(index) {
-    if (index < 0 || index >= videos.length) {
-        return;
-    }
+    if (index < 0 || index >= videos.length) return;
 
     currentIndex = index;
 
@@ -1525,7 +1713,7 @@ function playVideo(index) {
             currentObjectUrl = URL.createObjectURL(video.file);
             source = currentObjectUrl;
         } catch (error) {
-            toast("File tidak dapat dibuka di perangkat ini.");
+            toast("File tidak dapat dibuka.");
             return;
         }
     } else {
@@ -1536,8 +1724,6 @@ function playVideo(index) {
         toast("Lokasi video tidak tersedia.");
         return;
     }
-
-    lastPlayedKey = getVideoKey(video);
 
     player.pause();
     player.removeAttribute("src");
@@ -1555,10 +1741,6 @@ function playVideo(index) {
     playerShell.classList.add("paused");
     playerShell.classList.remove("controls-hidden");
 
-    /*
-     * Pemutaran otomatis bisa ditolak oleh WebView.
-     * Jika ditolak, pengguna dapat menekan tombol Putar.
-     */
     var playPromise = player.play();
 
     if (playPromise && typeof playPromise.then === "function") {
@@ -1575,32 +1757,29 @@ function playVideo(index) {
 }
 
 function playNext() {
-    if (videos.length === 0) {
-        return;
-    }
+    if (videos.length === 0) return;
 
-    playVideo(currentIndex < 0 || currentIndex + 1 >= videos.length
-        ? 0
-        : currentIndex + 1);
+    playVideo(
+        currentIndex < 0 || currentIndex + 1 >= videos.length
+            ? 0
+            : currentIndex + 1
+    );
 }
 
 function playPrevious() {
-    if (videos.length === 0) {
-        return;
-    }
+    if (videos.length === 0) return;
 
-    playVideo(currentIndex <= 0
-        ? videos.length - 1
-        : currentIndex - 1);
+    playVideo(
+        currentIndex <= 0
+            ? videos.length - 1
+            : currentIndex - 1
+    );
 }
 
 function togglePlay() {
     if (!player.getAttribute("src")) {
-        if (videos.length > 0) {
-            playVideo(currentIndex >= 0 ? currentIndex : 0);
-        } else {
-            toast("Pilih video terlebih dahulu.");
-        }
+        if (videos.length > 0) playVideo(currentIndex >= 0 ? currentIndex : 0);
+        else toast("Pilih video terlebih dahulu.");
 
         return;
     }
@@ -1676,9 +1855,8 @@ player.addEventListener("pause", function () {
 });
 
 player.addEventListener("ended", function () {
-    if ($("autoNextSetting").checked) {
-        playNext();
-    } else {
+    if ($("autoNextSetting").checked) playNext();
+    else {
         playerShell.classList.add("paused");
         showControls();
     }
@@ -1692,9 +1870,7 @@ player.addEventListener("loadedmetadata", function () {
 player.addEventListener("timeupdate", function () {
     $("currentTime").textContent = formatTime(player.currentTime);
 
-    if (!seekDragging &&
-        isFinite(player.duration) &&
-        player.duration > 0) {
+    if (!seekDragging && isFinite(player.duration) && player.duration > 0) {
         seekBar.value = Math.round(
             player.currentTime / player.duration * 1000
         );
@@ -1718,8 +1894,7 @@ seekBar.addEventListener("input", function () {
 
 seekBar.addEventListener("change", function () {
     if (isFinite(player.duration) && player.duration > 0) {
-        player.currentTime =
-            Number(seekBar.value) / 1000 * player.duration;
+        player.currentTime = Number(seekBar.value) / 1000 * player.duration;
     }
 
     seekDragging = false;
@@ -1746,9 +1921,7 @@ volumeSlider.addEventListener("input", function () {
     player.volume = volume;
     player.muted = volume === 0;
 
-    if (volume > 0) {
-        lastVolume = volume;
-    }
+    if (volume > 0) lastVolume = volume;
 
     if ($("rememberVolumeSetting").checked) {
         safeLocalStorageSet("arzuVolume", String(volume));
@@ -1785,9 +1958,7 @@ $("subtitleButton").addEventListener("click", function (event) {
         var showing = false;
 
         for (var i = 0; i < tracks.length; i++) {
-            if (tracks[i].mode === "showing") {
-                showing = true;
-            }
+            if (tracks[i].mode === "showing") showing = true;
         }
 
         for (var j = 0; j < tracks.length; j++) {
@@ -1805,9 +1976,7 @@ $("subtitleButton").addEventListener("click", function (event) {
 $("subtitlePicker").addEventListener("change", function (event) {
     var file = event.target.files && event.target.files[0];
 
-    if (!file) {
-        return;
-    }
+    if (!file) return;
 
     loadSubtitle(file);
     event.target.value = "";
@@ -1822,20 +1991,11 @@ function loadSubtitle(file) {
             .replace(/\r\n/g, "\n")
             .replace(/\r/g, "\n");
 
-        /*
-         * Ubah timestamp SRT 00:00:01,200
-         * menjadi timestamp WebVTT 00:00:01.200.
-         */
         text = text.replace(
             /(\d{2}:\d{2}:\d{2}),(\d{3})/g,
             "$1.$2"
         );
 
-        /*
-         * Buang nomor cue SRT yang berdiri sendiri.
-         * WebVTT dapat menggunakan nomor cue, tetapi ini
-         * membantu mengurangi masalah parser WebView lama.
-         */
         text = text.replace(
             /(^|\n)\s*\d+\s*\n(?=\d{2}:\d{2}:\d{2}\.\d{3}\s*-->)/g,
             "$1"
@@ -1848,11 +2008,7 @@ function loadSubtitle(file) {
         clearSubtitle();
 
         try {
-            var blob = new Blob(
-                [text],
-                {type:"text/vtt"}
-            );
-
+            var blob = new Blob([text], {type:"text/vtt"});
             currentSubtitleUrl = URL.createObjectURL(blob);
 
             var track = document.createElement("track");
@@ -1865,23 +2021,18 @@ function loadSubtitle(file) {
             player.appendChild(track);
 
             track.addEventListener("load", function () {
-                try {
-                    track.track.mode = "showing";
-                } catch (error) {}
+                try { track.track.mode = "showing"; }
+                catch (error) {}
             });
 
-            /*
-             * Coba aktifkan track setelah WebView membacanya.
-             */
             setTimeout(function () {
                 try {
-                    if (track.track) {
-                        track.track.mode = "showing";
-                    }
+                    if (track.track) track.track.mode = "showing";
                 } catch (error) {}
             }, 500);
 
             toast("Subtitle ditambahkan. Dukungan tergantung WebView.");
+
         } catch (error) {
             console.log("Subtitle error:", error);
             toast("Subtitle tidak dapat dimuat.");
@@ -1921,9 +2072,7 @@ function setImmersiveMode(enabled) {
 }
 
 function enterFullscreen() {
-    if (isFullscreen()) {
-        return;
-    }
+    if (isFullscreen()) return;
 
     document.body.classList.add("fullscreen-active");
     playerShell.classList.add("css-fullscreen");
@@ -1942,9 +2091,7 @@ function enterFullscreen() {
             var result = request.call(playerScreen);
 
             if (result && typeof result.catch === "function") {
-                result.catch(function () {
-                    /* Tampilan CSS tetap menjadi fallback. */
-                });
+                result.catch(function () {});
             }
         } catch (error) {
             console.log("Fullscreen API:", error);
@@ -1983,7 +2130,6 @@ function exitFullscreen() {
     document.body.classList.remove("fullscreen-active");
 
     setImmersiveMode(false);
-
     fullscreenButton.textContent = "⛶";
     showControls();
 }
@@ -1994,11 +2140,8 @@ function toggleFullscreen(event) {
         event.stopPropagation();
     }
 
-    if (isFullscreen()) {
-        exitFullscreen();
-    } else {
-        enterFullscreen();
-    }
+    if (isFullscreen()) exitFullscreen();
+    else enterFullscreen();
 }
 
 fullscreenButton.addEventListener("click", toggleFullscreen);
@@ -2025,10 +2168,6 @@ document.addEventListener("webkitfullscreenchange", function () {
     }
 });
 
-/*
- * Bisa dipanggil MainActivity.java untuk menangani
- * tombol Back ketika pemutar sedang fullscreen.
- */
 window.exitArzuFullscreen = function () {
     if (isFullscreen()) {
         exitFullscreen();
@@ -2044,7 +2183,6 @@ window.exitArzuFullscreen = function () {
 
 function showControls() {
     playerShell.classList.remove("controls-hidden");
-
     clearTimeout(hideControlsTimer);
 
     if (!player.paused && $("autoHideSetting").checked) {
@@ -2059,9 +2197,7 @@ function showControls() {
 function handlePlayerScreenTap(event) {
     var target = event.target;
 
-    if (target.closest("button") || target.closest("input")) {
-        return;
-    }
+    if (target.closest("button") || target.closest("input")) return;
 
     if (playerShell.classList.contains("controls-hidden")) {
         showControls();
@@ -2080,9 +2216,7 @@ function handlePlayerScreenTap(event) {
 
 playerScreen.addEventListener("click", handlePlayerScreenTap);
 
-playerScreen.addEventListener("mousemove", function () {
-    showControls();
-});
+playerScreen.addEventListener("mousemove", showControls);
 
 playerScreen.addEventListener("touchstart", function () {
     if (playerShell.classList.contains("controls-hidden")) {
@@ -2130,26 +2264,20 @@ function checkForUpdate() {
 
     fetch(RELEASES_API)
         .then(function (response) {
-            if (!response.ok) {
-                throw new Error("Pemeriksaan pembaruan gagal.");
-            }
-
+            if (!response.ok) throw new Error("Pemeriksaan pembaruan gagal.");
             return response.json();
         })
         .then(function (data) {
-            var latest = String(data.tag_name || "")
-                .replace(/^v/i, "");
+            var latest = String(data.tag_name || "").replace(/^v/i, "");
 
-            if (!latest) {
-                throw new Error("Versi terbaru tidak ditemukan.");
-            }
+            if (!latest) throw new Error("Versi terbaru tidak ditemukan.");
 
             var comparison = compareVersions(latest, CURRENT_VERSION);
 
             if (comparison > 0) {
                 status.textContent =
                     "Versi terbaru tersedia: " + latest +
-                    ". Kamu bisa membuka halaman rilis GitHub.";
+                    ". Buka halaman rilis GitHub untuk melihatnya.";
 
                 if (data.html_url) {
                     var link = document.createElement("a");
@@ -2166,57 +2294,52 @@ function checkForUpdate() {
                 }
             } else if (comparison === 0) {
                 status.textContent =
-                    "Versi " + CURRENT_VERSION + " sesuai dengan rilis terbaru yang terdeteksi.";
+                    "Versi " + CURRENT_VERSION +
+                    " sesuai dengan rilis terbaru yang terdeteksi.";
             } else {
                 status.textContent =
                     "Versi aplikasi: " + CURRENT_VERSION +
-                    ". Rilis GitHub yang ditemukan lebih lama daripada versi ini.";
+                    ". Rilis GitHub yang ditemukan lebih lama.";
             }
         })
         .catch(function (error) {
             console.log("Update checker:", error);
-
             status.textContent =
                 "Tidak dapat memeriksa pembaruan. Coba lagi saat internet tersedia.";
         });
 }
 
 /* =========================
-   KEYBOARD DAN ROTASI
+   KEYBOARD
 ========================= */
 
 document.addEventListener("keydown", function (event) {
     if (event.key === "Escape" || event.key === "Backspace") {
-        if (isFullscreen()) {
-            exitFullscreen();
-        }
+        if (isFullscreen()) exitFullscreen();
     }
 
     if (event.key === " " &&
         document.activeElement !== seekBar &&
-        document.activeElement.tagName !== "INPUT") {
+        document.activeElement.tagName !== "INPUT" &&
+        document.activeElement.tagName !== "SELECT") {
         event.preventDefault();
         togglePlay();
     }
 
-    if (event.key === "ArrowRight" &&
-        player.getAttribute("src")) {
+    if (event.key === "ArrowRight" && player.getAttribute("src")) {
         player.currentTime = Math.min(
             player.duration || 0,
             player.currentTime + 10
         );
     }
 
-    if (event.key === "ArrowLeft" &&
-        player.getAttribute("src")) {
+    if (event.key === "ArrowLeft" && player.getAttribute("src")) {
         player.currentTime = Math.max(0, player.currentTime - 10);
     }
 });
 
 window.addEventListener("orientationchange", function () {
-    if (isFullscreen()) {
-        showControls();
-    }
+    if (isFullscreen()) showControls();
 });
 
 /* =========================
