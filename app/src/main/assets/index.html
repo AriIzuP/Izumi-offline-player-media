@@ -381,14 +381,176 @@ footer {
         volumeButton.textContent =
             "Volume: " +
             Math.round(currentVolume * 100) + "%";
-    });
+           var updateButton = document.getElementById("updateButton");
+    var updateStatus = document.getElementById("updateStatus");
 
-    document.getElementById("updateButton")
-        .addEventListener("click", function () {
-            document.getElementById("updateStatus")
-                .textContent =
-                "Fitur pemeriksaan update GitHub akan ditambahkan pada tahap berikutnya.";
-        });
+    // Versi aplikasi yang sedang terpasang
+    var CURRENT_VERSION = "1.0.0";
+
+    // Alamat GitHub Releases API
+    var RELEASES_API =
+        "https://api.github.com/repos/AriIzuP/Izumi-offline-player-media/releases/latest";
+
+    var RELEASES_PAGE =
+        "https://github.com/AriIzuP/Izumi-offline-player-media/releases";
+
+    // Membandingkan nomor versi
+    function compareVersions(a, b) {
+        a = String(a).replace(/^v/i, "").split(".");
+        b = String(b).replace(/^v/i, "").split(".");
+
+        for (var i = 0; i < Math.max(a.length, b.length); i++) {
+            var av = parseInt(a[i] || "0", 10) || 0;
+            var bv = parseInt(b[i] || "0", 10) || 0;
+
+            if (av > bv) return 1;
+            if (av < bv) return -1;
+        }
+
+        return 0;
+    }
+
+    // Membuat tautan yang bisa ditekan
+    function showReleaseLink(url, label) {
+        var link = document.createElement("a");
+
+        link.href = url;
+        link.textContent = label;
+        link.style.display = "block";
+        link.style.marginTop = "10px";
+        link.style.padding = "10px";
+        link.style.borderRadius = "8px";
+        link.style.background = "#352746";
+        link.style.color = "#dfc9ff";
+        link.style.textAlign = "center";
+        link.style.overflowWrap = "anywhere";
+        link.style.textDecoration = "none";
+
+        updateStatus.appendChild(link);
+    }
+
+    // Ketika tombol update ditekan
+    updateButton.addEventListener("click", function () {
+        updateButton.disabled = true;
+        updateStatus.textContent = "Memeriksa rilis GitHub...";
+
+        var request = new XMLHttpRequest();
+
+        request.open("GET", RELEASES_API, true);
+        request.timeout = 15000;
+
+        request.setRequestHeader(
+            "Accept",
+            "application/vnd.github+json"
+        );
+
+        request.onload = function () {
+            updateButton.disabled = false;
+
+            // Belum ada Release
+            if (request.status === 404) {
+                updateStatus.textContent =
+                    "Belum ada Release yang dipublikasikan. " +
+                    "Versi aplikasi: " + CURRENT_VERSION + ".";
+
+                showReleaseLink(
+                    RELEASES_PAGE,
+                    "Buka halaman Release GitHub"
+                );
+
+                return;
+            }
+
+            // Jika terjadi kesalahan dari server
+            if (request.status < 200 || request.status >= 300) {
+                updateStatus.textContent =
+                    "GitHub merespons dengan kode " +
+                    request.status + ". Coba lagi nanti.";
+
+                return;
+            }
+
+            try {
+                var release = JSON.parse(request.responseText);
+
+                var latest = release.tag_name || release.name || "";
+                var releaseUrl = release.html_url || RELEASES_PAGE;
+
+                if (!latest) {
+                    updateStatus.textContent =
+                        "Versi rilis tidak ditemukan.";
+
+                    showReleaseLink(
+                        RELEASES_PAGE,
+                        "Buka halaman Release GitHub"
+                    );
+
+                    return;
+                }
+
+                var result = compareVersions(
+                    latest,
+                    CURRENT_VERSION
+                );
+
+                // Ada versi lebih baru
+                if (result > 0) {
+                    updateStatus.textContent =
+                        "Versi baru tersedia: " + latest +
+                        ". Versi terpasang: " + CURRENT_VERSION +
+                        ". Pembaruan belum dipasang otomatis.";
+
+                    if (release.body) {
+                        var notes = document.createElement("p");
+
+                        notes.textContent =
+                            release.body.substring(0, 400);
+
+                        updateStatus.appendChild(notes);
+                    }
+
+                    showReleaseLink(
+                        releaseUrl,
+                        "Lihat dan unduh versi terbaru"
+                    );
+
+                } else {
+                    // Versi terpasang sudah terbaru
+                    updateStatus.textContent =
+                        "Kamu menggunakan versi " +
+                        CURRENT_VERSION +
+                        ". Versi rilis terbaru di GitHub: " +
+                        latest + ".";
+
+                    showReleaseLink(
+                        releaseUrl,
+                        "Lihat catatan rilis"
+                    );
+                }
+
+            } catch (e) {
+                updateStatus.textContent =
+                    "Data rilis GitHub tidak bisa dibaca.";
+            }
+        };
+
+        request.onerror = function () {
+            updateButton.disabled = false;
+
+            updateStatus.textContent =
+                "Tidak bisa terhubung ke GitHub. " +
+                "Periksa koneksi internet.";
+        };
+
+        request.ontimeout = function () {
+            updateButton.disabled = false;
+
+            updateStatus.textContent =
+                "Pemeriksaan terlalu lama. Coba lagi nanti.";
+        };
+
+        request.send();
+    });
 
     renderPlaylist();
 })();
