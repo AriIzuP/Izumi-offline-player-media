@@ -8,708 +8,701 @@
 
 <style>
 :root {
-    --bg: #080f20;
-    --panel: #101c33;
-    --panel2: #172642;
-    --blue: #168cff;
-    --cyan: #51d8ff;
-    --text: #edf5ff;
-    --muted: #91a4c3;
-    --border: rgba(130,170,230,.15);
-    --danger: #ff5470;
+    --bg:#080f20;
+    --panel:#101c33;
+    --panel2:#172642;
+    --blue:#168cff;
+    --cyan:#51d8ff;
+    --text:#edf5ff;
+    --muted:#91a4c3;
+    --border:rgba(130,170,230,.15);
+    --danger:#ff5470;
 }
 
 * {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
-    background: var(--bg);
-    color: var(--text);
-    font-family: Arial, Helvetica, sans-serif;
+html,body {
+    margin:0;
+    padding:0;
+    width:100%;
+    min-height:100%;
+    background:var(--bg);
+    color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 body {
-    padding-bottom: 78px;
+    padding-bottom:78px;
 }
 
-button, input {
-    font: inherit;
+button,input {
+    font:inherit;
 }
 
 button {
-    border: 0;
-    cursor: pointer;
-    color: var(--text);
+    border:0;
+    cursor:pointer;
+    color:var(--text);
 }
 
-button:focus, input:focus {
-    outline: 2px solid rgba(81,216,255,.5);
-    outline-offset: 2px;
+button:focus,input:focus {
+    outline:2px solid rgba(81,216,255,.5);
+    outline-offset:2px;
+}
+
+button:disabled {
+    opacity:.45;
+    cursor:default;
 }
 
 .app-header {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px 18px;
-    background: rgba(8,15,32,.96);
-    border-bottom: 1px solid var(--border);
+    position:sticky;
+    top:0;
+    z-index:20;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:15px 18px;
+    background:rgba(8,15,32,.97);
+    border-bottom:1px solid var(--border);
 }
 
 .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
 .brand-logo {
-    width: 39px;
-    height: 39px;
-    border-radius: 12px;
-    background: linear-gradient(135deg,var(--blue),#6a5cff);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 17px;
-    font-weight: 900;
-    box-shadow: 0 5px 20px rgba(22,140,255,.25);
+    width:39px;
+    height:39px;
+    border-radius:12px;
+    background:linear-gradient(135deg,var(--blue),#6a5cff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:17px;
+    font-weight:900;
 }
 
 .brand-name {
-    font-size: 19px;
-    font-weight: 900;
-    letter-spacing: 1.5px;
+    font-size:19px;
+    font-weight:900;
+    letter-spacing:1.5px;
 }
 
 .brand-subtitle {
-    margin-top: 3px;
-    color: var(--muted);
-    font-size: 10px;
-    letter-spacing: 1.4px;
+    margin-top:3px;
+    color:var(--muted);
+    font-size:10px;
+    letter-spacing:1.4px;
 }
 
 .icon-button {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: var(--panel);
-    font-size: 19px;
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    background:var(--panel);
+    font-size:19px;
 }
 
 main {
-    max-width: 850px;
-    margin: auto;
-    padding: 18px;
+    max-width:850px;
+    margin:auto;
+    padding:18px;
 }
 
 .page {
-    display: none;
-    animation: fadeIn .18s ease;
+    display:none;
 }
 
 .page.active {
-    display: block;
+    display:block;
+    animation:fadeIn .18s ease;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {opacity:0;transform:translateY(4px)}
+    to {opacity:1;transform:translateY(0)}
 }
 
 .hero {
-    padding: 25px 22px;
-    border: 1px solid var(--border);
-    border-radius: 22px;
+    padding:25px 22px;
+    border:1px solid var(--border);
+    border-radius:22px;
     background:
         radial-gradient(circle at 100% 0%,rgba(22,140,255,.25),transparent 45%),
         linear-gradient(145deg,#142644,#0d172b);
-    margin-bottom: 22px;
+    margin-bottom:22px;
 }
 
 .hero-label {
-    color: var(--cyan);
-    font-size: 11px;
-    letter-spacing: 2px;
-    font-weight: bold;
+    color:var(--cyan);
+    font-size:11px;
+    letter-spacing:2px;
+    font-weight:bold;
 }
 
 .hero h1 {
-    margin: 12px 0 9px;
-    font-size: 28px;
-    line-height: 1.2;
+    margin:12px 0 9px;
+    font-size:28px;
+    line-height:1.2;
 }
 
 .hero p {
-    color: var(--muted);
-    line-height: 1.6;
-    font-size: 13px;
+    color:var(--muted);
+    line-height:1.6;
+    font-size:13px;
 }
 
 .primary-button {
-    background: linear-gradient(135deg,var(--blue),#536bff);
-    color: white;
-    padding: 12px 17px;
-    border-radius: 12px;
-    font-weight: bold;
-    box-shadow: 0 5px 16px rgba(22,140,255,.18);
+    background:linear-gradient(135deg,var(--blue),#536bff);
+    color:white;
+    padding:12px 17px;
+    border-radius:12px;
+    font-weight:bold;
 }
 
 .secondary-button {
-    background: var(--panel2);
-    padding: 11px 14px;
-    border-radius: 11px;
-    border: 1px solid var(--border);
+    background:var(--panel2);
+    padding:11px 14px;
+    border-radius:11px;
+    border:1px solid var(--border);
 }
 
 .section-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin: 22px 0 13px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin:22px 0 13px;
 }
 
 .section-heading h2 {
-    font-size: 17px;
-    margin: 0;
+    font-size:17px;
+    margin:0;
 }
 
 .muted {
-    color: var(--muted);
-    font-size: 12px;
+    color:var(--muted);
+    font-size:12px;
 }
 
 .stat-grid {
-    display: grid;
-    grid-template-columns: repeat(2,minmax(0,1fr));
-    gap: 12px;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
 }
 
 .stat-card {
-    padding: 16px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 15px;
+    padding:16px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:15px;
 }
 
 .stat-number {
-    font-size: 25px;
-    font-weight: bold;
-    color: var(--cyan);
+    font-size:25px;
+    font-weight:bold;
+    color:var(--cyan);
+    overflow-wrap:anywhere;
 }
 
 .stat-label {
-    margin-top: 5px;
-    color: var(--muted);
-    font-size: 12px;
+    margin-top:5px;
+    color:var(--muted);
+    font-size:12px;
 }
 
 .search-box {
-    width: 100%;
-    padding: 13px 14px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    background: var(--panel);
-    color: var(--text);
-    margin-bottom: 12px;
+    width:100%;
+    padding:13px 14px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    background:var(--panel);
+    color:var(--text);
+    margin-bottom:12px;
 }
 
 .toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 9px;
-    margin-bottom: 17px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+    margin-bottom:17px;
 }
 
 .video-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
 }
 
 .video-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px;
-    border-radius: 14px;
-    background: var(--panel);
-    border: 1px solid var(--border);
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px;
+    border-radius:14px;
+    background:var(--panel);
+    border:1px solid var(--border);
 }
 
 .video-thumb {
-    width: 76px;
-    height: 58px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    background: linear-gradient(135deg,#142d52,#182044);
-    font-size: 23px;
+    width:76px;
+    height:58px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    background:linear-gradient(135deg,#142d52,#182044);
+    font-size:23px;
 }
 
 .video-info {
-    min-width: 0;
-    flex: 1;
+    min-width:0;
+    flex:1;
 }
 
 .video-title {
-    font-size: 13px;
-    font-weight: bold;
-    overflow-wrap: anywhere;
-    line-height: 1.4;
+    font-size:13px;
+    font-weight:bold;
+    overflow-wrap:anywhere;
+    line-height:1.4;
 }
 
 .video-meta {
-    color: var(--muted);
-    font-size: 11px;
-    margin-top: 5px;
+    color:var(--muted);
+    font-size:11px;
+    margin-top:5px;
 }
 
 .video-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
+    display:flex;
+    flex-direction:column;
+    gap:7px;
 }
 
 .small-button {
-    padding: 8px 10px;
-    border-radius: 9px;
-    background: var(--panel2);
-    font-size: 12px;
+    padding:8px 10px;
+    border-radius:9px;
+    background:var(--panel2);
+    font-size:12px;
 }
 
 .empty-state {
-    text-align: center;
-    padding: 34px 18px;
-    border: 1px dashed rgba(130,170,230,.25);
-    border-radius: 17px;
-    color: var(--muted);
-    line-height: 1.7;
+    text-align:center;
+    padding:34px 18px;
+    border:1px dashed rgba(130,170,230,.25);
+    border-radius:17px;
+    color:var(--muted);
+    line-height:1.7;
 }
 
 .empty-icon {
-    font-size: 38px;
-    margin-bottom: 10px;
+    font-size:38px;
+    margin-bottom:10px;
 }
 
-/* PLAYER */
+.notice {
+    margin-top:13px;
+    padding:12px;
+    background:rgba(22,140,255,.09);
+    border:1px solid rgba(22,140,255,.18);
+    border-radius:12px;
+    color:#bcdcff;
+    font-size:12px;
+    line-height:1.6;
+}
+
+/* PEMUTAR VIDEO */
 
 .player-shell {
-    position: relative;
-    width: 100%;
-    background: #000;
-    border-radius: 17px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    box-shadow: 0 12px 35px rgba(0,0,0,.25);
+    position:relative;
+    width:100%;
+    background:#000;
+    border-radius:17px;
+    overflow:hidden;
+    border:1px solid var(--border);
 }
 
 .player-screen {
-    position: relative;
-    width: 100%;
-    height: 240px;
-    background: #000;
-    overflow: hidden;
-    touch-action: manipulation;
+    position:relative;
+    width:100%;
+    height:240px;
+    background:#000;
+    overflow:hidden;
+    touch-action:manipulation;
 }
 
 #player {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    background: #000;
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    background:#000;
 }
 
 .player-top-controls,
 .player-bottom-controls {
-    position: absolute;
-    left: 0;
-    right: 0;
-    z-index: 5;
-    opacity: 1;
-    transition: opacity .2s ease;
+    position:absolute;
+    left:0;
+    right:0;
+    z-index:5;
+    opacity:1;
+    transition:opacity .2s ease;
 }
 
 .player-top-controls {
-    top: 0;
-    padding: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    background: linear-gradient(rgba(0,0,0,.8),transparent);
+    top:0;
+    padding:12px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    background:linear-gradient(rgba(0,0,0,.8),transparent);
 }
 
 .player-top-title {
-    flex: 1;
-    min-width: 0;
-    font-size: 12px;
-    font-weight: bold;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    flex:1;
+    min-width:0;
+    font-size:12px;
+    font-weight:bold;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
 }
 
 .player-bottom-controls {
-    bottom: 0;
-    padding: 12px;
-    background: linear-gradient(transparent,rgba(0,0,0,.92) 35%);
+    bottom:0;
+    padding:12px;
+    background:linear-gradient(transparent,rgba(0,0,0,.94) 35%);
 }
 
 .player-time-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:10px;
 }
 
 .time-label {
-    min-width: 35px;
-    font-size: 10px;
-    text-align: center;
-    color: white;
+    min-width:35px;
+    font-size:10px;
+    text-align:center;
+    color:white;
 }
 
 #seekBar {
-    flex: 1;
-    min-width: 0;
+    flex:1;
+    min-width:0;
 }
 
 input[type="range"] {
-    accent-color: var(--blue);
-    cursor: pointer;
+    accent-color:var(--blue);
+    cursor:pointer;
 }
 
 .player-control-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 5px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:5px;
 }
 
 .p-control {
-    flex: 0 0 auto;
-    min-width: 32px;
-    height: 35px;
-    padding: 0 6px;
-    border-radius: 9px;
-    background: rgba(255,255,255,.12);
-    font-size: 15px;
+    flex:0 0 auto;
+    min-width:32px;
+    height:35px;
+    padding:0 6px;
+    border-radius:9px;
+    background:rgba(255,255,255,.12);
+    font-size:15px;
 }
 
 .p-control.primary {
-    width: 41px;
-    height: 41px;
-    background: var(--blue);
-    font-size: 18px;
+    width:41px;
+    height:41px;
+    background:var(--blue);
+    font-size:18px;
 }
 
 .text-control {
-    padding: 0 12px;
-    min-width: 39px;
-    height: 34px;
-    border-radius: 9px;
-    background: rgba(255,255,255,.15);
-    font-size: 12px;
-    font-weight: bold;
+    padding:0 12px;
+    min-width:39px;
+    height:34px;
+    border-radius:9px;
+    background:rgba(255,255,255,.15);
+    font-size:12px;
+    font-weight:bold;
 }
 
 .center-play {
-    position: absolute;
-    z-index: 4;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    width: 58px;
-    height: 58px;
-    border-radius: 50%;
-    background: rgba(22,140,255,.9);
-    font-size: 23px;
-    box-shadow: 0 0 30px rgba(22,140,255,.2);
+    position:absolute;
+    z-index:4;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:rgba(22,140,255,.9);
+    font-size:23px;
 }
 
 .inline-volume {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    display:flex;
+    align-items:center;
+    gap:4px;
 }
 
 #inlineMuteButton {
-    background: transparent;
-    font-size: 16px;
-    padding: 3px;
+    background:transparent;
+    font-size:16px;
+    padding:3px;
 }
 
 #inlineVolumeRange {
-    width: 56px;
+    width:56px;
 }
 
 .player-footer {
-    background: #0d1728;
-    padding: 10px 12px;
-    font-size: 10px;
-    letter-spacing: 1px;
-    color: var(--muted);
+    background:#0d1728;
+    padding:10px 12px;
+    font-size:10px;
+    letter-spacing:1px;
+    color:var(--muted);
 }
 
 .player-shell.controls-hidden .player-top-controls,
 .player-shell.controls-hidden .player-bottom-controls,
 .player-shell.controls-hidden .center-play {
-    opacity: 0;
-    pointer-events: none;
+    opacity:0;
+    pointer-events:none;
 }
 
 .player-shell.paused .player-top-controls,
 .player-shell.paused .player-bottom-controls,
 .player-shell.paused .center-play {
-    opacity: 1;
-    pointer-events: auto;
+    opacity:1;
+    pointer-events:auto;
 }
 
-/* CSS FULLSCREEN FALLBACK */
-
 .player-shell.css-fullscreen {
-    position: fixed;
-    inset: 0;
-    z-index: 10000;
-    width: 100%;
-    height: 100%;
-    height: 100vh;
-    border: 0;
-    border-radius: 0;
-    background: #000;
-    overflow: hidden;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:10000;
+    width:100%;
+    height:100%;
+    height:100vh;
+    border:0;
+    border-radius:0;
+    background:#000;
+    overflow:hidden;
 }
 
 .player-shell.css-fullscreen .player-screen {
-    width: 100%;
-    height: 100%;
-    height: 100vh;
-    border-radius: 0;
-}
-
-.player-shell.css-fullscreen #player {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+    width:100%;
+    height:100%;
+    height:100vh;
+    border-radius:0;
 }
 
 .player-shell.css-fullscreen .player-footer {
-    display: none;
+    display:none;
 }
 
 body.fullscreen-active {
-    overflow: hidden;
-    padding: 0 !important;
+    overflow:hidden;
+    padding:0!important;
 }
 
 body.fullscreen-active .app-header,
 body.fullscreen-active main,
 body.fullscreen-active .bottom-nav {
-    visibility: hidden;
+    visibility:hidden;
 }
 
 body.fullscreen-active .player-shell {
-    visibility: visible;
+    visibility:visible;
 }
 
 body.fullscreen-active .player-shell.css-fullscreen {
-    display: block;
+    display:block;
 }
 
-/* SETTINGS */
+/* PENGATURAN */
 
 .settings-card {
-    padding: 16px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 15px;
-    margin-bottom: 12px;
+    padding:16px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:15px;
+    margin-bottom:12px;
 }
 
 .settings-title {
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 7px;
+    font-size:14px;
+    font-weight:bold;
+    margin-bottom:7px;
 }
 
 .settings-description {
-    font-size: 12px;
-    line-height: 1.6;
-    color: var(--muted);
+    font-size:12px;
+    line-height:1.6;
+    color:var(--muted);
+    overflow-wrap:anywhere;
 }
 
 .setting-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:12px 0;
+    border-bottom:1px solid var(--border);
 }
 
 .setting-row:last-child {
-    border-bottom: 0;
+    border-bottom:0;
 }
 
 .setting-row label {
-    font-size: 13px;
+    font-size:13px;
 }
 
 .setting-row input[type="checkbox"] {
-    width: 19px;
-    height: 19px;
-    accent-color: var(--blue);
+    width:19px;
+    height:19px;
+    accent-color:var(--blue);
+    flex-shrink:0;
 }
 
 .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 30;
-    display: flex;
-    justify-content: space-around;
-    padding: 9px 5px calc(9px + env(safe-area-inset-bottom));
-    background: rgba(10,18,35,.98);
-    border-top: 1px solid var(--border);
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:30;
+    display:flex;
+    justify-content:space-around;
+    padding:9px 5px;
+    padding-bottom:calc(9px + env(safe-area-inset-bottom));
+    background:rgba(10,18,35,.98);
+    border-top:1px solid var(--border);
 }
 
 .nav-button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    min-width: 60px;
-    padding: 5px 12px;
-    background: transparent;
-    color: var(--muted);
-    font-size: 10px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:5px;
+    min-width:55px;
+    padding:5px 10px;
+    background:transparent;
+    color:var(--muted);
+    font-size:10px;
 }
 
-.nav-button .nav-icon {
-    font-size: 20px;
+.nav-icon {
+    font-size:20px;
 }
 
 .nav-button.active {
-    color: var(--cyan);
-}
-
-.notice {
-    margin-top: 13px;
-    padding: 12px;
-    background: rgba(22,140,255,.09);
-    border: 1px solid rgba(22,140,255,.18);
-    border-radius: 12px;
-    color: #bcdcff;
-    font-size: 12px;
-    line-height: 1.6;
+    color:var(--cyan);
 }
 
 .toast {
-    position: fixed;
-    z-index: 20000;
-    left: 50%;
-    bottom: 88px;
-    transform: translateX(-50%);
-    max-width: 90%;
-    padding: 12px 16px;
-    border-radius: 12px;
-    background: #1a2c49;
-    border: 1px solid rgba(81,216,255,.25);
-    color: white;
-    font-size: 12px;
-    text-align: center;
-    box-shadow: 0 8px 25px rgba(0,0,0,.3);
-    display: none;
+    position:fixed;
+    z-index:20000;
+    left:50%;
+    bottom:88px;
+    transform:translateX(-50%);
+    max-width:90%;
+    padding:12px 16px;
+    border-radius:12px;
+    background:#1a2c49;
+    border:1px solid rgba(81,216,255,.25);
+    color:white;
+    font-size:12px;
+    text-align:center;
+    box-shadow:0 8px 25px rgba(0,0,0,.3);
+    display:none;
 }
 
 .splash {
-    position: fixed;
-    inset: 0;
-    z-index: 50000;
-    background: var(--bg);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transition: opacity .3s ease;
+    position:fixed;
+    inset:0;
+    z-index:50000;
+    background:var(--bg);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    transition:opacity .3s ease;
 }
 
 .splash-logo {
-    width: 90px;
-    height: 90px;
-    border-radius: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 29px;
-    font-weight: 900;
-    background: linear-gradient(135deg,var(--blue),#675aff);
-    box-shadow: 0 10px 45px rgba(22,140,255,.25);
+    width:90px;
+    height:90px;
+    border-radius:25px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:29px;
+    font-weight:900;
+    background:linear-gradient(135deg,var(--blue),#675aff);
 }
 
 .splash-title {
-    margin-top: 22px;
-    font-size: 25px;
-    font-weight: 900;
-    letter-spacing: 4px;
+    margin-top:22px;
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:4px;
 }
 
 .splash-subtitle {
-    margin-top: 8px;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 2px;
+    margin-top:8px;
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:2px;
 }
 
-@media (min-width: 600px) {
+@media (min-width:600px) {
     .player-screen {
-        height: 390px;
-    }
-
-    .player-shell.css-fullscreen .player-screen {
-        height: 100vh;
+        height:390px;
     }
 }
 
-@media (max-width: 370px) {
+@media (max-width:370px) {
     main {
-        padding: 12px;
+        padding:12px;
     }
 
     .player-screen {
-        height: 205px;
+        height:205px;
     }
 
     .player-control-row {
-        gap: 3px;
+        gap:3px;
     }
 
     .p-control {
-        min-width: 28px;
-        padding: 0 4px;
-        font-size: 13px;
+        min-width:27px;
+        padding:0 4px;
+        font-size:13px;
     }
 
     .inline-volume input {
-        width: 39px !important;
+        width:38px!important;
     }
 
     .hero h1 {
-        font-size: 24px;
+        font-size:24px;
     }
 }
 </style>
@@ -735,258 +728,189 @@ body.fullscreen-active .player-shell.css-fullscreen {
 </header>
 
 <main>
-    <!-- HOME -->
-    <section class="page active" id="homePage">
-        <div class="hero">
-            <div class="hero-label">YOUR PERSONAL MEDIA SPACE</div>
-            <h1>Semua video,<br>di satu tempat.</h1>
-            <p>
-                Pemutar video lokal yang ringan, sederhana,
-                dan dirancang untuk menemani koleksi media kamu.
-            </p>
-            <button class="primary-button" id="homeBrowseButton">
-                ▶ Buka koleksi video
-            </button>
-        </div>
 
-        <div class="section-heading">
-            <h2>Ringkasan koleksi</h2>
-        </div>
+<section class="page active" id="homePage">
+    <div class="hero">
+        <div class="hero-label">YOUR PERSONAL MEDIA SPACE</div>
+        <h1>Semua video,<br>di satu tempat.</h1>
+        <p>Pemutar video lokal yang ringan, sederhana, dan dirancang untuk menemani koleksi media kamu.</p>
+        <button class="primary-button" id="homeBrowseButton">▶ Buka koleksi video</button>
+    </div>
 
-        <div class="stat-grid">
-            <div class="stat-card">
-                <div class="stat-number" id="homeVideoCount">0</div>
-                <div class="stat-label">Video ditemukan</div>
+    <div class="section-heading">
+        <h2>Ringkasan koleksi</h2>
+    </div>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-number" id="homeVideoCount">0</div>
+            <div class="stat-label">Video ditemukan</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">OFFLINE</div>
+            <div class="stat-label">Pemutaran lokal</div>
+        </div>
+    </div>
+
+    <div class="section-heading">
+        <h2>Terakhir diputar</h2>
+        <button class="small-button" id="homeAllButton">Lihat semua</button>
+    </div>
+
+    <div id="recentList" class="video-list"></div>
+
+    <div class="notice">
+        Pemindaian otomatis memerlukan izin media Android. Kamu juga bisa memilih video secara manual.
+    </div>
+</section>
+
+<section class="page" id="libraryPage">
+    <div class="section-heading">
+        <h2>Koleksi video</h2>
+        <span class="muted" id="libraryCount">0 video</span>
+    </div>
+
+    <input type="search" class="search-box" id="searchInput"
+           placeholder="Cari nama video..." autocomplete="off">
+
+    <div class="toolbar">
+        <button class="primary-button" id="scanButton">↻ Pindai perangkat</button>
+        <button class="secondary-button" id="pickFileButton">＋ Pilih file</button>
+    </div>
+
+    <input type="file" id="filePicker" accept="video/*" hidden>
+    <input type="file" id="subtitlePicker" accept=".srt,.vtt,.txt,text/plain,text/vtt" hidden>
+
+    <div id="libraryList" class="video-list"></div>
+
+    <div class="notice">
+        Jika pemindaian tidak menemukan video, periksa izin media aplikasi melalui pengaturan Android.
+    </div>
+</section>
+
+<section class="page" id="playerPage">
+    <div class="section-heading">
+        <h2>Sedang diputar</h2>
+        <span class="muted">ARZU V PLAYER</span>
+    </div>
+
+    <div class="player-shell paused" id="playerShell">
+        <div class="player-screen" id="playerScreen">
+
+            <video id="player" playsinline webkit-playsinline preload="metadata"></video>
+
+            <div class="player-top-controls">
+                <div class="player-top-title" id="playerTopTitle">ARZU V PLAYER</div>
+                <button class="p-control text-control" id="subtitleButton" type="button">CC</button>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">OFFLINE</div>
-                <div class="stat-label">Pemutaran lokal</div>
-            </div>
-        </div>
 
-        <div class="section-heading">
-            <h2>Terakhir diputar</h2>
-            <button class="small-button" id="homeAllButton">Lihat semua</button>
-        </div>
+            <button class="center-play" id="bigPlayButton" type="button" aria-label="Putar video">▶</button>
 
-        <div id="recentList" class="video-list"></div>
-
-        <div class="notice">
-            ℹ️ Pemindaian otomatis membutuhkan izin akses media Android.
-            Video yang tersimpan di perangkat dapat ditampilkan setelah izin diberikan.
-        </div>
-    </section>
-
-    <!-- LIBRARY -->
-    <section class="page" id="libraryPage">
-        <div class="section-heading">
-            <h2>Koleksi video</h2>
-            <span class="muted" id="libraryCount">0 video</span>
-        </div>
-
-        <input
-            type="search"
-            class="search-box"
-            id="searchInput"
-            placeholder="Cari nama video..."
-            autocomplete="off"
-        >
-
-        <div class="toolbar">
-            <button class="primary-button" id="scanButton">↻ Pindai perangkat</button>
-            <button class="secondary-button" id="pickFileButton">＋ Pilih file</button>
-        </div>
-
-        <input
-            type="file"
-            id="filePicker"
-            accept="video/*"
-            hidden
-        >
-
-        <div id="libraryList" class="video-list"></div>
-
-        <div class="notice">
-            Jika pemindaian tidak menemukan video, periksa izin media
-            aplikasi melalui pengaturan Android.
-        </div>
-    </section>
-
-    <!-- PLAYER -->
-    <section class="page" id="playerPage">
-        <div class="section-heading">
-            <h2>Sedang diputar</h2>
-            <span class="muted">ARZU V PLAYER</span>
-        </div>
-
-        <div class="player-shell paused" id="playerShell">
-            <div class="player-screen" id="playerScreen">
-
-                <video
-                    id="player"
-                    playsinline
-                    webkit-playsinline
-                    preload="metadata"
-                ></video>
-
-                <div class="player-top-controls">
-                    <div class="player-top-title" id="playerTopTitle">
-                        ARZU V PLAYER
-                    </div>
-                    <button
-                        class="p-control text-control"
-                        id="subtitleButton"
-                        type="button"
-                        title="Pilih subtitle"
-                    >CC</button>
+            <div class="player-bottom-controls">
+                <div class="player-time-row">
+                    <span class="time-label" id="currentTime">0:00</span>
+                    <input type="range" id="seekBar" min="0" max="1000" value="0" aria-label="Posisi video">
+                    <span class="time-label" id="duration">0:00</span>
                 </div>
 
-                <button
-                    class="center-play"
-                    id="bigPlayButton"
-                    type="button"
-                    aria-label="Putar video"
-                >▶</button>
+                <div class="player-control-row">
+                    <button class="p-control" id="previousButton" title="Video sebelumnya">|◀</button>
+                    <button class="p-control" id="backwardButton" title="Mundur 10 detik">↶</button>
+                    <button class="p-control primary" id="playPauseButton" title="Putar atau jeda">▶</button>
+                    <button class="p-control" id="forwardButton" title="Maju 10 detik">↷</button>
+                    <button class="p-control" id="nextButton" title="Video berikutnya">▶|</button>
 
-                <div class="player-bottom-controls">
-                    <div class="player-time-row">
-                        <span class="time-label" id="currentTime">0:00</span>
-                        <input
-                            type="range"
-                            id="seekBar"
-                            min="0"
-                            max="1000"
-                            value="0"
-                            aria-label="Posisi video"
-                        >
-                        <span class="time-label" id="duration">0:00</span>
+                    <div class="inline-volume">
+                        <button id="inlineMuteButton" title="Bisukan suara">🔊</button>
+                        <input type="range" id="inlineVolumeRange" min="0" max="100" value="100" aria-label="Volume">
                     </div>
 
-                    <div class="player-control-row">
-                        <button class="p-control" id="previousButton" title="Video sebelumnya">|◀</button>
-                        <button class="p-control" id="backwardButton" title="Mundur 10 detik">↶</button>
-                        <button class="p-control primary" id="playPauseButton" title="Putar atau jeda">▶</button>
-                        <button class="p-control" id="forwardButton" title="Maju 10 detik">↷</button>
-                        <button class="p-control" id="nextButton" title="Video berikutnya">▶|</button>
-
-                        <div class="inline-volume">
-                            <button id="inlineMuteButton" title="Bisukan suara">🔊</button>
-                            <input
-                                type="range"
-                                id="inlineVolumeRange"
-                                min="0"
-                                max="100"
-                                value="100"
-                                aria-label="Volume"
-                            >
-                        </div>
-
-                        <button
-                            class="p-control"
-                            id="fullscreenButton"
-                            aria-label="Layar penuh"
-                            title="Layar penuh"
-                        >⛶</button>
-                    </div>
+                    <button class="p-control" id="fullscreenButton" aria-label="Layar penuh" title="Layar penuh">⛶</button>
                 </div>
             </div>
-
-            <div class="player-footer">ARZU V · LOCAL VIDEO PLAYER</div>
         </div>
 
-        <div class="section-heading">
-            <h2 id="nowPlayingTitle">Belum ada video</h2>
+        <div class="player-footer">ARZU V · LOCAL VIDEO PLAYER</div>
+    </div>
+
+    <div class="section-heading">
+        <h2 id="nowPlayingTitle">Belum ada video</h2>
+    </div>
+
+    <div class="toolbar">
+        <button class="secondary-button" id="playerLibraryButton">☰ Koleksi video</button>
+        <button class="secondary-button" id="playerPickButton">＋ Buka file</button>
+    </div>
+
+    <div class="notice">
+        Ketuk layar video untuk menampilkan kontrol. Tombol CC digunakan untuk memuat atau mengaktifkan subtitle.
+    </div>
+</section>
+
+<section class="page" id="settingsPage">
+    <div class="section-heading">
+        <h2>Pengaturan</h2>
+    </div>
+
+    <div class="settings-card">
+        <div class="settings-title">Pemutar video</div>
+
+        <div class="setting-row">
+            <label for="autoHideSetting">Sembunyikan kontrol otomatis</label>
+            <input type="checkbox" id="autoHideSetting" checked>
         </div>
 
-        <div class="toolbar">
-            <button class="secondary-button" id="playerLibraryButton">☰ Koleksi video</button>
-            <button class="secondary-button" id="playerPickButton">＋ Buka file</button>
+        <div class="setting-row">
+            <label for="rememberVolumeSetting">Ingat volume terakhir</label>
+            <input type="checkbox" id="rememberVolumeSetting" checked>
         </div>
 
-        <div class="notice">
-            Ketuk layar video untuk menampilkan kontrol.
-            Ketuk tombol ⛶ untuk masuk atau keluar dari layar penuh.
+        <div class="setting-row">
+            <label for="autoNextSetting">Putar video berikutnya otomatis</label>
+            <input type="checkbox" id="autoNextSetting">
         </div>
-    </section>
+    </div>
 
-    <!-- SETTINGS -->
-    <section class="page" id="settingsPage">
-        <div class="section-heading">
-            <h2>Pengaturan</h2>
+    <div class="settings-card">
+        <div class="settings-title">Penyimpanan dan media</div>
+        <div class="settings-description">
+            Pindai video yang tersedia di perangkat melalui izin Android. Aplikasi ini tidak mengunggah koleksi video kamu.
         </div>
+        <br>
+        <button class="primary-button" id="settingsScanButton">↻ Pindai media</button>
+    </div>
 
-        <div class="settings-card">
-            <div class="settings-title">Pemutar video</div>
+    <div class="settings-card">
+        <div class="settings-title">Pembaruan aplikasi</div>
+        <div class="settings-description" id="updateStatus">Versi aplikasi: 2.0.0</div>
+        <br>
+        <button class="secondary-button" id="checkUpdateButton">Periksa pembaruan</button>
+    </div>
 
-            <div class="setting-row">
-                <label for="autoHideSetting">Sembunyikan kontrol otomatis</label>
-                <input type="checkbox" id="autoHideSetting" checked>
-            </div>
-
-            <div class="setting-row">
-                <label for="rememberVolumeSetting">Ingat volume terakhir</label>
-                <input type="checkbox" id="rememberVolumeSetting" checked>
-            </div>
-
-            <div class="setting-row">
-                <label for="autoNextSetting">Putar video berikutnya otomatis</label>
-                <input type="checkbox" id="autoNextSetting">
-            </div>
+    <div class="settings-card">
+        <div class="settings-title">Tentang ARZU V</div>
+        <div class="settings-description">
+            ARZU V Offline Media Player<br>
+            Tema Midnight Blue Professional<br>
+            Dibuat untuk pemutaran video lokal.
         </div>
+    </div>
+</section>
 
-        <div class="settings-card">
-            <div class="settings-title">Penyimpanan dan media</div>
-            <div class="settings-description">
-                Pindai video yang tersedia di perangkat melalui izin Android.
-                Aplikasi ini tidak mengunggah koleksi video kamu.
-            </div>
-            <br>
-            <button class="primary-button" id="settingsScanButton">
-                ↻ Pindai media
-            </button>
-        </div>
-
-        <div class="settings-card">
-            <div class="settings-title">Pembaruan aplikasi</div>
-            <div class="settings-description" id="updateStatus">
-                Versi aplikasi: 2.0.0
-            </div>
-            <br>
-            <button class="secondary-button" id="checkUpdateButton">
-                Periksa pembaruan
-            </button>
-        </div>
-
-        <div class="settings-card">
-            <div class="settings-title">Tentang ARZU V</div>
-            <div class="settings-description">
-                ARZU V Offline Media Player<br>
-                Tema Midnight Blue Professional<br>
-                Dibuat untuk pemutaran video lokal.
-            </div>
-        </div>
-    </section>
 </main>
 
 <nav class="bottom-nav" id="bottomNav">
     <button class="nav-button active" data-page="home">
-        <span class="nav-icon">⌂</span>
-        <span>Beranda</span>
+        <span class="nav-icon">⌂</span><span>Beranda</span>
     </button>
-
     <button class="nav-button" data-page="library">
-        <span class="nav-icon">▤</span>
-        <span>Koleksi</span>
+        <span class="nav-icon">▤</span><span>Koleksi</span>
     </button>
-
     <button class="nav-button" data-page="player">
-        <span class="nav-icon">▶</span>
-        <span>Pemutar</span>
+        <span class="nav-icon">▶</span><span>Pemutar</span>
     </button>
-
     <button class="nav-button" data-page="settings">
-        <span class="nav-icon">⚙</span>
-        <span>Pengaturan</span>
+        <span class="nav-icon">⚙</span><span>Pengaturan</span>
     </button>
 </nav>
 
@@ -994,980 +918,1328 @@ body.fullscreen-active .player-shell.css-fullscreen {
 
 <script>
 (function () {
-    "use strict";
+"use strict";
 
-    var CURRENT_VERSION = "2.0.0";
-    var videos = [];
-    var currentIndex = -1;
-    var currentObjectUrl = null;
-    var hideControlsTimer = null;
-    var toastTimer = null;
-    var scanning = false;
-    var seekDragging = false;
-    var lastVolume = 1;
-    var nativeFullscreen = false;
+/* =========================
+   ARZU V - KONFIGURASI
+========================= */
 
-    var $ = function (id) {
-        return document.getElementById(id);
-    };
+var CURRENT_VERSION = "2.0.0";
+var RELEASES_API =
+    "https://api.github.com/repos/AriIzuP/Izumi-offline-player-media/releases/latest";
 
-    var player = $("player");
-    var playerShell = $("playerShell");
-    var playerScreen = $("playerScreen");
-    var fullscreenButton = $("fullscreenButton");
-    var seekBar = $("seekBar");
+var videos = [];
+var currentIndex = -1;
+var currentObjectUrl = null;
+var currentSubtitleUrl = null;
+var hideControlsTimer = null;
+var toastTimer = null;
+var scanning = false;
+var scanWaitingForPermission = false;
+var seekDragging = false;
+var lastVolume = 1;
+var lastPlayedKey = "";
+var savedSettings = {};
 
-    function toast(message) {
-        var element = $("toast");
-        element.textContent = message;
-        element.style.display = "block";
+function $(id) {
+    return document.getElementById(id);
+}
 
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(function () {
-            element.style.display = "none";
-        }, 2600);
+var player = $("player");
+var playerShell = $("playerShell");
+var playerScreen = $("playerScreen");
+var fullscreenButton = $("fullscreenButton");
+var seekBar = $("seekBar");
+
+/* =========================
+   UTILITAS
+========================= */
+
+function toast(message) {
+    var element = $("toast");
+    element.textContent = message;
+    element.style.display = "block";
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(function () {
+        element.style.display = "none";
+    }, 2800);
+}
+
+function formatTime(seconds) {
+    if (!isFinite(seconds) || seconds < 0) {
+        return "0:00";
     }
 
-    function formatTime(seconds) {
-        if (!isFinite(seconds) || seconds < 0) {
-            return "0:00";
-        }
+    seconds = Math.floor(seconds);
 
-        seconds = Math.floor(seconds);
+    var hours = Math.floor(seconds / 3600);
+    var minutes = Math.floor((seconds % 3600) / 60);
+    var secs = seconds % 60;
 
-        var hours = Math.floor(seconds / 3600);
-        var minutes = Math.floor((seconds % 3600) / 60);
-        var secs = seconds % 60;
-
-        if (hours > 0) {
-            return hours + ":" +
-                String(minutes).padStart(2, "0") + ":" +
-                String(secs).padStart(2, "0");
-        }
-
-        return minutes + ":" + String(secs).padStart(2, "0");
+    function twoDigits(number) {
+        return number < 10 ? "0" + number : String(number);
     }
 
-    function cleanTitle(path) {
-        var name = String(path || "Video");
-        name = name.split("/").pop();
-        name = name.split("\\").pop();
-        name = name.replace(/\.[^/.]+$/, "");
-        try {
-            name = decodeURIComponent(name);
-        } catch (e) {}
-
-        return name || "Video";
+    if (hours > 0) {
+        return hours + ":" + twoDigits(minutes) + ":" + twoDigits(secs);
     }
 
-    function showPage(pageName) {
-        if (isFullscreen()) {
-            exitFullscreen();
-        }
-
-        var pageIds = {
-            home: "homePage",
-            library: "libraryPage",
-            player: "playerPage",
-            settings: "settingsPage"
-        };
-
-        Object.keys(pageIds).forEach(function (key) {
-            $(pageIds[key]).classList.toggle("active", key === pageName);
-        });
-
-        document.querySelectorAll(".nav-button").forEach(function (button) {
-            button.classList.toggle(
-                "active",
-                button.getAttribute("data-page") === pageName
-            );
-        });
-
-        if (pageName === "player") {
-            updatePlayerTitle();
-        }
-
-        if (pageName === "library") {
-            renderLibrary();
-        }
-
-        if (pageName === "home") {
-            renderHome();
-        }
-    }
-
-    document.querySelectorAll(".nav-button").forEach(function (button) {
-        button.addEventListener("click", function () {
-            showPage(button.getAttribute("data-page"));
-        });
-    });
-
-    $("homeBrowseButton").addEventListener("click", function () {
-        showPage("library");
-    });
-
-    $("homeAllButton").addEventListener("click", function () {
-        showPage("library");
-    });
-
-    $("playerLibraryButton").addEventListener("click", function () {
-        showPage("library");
-    });
-
-    function getVideoTitle(video) {
-        return video.title || cleanTitle(video.name || video.url || video.path);
-    }
-
-    function renderVideoItem(video, index) {
-        var item = document.createElement("div");
-        item.className = "video-item";
-
-        var thumb = document.createElement("div");
-        thumb.className = "video-thumb";
-        thumb.textContent = "▶";
-
-        var info = document.createElement("div");
-        info.className = "video-info";
-
-        var title = document.createElement("div");
-        title.className = "video-title";
-        title.textContent = getVideoTitle(video);
-
-        var meta = document.createElement("div");
-        meta.className = "video-meta";
-        meta.textContent = video.duration
-            ? "Durasi: " + formatTime(Number(video.duration))
-            : "Video lokal";
-
-        info.appendChild(title);
-        info.appendChild(meta);
-
-        var actions = document.createElement("div");
-        actions.className = "video-actions";
-
-        var playButton = document.createElement("button");
-        playButton.className = "small-button";
-        playButton.textContent = "Putar";
-
-        playButton.addEventListener("click", function () {
-            playVideo(index);
-        });
-
-        actions.appendChild(playButton);
-
-        item.appendChild(thumb);
-        item.appendChild(info);
-        item.appendChild(actions);
-
-        return item;
-    }
-
-    function renderLibrary() {
-        var list = $("libraryList");
-        var query = $("searchInput").value.toLowerCase().trim();
-
-        list.innerHTML = "";
-
-        var shown = 0;
-
-        videos.forEach(function (video, index) {
-            var title = getVideoTitle(video).toLowerCase();
-
-            if (query && title.indexOf(query) === -1) {
-                return;
-            }
-
-            list.appendChild(renderVideoItem(video, index));
-            shown++;
-        });
-
-        $("libraryCount").textContent = videos.length + " video";
-
-        if (shown === 0) {
-            var empty = document.createElement("div");
-            empty.className = "empty-state";
-
-            var icon = document.createElement("div");
-            icon.className = "empty-icon";
-            icon.textContent = "▤";
-
-            var message = document.createElement("div");
-            message.textContent = query
-                ? "Tidak ada video yang cocok dengan pencarian."
-                : "Belum ada video di koleksi. Ketuk “Pindai perangkat” atau “Pilih file” untuk memulai.";
-
-            empty.appendChild(icon);
-            empty.appendChild(message);
-            list.appendChild(empty);
-        }
-    }
-
-    function renderHome() {
-        $("homeVideoCount").textContent = videos.length;
-
-        var recent = $("recentList");
-        recent.innerHTML = "";
-
-        if (currentIndex >= 0 && videos[currentIndex]) {
-            recent.appendChild(
-                renderVideoItem(videos[currentIndex], currentIndex)
-            );
-        } else if (videos.length > 0) {
-            recent.appendChild(renderVideoItem(videos[0], 0));
-        } else {
-            var empty = document.createElement("div");
-            empty.className = "empty-state";
-            empty.textContent = "Video yang diputar akan muncul di sini.";
-            recent.appendChild(empty);
-        }
-    }
-
-    $("searchInput").addEventListener("input", renderLibrary);
-
-    function normalizeVideo(item) {
-        if (typeof item === "string") {
-            return {
-                name: cleanTitle(item),
-                title: cleanTitle(item),
-                url: item,
-                path: item
-            };
-        }
-
-        item = item || {};
-
-        var path = item.path || item.uri || item.url || item.file || "";
-        var name = item.name || item.title || cleanTitle(path);
-
-        return {
-            name: name,
-            title: item.title || name,
-            url: item.url || item.uri || path,
-            path: path,
-            duration: item.duration || 0,
-            mimeType: item.mimeType || item.type || "video/*"
-        };
-    }
-
-    function mergeVideos(incoming) {
-        var map = {};
-        var merged = [];
-
-        videos.concat(incoming).forEach(function (video) {
-            var normalized = normalizeVideo(video);
-            var key = normalized.path || normalized.url || normalized.title;
-
-            if (!key || map[key]) {
-                return;
-            }
-
-            map[key] = true;
-            merged.push(normalized);
-        });
-
-        videos = merged;
-        renderLibrary();
-        renderHome();
-    }
-
-    function scanVideos() {
-        if (scanning) {
-            return;
-        }
-
-        scanning = true;
-        toast("Memindai video di perangkat...");
-
-        try {
-            if (window.AndroidMedia &&
-                typeof window.AndroidMedia.hasPermission === "function" &&
-                !window.AndroidMedia.hasPermission()) {
-
-                if (typeof window.AndroidMedia.requestPermission === "function") {
-                    window.AndroidMedia.requestPermission();
-                }
-
-                toast("Izinkan akses media, lalu pindai kembali.");
-                scanning = false;
-                return;
-            }
-
-            if (window.AndroidMedia &&
-                typeof window.AndroidMedia.getVideos === "function") {
-
-                var result = window.AndroidMedia.getVideos();
-
-                if (typeof result === "string") {
-                    result = JSON.parse(result);
-                }
-
-                if (!Array.isArray(result)) {
-                    result = [];
-                }
-
-                var incoming = result.map(normalizeVideo);
-
-                if (incoming.length > 0) {
-                    videos = [];
-                    mergeVideos(incoming);
-                    toast(incoming.length + " video ditemukan.");
-                } else {
-                    renderLibrary();
-                    toast("Video tidak ditemukan. Periksa izin media.");
-                }
-            } else {
-                toast("Pemindaian otomatis perlu dukungan Android aplikasi.");
-            }
-        } catch (error) {
-            toast("Pemindaian gagal. Periksa izin media.");
-            console.log(error);
-        }
-
-        scanning = false;
-        renderHome();
-    }
-
-    $("scanButton").addEventListener("click", scanVideos);
-    $("headerScanButton").addEventListener("click", scanVideos);
-    $("settingsScanButton").addEventListener("click", scanVideos);
-
-    $("pickFileButton").addEventListener("click", function () {
-        $("filePicker").click();
-    });
-
-    $("playerPickButton").addEventListener("click", function () {
-        $("filePicker").click();
-    });
-
-    $("filePicker").addEventListener("change", function (event) {
-        var files = Array.prototype.slice.call(event.target.files || []);
-
-        if (!files.length) {
-            return;
-        }
-
-        var incoming = files.map(function (file) {
-            return {
-                name: file.name,
-                title: cleanTitle(file.name),
-                file: file,
-                url: "",
-                path: "picked:" + file.name + ":" + file.size,
-                duration: 0
-            };
-        });
-
-        mergeVideos(incoming);
-
-        var first = videos.length - incoming.length;
-
-        if (first < 0) {
-            first = 0;
-        }
-
-        playVideo(first);
-        event.target.value = "";
-    });
-
-    function updatePlayerTitle() {
-        var title = currentIndex >= 0 && videos[currentIndex]
-            ? getVideoTitle(videos[currentIndex])
-            : "ARZU V PLAYER";
-
-        $("playerTopTitle").textContent = title;
-        $("nowPlayingTitle").textContent = title;
-    }
-
-    function playVideo(index) {
-        if (index < 0 || index >= videos.length) {
-            return;
-        }
-
-        currentIndex = index;
-        var video = videos[index];
-
-        if (currentObjectUrl) {
-            try {
-                URL.revokeObjectURL(currentObjectUrl);
-            } catch (e) {}
-            currentObjectUrl = null;
-        }
-
-        var source = "";
-
-        if (video.file) {
-            currentObjectUrl = URL.createObjectURL(video.file);
-            source = currentObjectUrl;
-        } else {
-            source = video.url || video.path || "";
-        }
-
-        if (!source) {
-            toast("Lokasi video tidak tersedia.");
-            return;
-        }
-
-        player.src = source;
-        player.load();
-
-        updatePlayerTitle();
-        renderHome();
-        showPage("player");
-        playerShell.classList.add("paused");
-        playerShell.classList.remove("controls-hidden");
-
-        player.play().then(function () {
-            playerShell.classList.remove("paused");
-            showControls();
-        }).catch(function () {
-            playerShell.classList.add("paused");
-            showControls();
-            toast("Ketuk tombol putar untuk memulai video.");
-        });
-    }
-
-    function playNext() {
-        if (videos.length === 0) {
-            return;
-        }
-
-        var next = currentIndex + 1;
-
-        if (next >= videos.length) {
-            next = 0;
-        }
-
-        playVideo(next);
-    }
-
-    function playPrevious() {
-        if (videos.length === 0) {
-            return;
-        }
-
-        var previous = currentIndex - 1;
-
-        if (previous < 0) {
-            previous = videos.length - 1;
-        }
-
-        playVideo(previous);
-    }
-
-    function togglePlay() {
-        if (!player.src) {
-            if (videos.length > 0) {
-                playVideo(0);
-            } else {
-                toast("Pilih video terlebih dahulu.");
-            }
-            return;
-        }
-
-        if (player.paused) {
-            player.play().then(function () {
-                playerShell.classList.remove("paused");
-                showControls();
-            }).catch(function () {
-                toast("Video tidak dapat diputar.");
-            });
-        } else {
-            player.pause();
-        }
-    }
-
-    $("playPauseButton").addEventListener("click", function (event) {
-        event.stopPropagation();
-        togglePlay();
-    });
-
-    $("bigPlayButton").addEventListener("click", function (event) {
-        event.stopPropagation();
-        togglePlay();
-    });
-
-    $("nextButton").addEventListener("click", function (event) {
-        event.stopPropagation();
-        playNext();
-    });
-
-    $("previousButton").addEventListener("click", function (event) {
-        event.stopPropagation();
-        playPrevious();
-    });
-
-    $("backwardButton").addEventListener("click", function (event) {
-        event.stopPropagation();
-        if (isFinite(player.duration)) {
-            player.currentTime = Math.max(0, player.currentTime - 10);
-        }
-        showControls();
-    });
-
-    $("forwardButton").addEventListener("click", function (event) {
-        event.stopPropagation();
-        if (isFinite(player.duration)) {
-            player.currentTime = Math.min(
-                player.duration || 0,
-                player.currentTime + 10
-            );
-        }
-        showControls();
-    });
-
-    player.addEventListener("play", function () {
-        playerShell.classList.remove("paused");
-        $("playPauseButton").textContent = "Ⅱ";
-        $("bigPlayButton").textContent = "Ⅱ";
-        showControls();
-    });
-
-    player.addEventListener("pause", function () {
-        playerShell.classList.add("paused");
-        $("playPauseButton").textContent = "▶";
-        $("bigPlayButton").textContent = "▶";
-        showControls();
-    });
-
-    player.addEventListener("ended", function () {
-        if ($("autoNextSetting").checked) {
-            playNext();
-        } else {
-            playerShell.classList.add("paused");
-            showControls();
-        }
-    });
-
-    player.addEventListener("loadedmetadata", function () {
-        $("duration").textContent = formatTime(player.duration);
-        $("currentTime").textContent = formatTime(player.currentTime);
-    });
-
-    player.addEventListener("timeupdate", function () {
-        $("currentTime").textContent = formatTime(player.currentTime);
-
-        if (!seekDragging && isFinite(player.duration) && player.duration > 0) {
-            seekBar.value = Math.round(
-                player.currentTime / player.duration * 1000
-            );
-        }
-    });
-
-    seekBar.addEventListener("input", function () {
-        seekDragging = true;
-
-        if (isFinite(player.duration) && player.duration > 0) {
-            var target = Number(seekBar.value) / 1000 * player.duration;
-            $("currentTime").textContent = formatTime(target);
-        }
-    });
-
-    seekBar.addEventListener("change", function () {
-        if (isFinite(player.duration) && player.duration > 0) {
-            player.currentTime =
-                Number(seekBar.value) / 1000 * player.duration;
-        }
-
-        seekDragging = false;
-        showControls();
-    });
-
-    var volumeSlider = $("inlineVolumeRange");
-    var muteButton = $("inlineMuteButton");
-
-    function updateVolumeUI() {
-        muteButton.textContent = player.muted || player.volume === 0
-            ? "🔇"
-            : "🔊";
-
-        volumeSlider.value = Math.round(player.volume * 100);
-    }
-
-    volumeSlider.addEventListener("input", function () {
-        var volume = Number(volumeSlider.value) / 100;
-        player.volume = volume;
-        player.muted = volume === 0;
-
-        if (volume > 0) {
-            lastVolume = volume;
-        }
-
-        if ($("rememberVolumeSetting").checked) {
-            try {
-                localStorage.setItem("arzuVolume", String(volume));
-            } catch (e) {}
-        }
-
-        updateVolumeUI();
-    });
-
-    muteButton.addEventListener("click", function (event) {
-        event.stopPropagation();
-
-        if (player.muted || player.volume === 0) {
-            player.muted = false;
-            player.volume = lastVolume || 1;
-        } else {
-            lastVolume = player.volume;
-            player.muted = true;
-        }
-
-        updateVolumeUI();
-        showControls();
-    });
+    return minutes + ":" + twoDigits(secs);
+}
+
+function cleanTitle(path) {
+    var name = String(path || "Video");
+
+    name = name.split("/").pop();
+    name = name.split("\\").pop();
+    name = name.replace(/\.[^/.]+$/, "");
 
     try {
-        var savedVolume = localStorage.getItem("arzuVolume");
+        name = decodeURIComponent(name);
+    } catch (error) {}
+
+    return name || "Video";
+}
+
+function safeLocalStorageGet(key) {
+    try {
+        return localStorage.getItem(key);
+    } catch (error) {
+        return null;
+    }
+}
+
+function safeLocalStorageSet(key, value) {
+    try {
+        localStorage.setItem(key, value);
+    } catch (error) {}
+}
+
+function safeLocalStorageRemove(key) {
+    try {
+        localStorage.removeItem(key);
+    } catch (error) {}
+}
+
+function getVideoTitle(video) {
+    return video.title || cleanTitle(video.name || video.url || video.path);
+}
+
+function getVideoKey(video) {
+    return String(
+        video.path ||
+        video.url ||
+        video.title ||
+        video.name ||
+        ""
+    );
+}
+
+/* =========================
+   PENGATURAN
+========================= */
+
+function loadSettings() {
+    $("autoHideSetting").checked =
+        safeLocalStorageGet("arzuAutoHide") !== "false";
+
+    $("rememberVolumeSetting").checked =
+        safeLocalStorageGet("arzuRememberVolume") !== "false";
+
+    $("autoNextSetting").checked =
+        safeLocalStorageGet("arzuAutoNext") === "true";
+
+    if ($("rememberVolumeSetting").checked) {
+        var savedVolume = safeLocalStorageGet("arzuVolume");
 
         if (savedVolume !== null) {
-            player.volume = Math.max(
-                0,
-                Math.min(1, Number(savedVolume))
-            );
-            lastVolume = player.volume || 1;
-            updateVolumeUI();
+            var volume = Number(savedVolume);
+
+            if (isFinite(volume)) {
+                player.volume = Math.max(0, Math.min(1, volume));
+                lastVolume = player.volume || 1;
+            }
         }
-    } catch (e) {}
+    }
 
-    $("subtitleButton").addEventListener("click", function (event) {
-        event.stopPropagation();
+    updateVolumeUI();
+}
 
-        var tracks = player.textTracks;
+$("autoHideSetting").addEventListener("change", function () {
+    safeLocalStorageSet("arzuAutoHide", String(this.checked));
 
-        if (!tracks || tracks.length === 0) {
-            toast("Video ini tidak memiliki subtitle yang terdeteksi.");
-            showControls();
+    if (!this.checked) {
+        clearTimeout(hideControlsTimer);
+        playerShell.classList.remove("controls-hidden");
+    } else {
+        showControls();
+    }
+});
+
+$("rememberVolumeSetting").addEventListener("change", function () {
+    safeLocalStorageSet("arzuRememberVolume", String(this.checked));
+
+    if (!this.checked) {
+        safeLocalStorageRemove("arzuVolume");
+    } else {
+        safeLocalStorageSet("arzuVolume", String(player.volume));
+    }
+});
+
+$("autoNextSetting").addEventListener("change", function () {
+    safeLocalStorageSet("arzuAutoNext", String(this.checked));
+});
+
+/* =========================
+   NAVIGASI
+========================= */
+
+function showPage(pageName) {
+    if (isFullscreen()) {
+        exitFullscreen();
+    }
+
+    var pageIds = {
+        home: "homePage",
+        library: "libraryPage",
+        player: "playerPage",
+        settings: "settingsPage"
+    };
+
+    Object.keys(pageIds).forEach(function (key) {
+        $(pageIds[key]).classList.toggle("active", key === pageName);
+    });
+
+    document.querySelectorAll(".nav-button").forEach(function (button) {
+        button.classList.toggle(
+            "active",
+            button.getAttribute("data-page") === pageName
+        );
+    });
+
+    if (pageName === "player") {
+        updatePlayerTitle();
+    } else if (pageName === "library") {
+        renderLibrary();
+    } else if (pageName === "home") {
+        renderHome();
+    }
+}
+
+document.querySelectorAll(".nav-button").forEach(function (button) {
+    button.addEventListener("click", function () {
+        showPage(button.getAttribute("data-page"));
+    });
+});
+
+$("homeBrowseButton").addEventListener("click", function () {
+    showPage("library");
+});
+
+$("homeAllButton").addEventListener("click", function () {
+    showPage("library");
+});
+
+$("playerLibraryButton").addEventListener("click", function () {
+    showPage("library");
+});
+
+/* =========================
+   KOLEKSI VIDEO
+========================= */
+
+function normalizeVideo(item) {
+    if (typeof item === "string") {
+        return {
+            name: cleanTitle(item),
+            title: cleanTitle(item),
+            url: item,
+            path: item,
+            duration: 0,
+            file: null
+        };
+    }
+
+    item = item || {};
+
+    var path = item.path || item.uri || item.url || "";
+    var name = item.name || item.title || cleanTitle(path);
+
+    return {
+        name: String(name),
+        title: String(item.title || name),
+        url: String(item.url || item.uri || path),
+        path: String(path),
+        duration: Number(item.duration || 0),
+        mimeType: item.mimeType || item.type || "video/*",
+        file: item.file || null
+    };
+}
+
+function mergeVideos(incoming) {
+    var map = {};
+    var merged = [];
+
+    videos.concat(incoming).forEach(function (item) {
+        var video = normalizeVideo(item);
+        var key = getVideoKey(video);
+
+        if (!key || map[key]) {
             return;
         }
 
-        var hasShowing = false;
-
-        for (var i = 0; i < tracks.length; i++) {
-            if (tracks[i].mode === "showing") {
-                hasShowing = true;
-                tracks[i].mode = "disabled";
-            } else {
-                tracks[i].mode = "showing";
-            }
-        }
-
-        toast(hasShowing ? "Subtitle dinonaktifkan." : "Subtitle diaktifkan.");
-        showControls();
+        map[key] = true;
+        merged.push(video);
     });
 
-    /* FULLSCREEN */
+    videos = merged;
 
-    function isFullscreen() {
-        return !!(
-            document.fullscreenElement ||
-            document.webkitFullscreenElement ||
-            document.mozFullScreenElement ||
-            document.msFullscreenElement ||
-            playerShell.classList.contains("css-fullscreen")
+    renderLibrary();
+    renderHome();
+}
+
+function renderVideoItem(video, index) {
+    var item = document.createElement("div");
+    item.className = "video-item";
+
+    var thumb = document.createElement("div");
+    thumb.className = "video-thumb";
+    thumb.textContent = "▶";
+
+    var info = document.createElement("div");
+    info.className = "video-info";
+
+    var title = document.createElement("div");
+    title.className = "video-title";
+    title.textContent = getVideoTitle(video);
+
+    var meta = document.createElement("div");
+    meta.className = "video-meta";
+
+    if (video.duration > 0) {
+        var duration = Number(video.duration);
+
+        /* Beberapa bridge mengirim durasi dalam milidetik. */
+        if (duration > 100000) {
+            duration = duration / 1000;
+        }
+
+        meta.textContent = "Durasi: " + formatTime(duration);
+    } else {
+        meta.textContent = "Video lokal";
+    }
+
+    info.appendChild(title);
+    info.appendChild(meta);
+
+    var actions = document.createElement("div");
+    actions.className = "video-actions";
+
+    var playButton = document.createElement("button");
+    playButton.className = "small-button";
+    playButton.textContent = "Putar";
+
+    playButton.addEventListener("click", function () {
+        playVideo(index);
+    });
+
+    actions.appendChild(playButton);
+
+    item.appendChild(thumb);
+    item.appendChild(info);
+    item.appendChild(actions);
+
+    return item;
+}
+
+function renderLibrary() {
+    var list = $("libraryList");
+    var query = $("searchInput").value.toLowerCase().trim();
+
+    while (list.firstChild) {
+        list.removeChild(list.firstChild);
+    }
+
+    var shown = 0;
+
+    videos.forEach(function (video, index) {
+        if (query &&
+            getVideoTitle(video).toLowerCase().indexOf(query) === -1) {
+            return;
+        }
+
+        list.appendChild(renderVideoItem(video, index));
+        shown++;
+    });
+
+    $("libraryCount").textContent = videos.length + " video";
+
+    if (shown === 0) {
+        var empty = document.createElement("div");
+        empty.className = "empty-state";
+
+        var icon = document.createElement("div");
+        icon.className = "empty-icon";
+        icon.textContent = "▤";
+
+        var message = document.createElement("div");
+        message.textContent = query
+            ? "Tidak ada video yang cocok dengan pencarian."
+            : "Belum ada video. Pindai perangkat atau pilih file.";
+
+        empty.appendChild(icon);
+        empty.appendChild(message);
+        list.appendChild(empty);
+    }
+}
+
+function renderHome() {
+    $("homeVideoCount").textContent = String(videos.length);
+
+    var recent = $("recentList");
+
+    while (recent.firstChild) {
+        recent.removeChild(recent.firstChild);
+    }
+
+    if (currentIndex >= 0 && videos[currentIndex]) {
+        recent.appendChild(
+            renderVideoItem(videos[currentIndex], currentIndex)
+        );
+    } else if (videos.length > 0) {
+        recent.appendChild(renderVideoItem(videos[0], 0));
+    } else {
+        var empty = document.createElement("div");
+        empty.className = "empty-state";
+        empty.textContent = "Pilih video untuk mulai menonton.";
+        recent.appendChild(empty);
+    }
+}
+
+$("searchInput").addEventListener("input", renderLibrary);
+
+/* =========================
+   PEMINDAIAN MEDIA ANDROID
+========================= */
+
+function scanVideos() {
+    if (scanning) {
+        return;
+    }
+
+    scanning = true;
+    toast("Memindai video di perangkat...");
+
+    try {
+        if (!window.AndroidMedia) {
+            scanning = false;
+            toast("Pemindaian otomatis membutuhkan dukungan Android aplikasi.");
+            return;
+        }
+
+        if (typeof window.AndroidMedia.hasPermission === "function" &&
+            !window.AndroidMedia.hasPermission()) {
+
+            if (typeof window.AndroidMedia.requestPermission === "function") {
+                scanWaitingForPermission = true;
+                window.AndroidMedia.requestPermission();
+                scanning = false;
+                toast("Izinkan akses media Android terlebih dahulu.");
+                return;
+            }
+
+            scanning = false;
+            toast("Izin media belum tersedia.");
+            return;
+        }
+
+        if (typeof window.AndroidMedia.getVideos !== "function") {
+            scanning = false;
+            toast("Fungsi pemindaian tidak tersedia di aplikasi Android.");
+            return;
+        }
+
+        var result = window.AndroidMedia.getVideos();
+
+        if (typeof result === "string") {
+            result = JSON.parse(result);
+        }
+
+        if (!Array.isArray(result)) {
+            result = [];
+        }
+
+        var incoming = result.map(normalizeVideo);
+
+        if (incoming.length > 0) {
+            videos = [];
+            mergeVideos(incoming);
+            toast(incoming.length + " video ditemukan.");
+        } else {
+            renderLibrary();
+            renderHome();
+            toast("Video tidak ditemukan atau izin media belum diberikan.");
+        }
+    } catch (error) {
+        console.log("ARZU V scan error:", error);
+        toast("Pemindaian gagal. Periksa izin dan dukungan Android.");
+    }
+
+    scanning = false;
+}
+
+/*
+ * MainActivity.java dapat memanggil fungsi ini setelah
+ * dialog izin Android selesai.
+ *
+ * Nama callback harus sesuai dengan implementasi Java.
+ */
+window.onNativeMediaPermissionResult = function (granted) {
+    scanning = false;
+
+    if (granted) {
+        scanWaitingForPermission = false;
+        setTimeout(scanVideos, 250);
+    } else {
+        scanWaitingForPermission = false;
+        toast("Izin media tidak diberikan.");
+    }
+};
+
+$("scanButton").addEventListener("click", scanVideos);
+$("headerScanButton").addEventListener("click", scanVideos);
+$("settingsScanButton").addEventListener("click", scanVideos);
+
+/* =========================
+   PILIH VIDEO MANUAL
+========================= */
+
+$("pickFileButton").addEventListener("click", function () {
+    $("filePicker").click();
+});
+
+$("playerPickButton").addEventListener("click", function () {
+    $("filePicker").click();
+});
+
+$("filePicker").addEventListener("change", function (event) {
+    var files = Array.prototype.slice.call(event.target.files || []);
+
+    if (files.length === 0) {
+        return;
+    }
+
+    var incoming = files.map(function (file) {
+        return {
+            name: file.name,
+            title: cleanTitle(file.name),
+            file: file,
+            url: "",
+            path: "picked:" + file.name + ":" + file.size + ":" + file.lastModified,
+            duration: 0
+        };
+    });
+
+    /*
+     * Simpan identitas file pertama supaya video yang diputar
+     * tidak bergantung pada asumsi indeks koleksi.
+     */
+    var firstKey = getVideoKey(incoming[0]);
+
+    mergeVideos(incoming);
+
+    var firstIndex = -1;
+
+    for (var i = 0; i < videos.length; i++) {
+        if (getVideoKey(videos[i]) === firstKey) {
+            firstIndex = i;
+            break;
+        }
+    }
+
+    event.target.value = "";
+
+    if (firstIndex >= 0) {
+        playVideo(firstIndex);
+    } else {
+        toast("File tidak dapat ditambahkan ke koleksi.");
+    }
+});
+
+/* =========================
+   PEMUTAR VIDEO
+========================= */
+
+function updatePlayerTitle() {
+    var title = currentIndex >= 0 && videos[currentIndex]
+        ? getVideoTitle(videos[currentIndex])
+        : "ARZU V PLAYER";
+
+    $("playerTopTitle").textContent = title;
+    $("nowPlayingTitle").textContent = title;
+}
+
+function revokeCurrentObjectUrl() {
+    if (currentObjectUrl) {
+        try {
+            URL.revokeObjectURL(currentObjectUrl);
+        } catch (error) {}
+
+        currentObjectUrl = null;
+    }
+}
+
+function clearSubtitle() {
+    if (currentSubtitleUrl) {
+        try {
+            URL.revokeObjectURL(currentSubtitleUrl);
+        } catch (error) {}
+
+        currentSubtitleUrl = null;
+    }
+
+    var tracks = player.querySelectorAll("track");
+
+    for (var i = 0; i < tracks.length; i++) {
+        tracks[i].remove();
+    }
+}
+
+function playVideo(index) {
+    if (index < 0 || index >= videos.length) {
+        return;
+    }
+
+    currentIndex = index;
+
+    var video = videos[index];
+    var source = "";
+
+    revokeCurrentObjectUrl();
+    clearSubtitle();
+
+    if (video.file) {
+        try {
+            currentObjectUrl = URL.createObjectURL(video.file);
+            source = currentObjectUrl;
+        } catch (error) {
+            toast("File tidak dapat dibuka di perangkat ini.");
+            return;
+        }
+    } else {
+        source = video.url || video.path || "";
+    }
+
+    if (!source) {
+        toast("Lokasi video tidak tersedia.");
+        return;
+    }
+
+    lastPlayedKey = getVideoKey(video);
+
+    player.pause();
+    player.removeAttribute("src");
+    player.src = source;
+    player.load();
+
+    seekBar.value = 0;
+    $("currentTime").textContent = "0:00";
+    $("duration").textContent = "0:00";
+
+    updatePlayerTitle();
+    renderHome();
+    showPage("player");
+
+    playerShell.classList.add("paused");
+    playerShell.classList.remove("controls-hidden");
+
+    /*
+     * Pemutaran otomatis bisa ditolak oleh WebView.
+     * Jika ditolak, pengguna dapat menekan tombol Putar.
+     */
+    var playPromise = player.play();
+
+    if (playPromise && typeof playPromise.then === "function") {
+        playPromise.then(function () {
+            playerShell.classList.remove("paused");
+            showControls();
+        }).catch(function (error) {
+            console.log("Autoplay ditolak atau pemutaran gagal:", error);
+            playerShell.classList.add("paused");
+            showControls();
+            toast("Tekan tombol putar untuk memulai video.");
+        });
+    }
+}
+
+function playNext() {
+    if (videos.length === 0) {
+        return;
+    }
+
+    playVideo(currentIndex < 0 || currentIndex + 1 >= videos.length
+        ? 0
+        : currentIndex + 1);
+}
+
+function playPrevious() {
+    if (videos.length === 0) {
+        return;
+    }
+
+    playVideo(currentIndex <= 0
+        ? videos.length - 1
+        : currentIndex - 1);
+}
+
+function togglePlay() {
+    if (!player.getAttribute("src")) {
+        if (videos.length > 0) {
+            playVideo(currentIndex >= 0 ? currentIndex : 0);
+        } else {
+            toast("Pilih video terlebih dahulu.");
+        }
+
+        return;
+    }
+
+    if (player.paused) {
+        var promise = player.play();
+
+        if (promise && typeof promise.catch === "function") {
+            promise.catch(function () {
+                toast("Video tidak dapat diputar.");
+            });
+        }
+    } else {
+        player.pause();
+    }
+}
+
+$("playPauseButton").addEventListener("click", function (event) {
+    event.stopPropagation();
+    togglePlay();
+});
+
+$("bigPlayButton").addEventListener("click", function (event) {
+    event.stopPropagation();
+    togglePlay();
+});
+
+$("nextButton").addEventListener("click", function (event) {
+    event.stopPropagation();
+    playNext();
+});
+
+$("previousButton").addEventListener("click", function (event) {
+    event.stopPropagation();
+    playPrevious();
+});
+
+$("backwardButton").addEventListener("click", function (event) {
+    event.stopPropagation();
+
+    if (isFinite(player.duration)) {
+        player.currentTime = Math.max(0, player.currentTime - 10);
+    }
+
+    showControls();
+});
+
+$("forwardButton").addEventListener("click", function (event) {
+    event.stopPropagation();
+
+    if (isFinite(player.duration)) {
+        player.currentTime = Math.min(
+            player.duration || 0,
+            player.currentTime + 10
         );
     }
 
-    function setImmersiveMode(enabled) {
+    showControls();
+});
+
+player.addEventListener("play", function () {
+    playerShell.classList.remove("paused");
+    $("playPauseButton").textContent = "Ⅱ";
+    $("bigPlayButton").textContent = "Ⅱ";
+    showControls();
+});
+
+player.addEventListener("pause", function () {
+    playerShell.classList.add("paused");
+    $("playPauseButton").textContent = "▶";
+    $("bigPlayButton").textContent = "▶";
+    showControls();
+});
+
+player.addEventListener("ended", function () {
+    if ($("autoNextSetting").checked) {
+        playNext();
+    } else {
+        playerShell.classList.add("paused");
+        showControls();
+    }
+});
+
+player.addEventListener("loadedmetadata", function () {
+    $("duration").textContent = formatTime(player.duration);
+    $("currentTime").textContent = formatTime(player.currentTime);
+});
+
+player.addEventListener("timeupdate", function () {
+    $("currentTime").textContent = formatTime(player.currentTime);
+
+    if (!seekDragging &&
+        isFinite(player.duration) &&
+        player.duration > 0) {
+        seekBar.value = Math.round(
+            player.currentTime / player.duration * 1000
+        );
+    }
+});
+
+player.addEventListener("error", function () {
+    if (player.getAttribute("src")) {
+        toast("Video gagal dibuka. Format atau izin akses mungkin tidak didukung.");
+    }
+});
+
+seekBar.addEventListener("input", function () {
+    seekDragging = true;
+
+    if (isFinite(player.duration) && player.duration > 0) {
+        var target = Number(seekBar.value) / 1000 * player.duration;
+        $("currentTime").textContent = formatTime(target);
+    }
+});
+
+seekBar.addEventListener("change", function () {
+    if (isFinite(player.duration) && player.duration > 0) {
+        player.currentTime =
+            Number(seekBar.value) / 1000 * player.duration;
+    }
+
+    seekDragging = false;
+    showControls();
+});
+
+/* =========================
+   VOLUME
+========================= */
+
+var volumeSlider = $("inlineVolumeRange");
+var muteButton = $("inlineMuteButton");
+
+function updateVolumeUI() {
+    muteButton.textContent =
+        player.muted || player.volume === 0 ? "🔇" : "🔊";
+
+    volumeSlider.value = Math.round(player.volume * 100);
+}
+
+volumeSlider.addEventListener("input", function () {
+    var volume = Number(volumeSlider.value) / 100;
+
+    player.volume = volume;
+    player.muted = volume === 0;
+
+    if (volume > 0) {
+        lastVolume = volume;
+    }
+
+    if ($("rememberVolumeSetting").checked) {
+        safeLocalStorageSet("arzuVolume", String(volume));
+    }
+
+    updateVolumeUI();
+});
+
+muteButton.addEventListener("click", function (event) {
+    event.stopPropagation();
+
+    if (player.muted || player.volume === 0) {
+        player.muted = false;
+        player.volume = lastVolume || 1;
+    } else {
+        lastVolume = player.volume;
+        player.muted = true;
+    }
+
+    updateVolumeUI();
+    showControls();
+});
+
+/* =========================
+   SUBTITLE SRT / VTT
+========================= */
+
+$("subtitleButton").addEventListener("click", function (event) {
+    event.stopPropagation();
+
+    var tracks = player.textTracks;
+
+    if (tracks && tracks.length > 0) {
+        var showing = false;
+
+        for (var i = 0; i < tracks.length; i++) {
+            if (tracks[i].mode === "showing") {
+                showing = true;
+            }
+        }
+
+        for (var j = 0; j < tracks.length; j++) {
+            tracks[j].mode = showing ? "disabled" : "showing";
+        }
+
+        toast(showing ? "Subtitle dinonaktifkan." : "Subtitle diaktifkan.");
+        showControls();
+        return;
+    }
+
+    $("subtitlePicker").click();
+});
+
+$("subtitlePicker").addEventListener("change", function (event) {
+    var file = event.target.files && event.target.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    loadSubtitle(file);
+    event.target.value = "";
+});
+
+function loadSubtitle(file) {
+    var reader = new FileReader();
+
+    reader.onload = function () {
+        var text = String(reader.result || "")
+            .replace(/^\uFEFF/, "")
+            .replace(/\r\n/g, "\n")
+            .replace(/\r/g, "\n");
+
+        /*
+         * Ubah timestamp SRT 00:00:01,200
+         * menjadi timestamp WebVTT 00:00:01.200.
+         */
+        text = text.replace(
+            /(\d{2}:\d{2}:\d{2}),(\d{3})/g,
+            "$1.$2"
+        );
+
+        /*
+         * Buang nomor cue SRT yang berdiri sendiri.
+         * WebVTT dapat menggunakan nomor cue, tetapi ini
+         * membantu mengurangi masalah parser WebView lama.
+         */
+        text = text.replace(
+            /(^|\n)\s*\d+\s*\n(?=\d{2}:\d{2}:\d{2}\.\d{3}\s*-->)/g,
+            "$1"
+        );
+
+        if (!/^WEBVTT(?:\s|$)/.test(text.trim())) {
+            text = "WEBVTT\n\n" + text;
+        }
+
+        clearSubtitle();
+
         try {
-            if (window.AndroidMedia &&
-                typeof window.AndroidMedia.setImmersiveMode === "function") {
-                window.AndroidMedia.setImmersiveMode(!!enabled);
-            }
-        } catch (e) {
-            console.log("Immersive mode:", e);
-        }
-    }
+            var blob = new Blob(
+                [text],
+                {type:"text/vtt"}
+            );
 
-    function enterFullscreen() {
-        if (isFullscreen()) {
-            return;
-        }
+            currentSubtitleUrl = URL.createObjectURL(blob);
 
-        document.body.classList.add("fullscreen-active");
-        playerShell.classList.add("css-fullscreen");
-        playerShell.classList.remove("controls-hidden");
+            var track = document.createElement("track");
+            track.kind = "subtitles";
+            track.label = file.name;
+            track.srclang = "id";
+            track.src = currentSubtitleUrl;
+            track.default = true;
 
-        setImmersiveMode(true);
+            player.appendChild(track);
 
-        var request = playerScreen.requestFullscreen ||
-            playerScreen.webkitRequestFullscreen ||
-            playerScreen.mozRequestFullScreen ||
-            playerScreen.msRequestFullscreen;
+            track.addEventListener("load", function () {
+                try {
+                    track.track.mode = "showing";
+                } catch (error) {}
+            });
 
-        if (request) {
-            try {
-                var result = request.call(playerScreen);
-
-                if (result && typeof result.catch === "function") {
-                    result.catch(function () {
-                        // CSS fullscreen tetap menjadi fallback.
-                    });
-                }
-            } catch (e) {
-                console.log("Fullscreen API tidak tersedia:", e);
-            }
-        }
-
-        fullscreenButton.textContent = "⤢";
-        showControls();
-    }
-
-    function exitFullscreen() {
-        var exit = document.exitFullscreen ||
-            document.webkitExitFullscreen ||
-            document.mozCancelFullScreen ||
-            document.msExitFullscreen;
-
-        if (exit) {
-            try {
-                if (
-                    document.fullscreenElement ||
-                    document.webkitFullscreenElement ||
-                    document.mozFullScreenElement ||
-                    document.msFullscreenElement
-                ) {
-                    var result = exit.call(document);
-
-                    if (result && typeof result.catch === "function") {
-                        result.catch(function () {});
+            /*
+             * Coba aktifkan track setelah WebView membacanya.
+             */
+            setTimeout(function () {
+                try {
+                    if (track.track) {
+                        track.track.mode = "showing";
                     }
-                }
-            } catch (e) {
-                console.log("Keluar fullscreen:", e);
-            }
+                } catch (error) {}
+            }, 500);
+
+            toast("Subtitle ditambahkan. Dukungan tergantung WebView.");
+        } catch (error) {
+            console.log("Subtitle error:", error);
+            toast("Subtitle tidak dapat dimuat.");
         }
-
-        playerShell.classList.remove("css-fullscreen");
-        document.body.classList.remove("fullscreen-active");
-
-        setImmersiveMode(false);
-
-        fullscreenButton.textContent = "⛶";
-        showControls();
-    }
-
-    function toggleFullscreen(event) {
-        if (event) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-
-        if (isFullscreen()) {
-            exitFullscreen();
-        } else {
-            enterFullscreen();
-        }
-    }
-
-    fullscreenButton.addEventListener("click", toggleFullscreen);
-
-    document.addEventListener("fullscreenchange", function () {
-        if (!document.fullscreenElement) {
-            if (playerShell.classList.contains("css-fullscreen")) {
-                playerShell.classList.remove("css-fullscreen");
-                document.body.classList.remove("fullscreen-active");
-                setImmersiveMode(false);
-            }
-
-            fullscreenButton.textContent = "⛶";
-        } else {
-            fullscreenButton.textContent = "⤢";
-        }
-    });
-
-    document.addEventListener("webkitfullscreenchange", function () {
-        if (!document.webkitFullscreenElement) {
-            playerShell.classList.remove("css-fullscreen");
-            document.body.classList.remove("fullscreen-active");
-            setImmersiveMode(false);
-            fullscreenButton.textContent = "⛶";
-        } else {
-            fullscreenButton.textContent = "⤢";
-        }
-    });
-
-    /* KOMPATIBILITAS TOMBOL BACK ANDROID */
-
-    window.exitArzuFullscreen = function () {
-        if (isFullscreen()) {
-            exitFullscreen();
-            return true;
-        }
-
-        return false;
     };
 
-    /* KONTROL OTOMATIS */
+    reader.onerror = function () {
+        toast("File subtitle gagal dibaca.");
+    };
 
-    function showControls() {
-        playerShell.classList.remove("controls-hidden");
+    reader.readAsText(file);
+}
 
+/* =========================
+   FULLSCREEN
+========================= */
+
+function isFullscreen() {
+    return !!(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement ||
+        playerShell.classList.contains("css-fullscreen")
+    );
+}
+
+function setImmersiveMode(enabled) {
+    try {
+        if (window.AndroidMedia &&
+            typeof window.AndroidMedia.setImmersiveMode === "function") {
+            window.AndroidMedia.setImmersiveMode(!!enabled);
+        }
+    } catch (error) {
+        console.log("Immersive mode:", error);
+    }
+}
+
+function enterFullscreen() {
+    if (isFullscreen()) {
+        return;
+    }
+
+    document.body.classList.add("fullscreen-active");
+    playerShell.classList.add("css-fullscreen");
+    playerShell.classList.remove("controls-hidden");
+
+    setImmersiveMode(true);
+
+    var request =
+        playerScreen.requestFullscreen ||
+        playerScreen.webkitRequestFullscreen ||
+        playerScreen.mozRequestFullScreen ||
+        playerScreen.msRequestFullscreen;
+
+    if (request) {
+        try {
+            var result = request.call(playerScreen);
+
+            if (result && typeof result.catch === "function") {
+                result.catch(function () {
+                    /* Tampilan CSS tetap menjadi fallback. */
+                });
+            }
+        } catch (error) {
+            console.log("Fullscreen API:", error);
+        }
+    }
+
+    fullscreenButton.textContent = "⤢";
+    showControls();
+}
+
+function exitFullscreen() {
+    var exit =
+        document.exitFullscreen ||
+        document.webkitExitFullscreen ||
+        document.mozCancelFullScreen ||
+        document.msExitFullscreen;
+
+    if (exit) {
+        try {
+            if (
+                document.fullscreenElement ||
+                document.webkitFullscreenElement ||
+                document.mozFullScreenElement ||
+                document.msFullscreenElement
+            ) {
+                var result = exit.call(document);
+
+                if (result && typeof result.catch === "function") {
+                    result.catch(function () {});
+                }
+            }
+        } catch (error) {}
+    }
+
+    playerShell.classList.remove("css-fullscreen");
+    document.body.classList.remove("fullscreen-active");
+
+    setImmersiveMode(false);
+
+    fullscreenButton.textContent = "⛶";
+    showControls();
+}
+
+function toggleFullscreen(event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    if (isFullscreen()) {
+        exitFullscreen();
+    } else {
+        enterFullscreen();
+    }
+}
+
+fullscreenButton.addEventListener("click", toggleFullscreen);
+
+document.addEventListener("fullscreenchange", function () {
+    if (!document.fullscreenElement) {
+        playerShell.classList.remove("css-fullscreen");
+        document.body.classList.remove("fullscreen-active");
+        setImmersiveMode(false);
+        fullscreenButton.textContent = "⛶";
+    } else {
+        fullscreenButton.textContent = "⤢";
+    }
+});
+
+document.addEventListener("webkitfullscreenchange", function () {
+    if (!document.webkitFullscreenElement) {
+        playerShell.classList.remove("css-fullscreen");
+        document.body.classList.remove("fullscreen-active");
+        setImmersiveMode(false);
+        fullscreenButton.textContent = "⛶";
+    } else {
+        fullscreenButton.textContent = "⤢";
+    }
+});
+
+/*
+ * Bisa dipanggil MainActivity.java untuk menangani
+ * tombol Back ketika pemutar sedang fullscreen.
+ */
+window.exitArzuFullscreen = function () {
+    if (isFullscreen()) {
+        exitFullscreen();
+        return true;
+    }
+
+    return false;
+};
+
+/* =========================
+   KONTROL OTOMATIS
+========================= */
+
+function showControls() {
+    playerShell.classList.remove("controls-hidden");
+
+    clearTimeout(hideControlsTimer);
+
+    if (!player.paused && $("autoHideSetting").checked) {
+        hideControlsTimer = setTimeout(function () {
+            if (!player.paused) {
+                playerShell.classList.add("controls-hidden");
+            }
+        }, 3500);
+    }
+}
+
+function handlePlayerScreenTap(event) {
+    var target = event.target;
+
+    if (target.closest("button") || target.closest("input")) {
+        return;
+    }
+
+    if (playerShell.classList.contains("controls-hidden")) {
+        showControls();
+    } else if (!player.paused && $("autoHideSetting").checked) {
         clearTimeout(hideControlsTimer);
 
-        if (!player.paused && $("autoHideSetting").checked) {
-            hideControlsTimer = setTimeout(function () {
-                if (!player.paused) {
-                    playerShell.classList.add("controls-hidden");
-                }
-            }, 3500);
-        }
-    }
-
-    function handlePlayerScreenTap(event) {
-        if (event.target.closest("button") ||
-            event.target.closest("input")) {
-            return;
-        }
-
-        if (playerShell.classList.contains("controls-hidden")) {
-            showControls();
-        } else if (!player.paused && $("autoHideSetting").checked) {
-            clearTimeout(hideControlsTimer);
-            hideControlsTimer = setTimeout(function () {
-                if (!player.paused) {
-                    playerShell.classList.add("controls-hidden");
-                }
-            }, 3500);
-        } else {
-            showControls();
-        }
-    }
-
-    playerScreen.addEventListener("click", handlePlayerScreenTap);
-
-    playerScreen.addEventListener("mousemove", function () {
-        showControls();
-    });
-
-    playerScreen.addEventListener("touchstart", function () {
-        if (playerShell.classList.contains("controls-hidden")) {
-            showControls();
-        }
-    }, { passive: true });
-
-    $("autoHideSetting").addEventListener("change", function () {
-        if (!this.checked) {
-            clearTimeout(hideControlsTimer);
-            playerShell.classList.remove("controls-hidden");
-        } else {
-            showControls();
-        }
-    });
-
-    /* UPDATE CHECKER */
-
-    $("checkUpdateButton").addEventListener("click", checkForUpdate);
-
-    function checkForUpdate() {
-        var status = $("updateStatus");
-        status.textContent = "Memeriksa pembaruan...";
-
-        if (!navigator.onLine) {
-            status.textContent =
-                "Tidak ada koneksi internet. Kamu bisa tetap memakai video lokal.";
-            return;
-        }
-
-        var url =
-            "https://api.github.com/repos/AriIzuP/Izumi-offline-player-media/releases/latest";
-
-        fetch(url)
-            .then(function (response) {
-                if (!response.ok) {
-                    throw new Error("Pemeriksaan pembaruan gagal.");
-                }
-
-                return response.json();
-            })
-            .then(function (data) {
-                var latest = String(data.tag_name || "")
-                    .replace(/^v/i, "");
-
-                if (!latest) {
-                    throw new Error("Versi terbaru tidak ditemukan.");
-                }
-
-                if (latest !== CURRENT_VERSION) {
-                    status.textContent =
-                        "Versi terbaru tersedia: " + latest +
-                        ". Buka halaman rilis GitHub untuk melihat detail.";
-
-                    if (data.html_url) {
-                        var link = document.createElement("a");
-                        link.href = data.html_url;
-                        link.target = "_blank";
-                        link.rel = "noopener";
-                        link.textContent = "Buka halaman rilis";
-                        link.style.display = "inline-block";
-                        link.style.marginTop = "10px";
-                        link.style.color = "#51d8ff";
-
-                        status.appendChild(document.createElement("br"));
-                        status.appendChild(link);
-                    }
-                } else {
-                    status.textContent =
-                        "Aplikasi menggunakan versi " + CURRENT_VERSION +
-                        ". Tidak ada pembaruan yang terdeteksi.";
-                }
-            })
-            .catch(function () {
-                status.textContent =
-                    "Tidak dapat memeriksa pembaruan sekarang. Coba lagi saat internet tersedia.";
-            });
-    }
-
-    /* KEYBOARD DAN ROTASI */
-
-    document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape" || event.key === "Backspace") {
-            if (isFullscreen()) {
-                exitFullscreen();
+        hideControlsTimer = setTimeout(function () {
+            if (!player.paused) {
+                playerShell.classList.add("controls-hidden");
             }
-        }
+        }, 3500);
+    } else {
+        showControls();
+    }
+}
 
-        if (event.key === " " &&
-            document.activeElement !== seekBar &&
-            document.activeElement.tagName !== "INPUT") {
-            event.preventDefault();
-            togglePlay();
-        }
+playerScreen.addEventListener("click", handlePlayerScreenTap);
 
-        if (event.key === "ArrowRight" && player.src) {
-            player.currentTime = Math.min(
-                player.duration || 0,
-                player.currentTime + 10
-            );
-        }
+playerScreen.addEventListener("mousemove", function () {
+    showControls();
+});
 
-        if (event.key === "ArrowLeft" && player.src) {
-            player.currentTime = Math.max(0, player.currentTime - 10);
-        }
-    });
+playerScreen.addEventListener("touchstart", function () {
+    if (playerShell.classList.contains("controls-hidden")) {
+        showControls();
+    }
+}, {passive:true});
 
-    window.addEventListener("orientationchange", function () {
+/* =========================
+   PEMERIKSA PEMBARUAN
+========================= */
+
+$("checkUpdateButton").addEventListener("click", checkForUpdate);
+
+function compareVersions(a, b) {
+    var first = a.split(".").map(Number);
+    var second = b.split(".").map(Number);
+    var length = Math.max(first.length, second.length);
+
+    for (var i = 0; i < length; i++) {
+        var x = first[i] || 0;
+        var y = second[i] || 0;
+
+        if (x > y) return 1;
+        if (x < y) return -1;
+    }
+
+    return 0;
+}
+
+function checkForUpdate() {
+    var status = $("updateStatus");
+    status.textContent = "Memeriksa pembaruan...";
+
+    if (!navigator.onLine) {
+        status.textContent =
+            "Tidak ada koneksi internet. Pemutaran video lokal tetap dapat digunakan.";
+        return;
+    }
+
+    if (typeof fetch !== "function") {
+        status.textContent =
+            "WebView ini tidak mendukung pemeriksaan pembaruan otomatis.";
+        return;
+    }
+
+    fetch(RELEASES_API)
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error("Pemeriksaan pembaruan gagal.");
+            }
+
+            return response.json();
+        })
+        .then(function (data) {
+            var latest = String(data.tag_name || "")
+                .replace(/^v/i, "");
+
+            if (!latest) {
+                throw new Error("Versi terbaru tidak ditemukan.");
+            }
+
+            var comparison = compareVersions(latest, CURRENT_VERSION);
+
+            if (comparison > 0) {
+                status.textContent =
+                    "Versi terbaru tersedia: " + latest +
+                    ". Kamu bisa membuka halaman rilis GitHub.";
+
+                if (data.html_url) {
+                    var link = document.createElement("a");
+                    link.href = data.html_url;
+                    link.target = "_blank";
+                    link.rel = "noopener";
+                    link.textContent = "Buka halaman rilis";
+                    link.style.display = "inline-block";
+                    link.style.marginTop = "10px";
+                    link.style.color = "#51d8ff";
+
+                    status.appendChild(document.createElement("br"));
+                    status.appendChild(link);
+                }
+            } else if (comparison === 0) {
+                status.textContent =
+                    "Versi " + CURRENT_VERSION + " sesuai dengan rilis terbaru yang terdeteksi.";
+            } else {
+                status.textContent =
+                    "Versi aplikasi: " + CURRENT_VERSION +
+                    ". Rilis GitHub yang ditemukan lebih lama daripada versi ini.";
+            }
+        })
+        .catch(function (error) {
+            console.log("Update checker:", error);
+
+            status.textContent =
+                "Tidak dapat memeriksa pembaruan. Coba lagi saat internet tersedia.";
+        });
+}
+
+/* =========================
+   KEYBOARD DAN ROTASI
+========================= */
+
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" || event.key === "Backspace") {
         if (isFullscreen()) {
-            showControls();
+            exitFullscreen();
         }
-    });
+    }
 
-    /* MULAI APLIKASI */
+    if (event.key === " " &&
+        document.activeElement !== seekBar &&
+        document.activeElement.tagName !== "INPUT") {
+        event.preventDefault();
+        togglePlay();
+    }
 
-    renderHome();
-    renderLibrary();
+    if (event.key === "ArrowRight" &&
+        player.getAttribute("src")) {
+        player.currentTime = Math.min(
+            player.duration || 0,
+            player.currentTime + 10
+        );
+    }
+
+    if (event.key === "ArrowLeft" &&
+        player.getAttribute("src")) {
+        player.currentTime = Math.max(0, player.currentTime - 10);
+    }
+});
+
+window.addEventListener("orientationchange", function () {
+    if (isFullscreen()) {
+        showControls();
+    }
+});
+
+/* =========================
+   MULAI APLIKASI
+========================= */
+
+loadSettings();
+renderHome();
+renderLibrary();
+updatePlayerTitle();
+
+setTimeout(function () {
+    var splash = $("splash");
+    splash.style.opacity = "0";
 
     setTimeout(function () {
-        var splash = $("splash");
-        splash.style.opacity = "0";
+        splash.style.display = "none";
+    }, 350);
+}, 700);
 
-        setTimeout(function () {
-            splash.style.display = "none";
-        }, 350);
-    }, 900);
-
-    setTimeout(function () {
-        scanVideos();
-    }, 1200);
+setTimeout(function () {
+    scanVideos();
+}, 1100);
 
 })();
 </script>
