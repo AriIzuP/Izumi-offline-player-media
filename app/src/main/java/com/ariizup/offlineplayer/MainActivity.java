@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.os.Build;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.database.Cursor;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.webkit.WebView;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -27,6 +27,12 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.InputStream;
+import java.io.FileOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
 public class MainActivity extends Activity {
 
     private WebView webView;
@@ -41,6 +47,7 @@ public class MainActivity extends Activity {
 
     private static final int FILE_REQUEST_CODE = 1001;
     private static final int MEDIA_PERMISSION_CODE = 1002;
+    private static final int ZIP_REQUEST_CODE = 1003;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +88,6 @@ public class MainActivity extends Activity {
         });
 
         webView.setWebChromeClient(new WebChromeClient() {
-
-            // PEMILIH VIDEO MANUAL
 
             @Override
             public boolean onShowFileChooser(
@@ -133,8 +138,6 @@ public class MainActivity extends Activity {
 
                 return true;
             }
-
-            // MASUK FULLSCREEN
 
             @Override
             public void onShowCustomView(
@@ -191,35 +194,9 @@ public class MainActivity extends Activity {
                 decorView.setSystemUiVisibility(flags);
             }
 
-            // KELUAR FULLSCREEN
-
             @Override
             public void onHideCustomView() {
-
-                if (customView == null) {
-                    return;
-                }
-
-                fullscreenContainer.removeView(customView);
-
-                customView = null;
-
-                setContentView(webView);
-
-                Window window = getWindow();
-
-                window.clearFlags(
-                        WindowManager.LayoutParams.FLAG_FULLSCREEN
-                );
-
-                window.getDecorView().setSystemUiVisibility(
-                        originalSystemUiVisibility
-                );
-
-                if (customViewCallback != null) {
-                    customViewCallback.onCustomViewHidden();
-                    customViewCallback = null;
-                }
+                exitFullscreen();
             }
         });
 
@@ -319,14 +296,9 @@ public class MainActivity extends Activity {
                 while (cursor.moveToNext()) {
 
                     long id = cursor.getLong(idColumn);
-
                     String name = cursor.getString(nameColumn);
-
-                    long duration =
-                            cursor.getLong(durationColumn);
-
-                    long size =
-                            cursor.getLong(sizeColumn);
+                    long duration = cursor.getLong(durationColumn);
+                    long size = cursor.getLong(sizeColumn);
 
                     Uri videoUri = Uri.withAppendedPath(
                             collection,
@@ -380,6 +352,239 @@ public class MainActivity extends Activity {
     }
 
     // =====================================
+    // ZIP ANIME MANAGER
+    // =====================================
+
+    private boolean isSupportedVideo(String name) {
+
+        if (name == null) {
+            return false;
+        }
+
+        String lower = name.toLowerCase(
+                java.util.Locale.ROOT
+        );
+
+        return lower.endsWith(".mp4")
+                || lower.endsWith(".m4v")
+                || lower.endsWith(".mkv")
+                || lower.endsWith(".webm")
+                || lower.endsWith(".avi")
+                || lower.endsWith(".mov")
+                || lower.endsWith(".3gp")
+                || lower.endsWith(".ts")
+                || lower.endsWith(".mpeg")
+                || lower.endsWith(".mpg");
+    }
+
+    private String getZipError(Exception e) {
+
+        String message = e.getMessage();
+
+        if (message == null || message.trim().isEmpty()) {
+            message = e.getClass().getSimpleName();
+        }
+
+        return "ERROR:" + message;
+    }
+
+    // Daftar episode tanpa mengekstrak file video.
+
+    private String listZipEntries(String uriString) {
+
+        JSONArray entries = new JSONArray();
+
+        try {
+            Uri uri = Uri.parse(uriString);
+
+            InputStream input =
+                    getContentResolver().openInputStream(uri);
+
+            if (input == null) {
+                return "ERROR:File ZIP tidak bisa dibuka";
+            }
+
+            try (ZipInputStream zip =
+                         new ZipInputStream(input)) {
+
+                ZipEntry entry;
+
+                while ((entry = zip.getNextEntry()) != null) {
+
+                    if (!entry.isDirectory()
+                            && isSupportedVideo(entry.getName())) {
+
+                        JSONObject item = new JSONObject();
+
+                        item.put("name", entry.getName());
+                        item.put("size", entry.getSize());
+
+                        entries.put(item);
+                    }
+
+                    zip.closeEntry();
+                }
+            }
+
+            return entries.toString();
+
+        } catch (Exception e) {
+            return getZipError(e);
+        }
+    }
+
+    // Ekstrak hanya episode yang dipilih.
+
+    private String extractZipEntry(
+            String uriString,
+            String entryName) {
+
+        if (entryName == null || !isSupportedVideo(entryName)) {
+            return "ERROR:Episode tidak valid";
+        }
+
+        File output = null;
+
+        try {
+            Uri uri = Uri.parse(uriString);
+
+            File cacheDir = new File(
+                    getCacheDir(),
+                    "arzu_zip_cache"
+            );
+
+            if (!cacheDir.exists() && !cacheDir.mkdirs()) {
+                return "ERROR:Gagal membuat folder cache";
+            }
+
+            InputStream input =
+                    getContentResolver().openInputStream(uri);
+
+            if (input == null) {
+                return "ERROR:File ZIP tidak bisa dibuka";
+            }
+
+            try (ZipInputStream zip =
+                         new ZipInputStream(input)) {
+
+                ZipEntry entry;
+
+                while ((entry = zip.getNextEntry()) != null) {
+
+                    if (!entry.isDirectory()
+                            && entry.getName().equals(entryName)) {
+
+                        output = File.createTempFile(
+                                "episode_",
+                                getSafeExtension(entryName),
+                                cacheDir
+                        );
+
+                        long total = 0;
+                        byte[] buffer = new byte[8192];
+
+                        try (FileOutputStream out =
+                                     new FileOutputStream(output)) {
+
+                            int count;
+
+                            while ((count = zip.read(buffer)) != -1) {
+
+                                total += count;
+
+                                if (total > 2147483647L) {
+                                    throw new Exception(
+                                            "Ukuran episode terlalu besar"
+                                    );
+                                }
+
+                                out.write(buffer, 0, count);
+                            }
+                        }
+
+                        return Uri.fromFile(output).toString();
+                    }
+
+                    zip.closeEntry();
+                }
+            }
+
+            return "ERROR:Episode tidak ditemukan dalam ZIP";
+
+        } catch (Exception e) {
+
+            if (output != null && output.exists()) {
+                //noinspection ResultOfMethodCallIgnored
+                output.delete();
+            }
+
+            return getZipError(e);
+        }
+    }
+
+    private String getSafeExtension(String name) {
+
+        int dot = name.lastIndexOf('.');
+
+        if (dot >= 0) {
+
+            String ext = name.substring(dot).toLowerCase(
+                    java.util.Locale.ROOT
+            );
+
+            if (ext.matches("\\.[a-z0-9]{1,8}")) {
+                return ext;
+            }
+        }
+
+        return ".video";
+    }
+
+    private String getDisplayName(Uri uri) {
+
+        Cursor cursor = null;
+
+        try {
+            cursor = getContentResolver().query(
+                    uri,
+                    new String[]{
+                            OpenableColumns.DISPLAY_NAME
+                    },
+                    null,
+                    null,
+                    null
+            );
+
+            if (cursor != null && cursor.moveToFirst()) {
+
+                int column = cursor.getColumnIndex(
+                        OpenableColumns.DISPLAY_NAME
+                );
+
+                if (column >= 0) {
+                    return cursor.getString(column);
+                }
+            }
+
+        } catch (Exception e) {
+
+            android.util.Log.e(
+                    "ARZU_V",
+                    "Gagal membaca nama file ZIP",
+                    e
+            );
+
+        } finally {
+
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return "Anime.zip";
+    }
+
+    // =====================================
     // JAVASCRIPT BRIDGE
     // =====================================
 
@@ -387,40 +592,93 @@ public class MainActivity extends Activity {
 
         @JavascriptInterface
         public void requestPermission() {
-
             runOnUiThread(() -> requestVideoPermission());
         }
 
         @JavascriptInterface
         public boolean hasPermission() {
-
             return hasVideoPermission();
         }
 
         @JavascriptInterface
         public String getVideos() {
-
             return scanVideos();
         }
+
         @JavascriptInterface
-public void setImmersiveMode(boolean enabled) {
-    runOnUiThread(() -> {
-        if (enabled) {
-            getWindow().getDecorView().setSystemUiVisibility(
-                    android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    | android.view.View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-            );
-        } else {
-            getWindow().getDecorView().setSystemUiVisibility(
-                    android.view.View.SYSTEM_UI_FLAG_VISIBLE
+        public void openZipPicker() {
+
+            runOnUiThread(() -> {
+
+                try {
+                    Intent intent = new Intent(
+                            Intent.ACTION_OPEN_DOCUMENT
+                    );
+
+                    intent.addCategory(
+                            Intent.CATEGORY_OPENABLE
+                    );
+
+                    intent.setType("*/*");
+
+                    startActivityForResult(
+                            intent,
+                            ZIP_REQUEST_CODE
+                    );
+
+                } catch (Exception e) {
+
+                    Toast.makeText(
+                            MainActivity.this,
+                            "Tidak bisa membuka pemilih ZIP",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public String listZipEntries(String uri) {
+            return MainActivity.this.listZipEntries(uri);
+        }
+
+        @JavascriptInterface
+        public String extractZipEntry(
+                String uri,
+                String entryName) {
+
+            return MainActivity.this.extractZipEntry(
+                    uri,
+                    entryName
             );
         }
-    });
-}
+
+        @JavascriptInterface
+        public void setImmersiveMode(boolean enabled) {
+
+            runOnUiThread(() -> {
+
+                if (enabled) {
+
+                    getWindow().getDecorView()
+                            .setSystemUiVisibility(
+                                    View.SYSTEM_UI_FLAG_FULLSCREEN
+                                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            );
+
+                } else {
+
+                    getWindow().getDecorView()
+                            .setSystemUiVisibility(
+                                    View.SYSTEM_UI_FLAG_VISIBLE
+                            );
+                }
+            });
+        }
     }
 
     // =====================================
@@ -449,6 +707,7 @@ public void setImmersiveMode(boolean enabled) {
             notifyPermissionResult(granted);
 
             if (!granted) {
+
                 Toast.makeText(
                         this,
                         "Izin video belum diberikan",
@@ -456,134 +715,4 @@ public void setImmersiveMode(boolean enabled) {
                 ).show();
             }
         }
-    }
-
-    // =====================================
-    // HASIL PEMILIH VIDEO MANUAL
-    // =====================================
-
-    @Override
-    protected void onActivityResult(
-            int requestCode,
-            int resultCode,
-            Intent data) {
-
-        super.onActivityResult(
-                requestCode,
-                resultCode,
-                data
-        );
-
-        if (requestCode == FILE_REQUEST_CODE) {
-
-            if (fileCallback == null) {
-                return;
-            }
-
-            Uri[] results = null;
-
-            if (resultCode == RESULT_OK && data != null) {
-
-                if (data.getClipData() != null) {
-
-                    int count =
-                            data.getClipData().getItemCount();
-
-                    results = new Uri[count];
-
-                    for (int i = 0; i < count; i++) {
-                        results[i] =
-                                data.getClipData()
-                                        .getItemAt(i)
-                                        .getUri();
-                    }
-
-                } else if (data.getData() != null) {
-
-                    results = new Uri[]{
-                            data.getData()
-                    };
-                }
-            }
-
-            fileCallback.onReceiveValue(results);
-            fileCallback = null;
-        }
-    }
-
-    // =====================================
-    // TOMBOL BACK
-    // =====================================
-
-    @Override
-    public void onBackPressed() {
-
-        if (customView != null) {
-            if (webView != null) {
-                webView.evaluateJavascript(
-                        "document.exitFullscreen && document.exitFullscreen();",
-                        null
-                );
-            }
-
-            onHideFullscreenFallback();
-            return;
-        }
-
-        if (webView != null && webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    private void onHideFullscreenFallback() {
-
-        if (customView != null) {
-
-            fullscreenContainer.removeView(customView);
-            customView = null;
-
-            setContentView(webView);
-
-            Window window = getWindow();
-
-            window.clearFlags(
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN
-            );
-
-            window.getDecorView().setSystemUiVisibility(
-                    originalSystemUiVisibility
-            );
-
-            if (customViewCallback != null) {
-                customViewCallback.onCustomViewHidden();
-                customViewCallback = null;
-            }
-        }
-    }
-
-    // =====================================
-    // PENUTUPAN APLIKASI
-    // =====================================
-
-    @Override
-    protected void onDestroy() {
-
-        if (fileCallback != null) {
-            fileCallback.onReceiveValue(null);
-            fileCallback = null;
-        }
-
-        if (customView != null) {
-            onHideFullscreenFallback();
-        }
-
-        if (webView != null) {
-            webView.removeJavascriptInterface("AndroidMedia");
-            webView.destroy();
-        }
-
-        super.onDestroy();
-    }
-            }
+ 
