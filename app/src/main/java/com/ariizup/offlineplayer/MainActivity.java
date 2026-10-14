@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Build;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.database.Cursor;
 import android.provider.MediaStore;
@@ -16,6 +17,11 @@ import android.webkit.ValueCallback;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebViewClient;
 import android.webkit.JavascriptInterface;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -26,12 +32,26 @@ public class MainActivity extends Activity {
     private WebView webView;
     private ValueCallback<Uri[]> fileCallback;
 
+    private View customView;
+    private WebChromeClient.CustomViewCallback customViewCallback;
+    private FrameLayout fullscreenContainer;
+
+    private int originalSystemUiVisibility;
+    private int originalOrientation;
+
     private static final int FILE_REQUEST_CODE = 1001;
     private static final int MEDIA_PERMISSION_CODE = 1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        originalOrientation = getRequestedOrientation();
+
+        fullscreenContainer = new FrameLayout(this);
+        fullscreenContainer.setBackgroundColor(
+                android.graphics.Color.BLACK
+        );
 
         webView = new WebView(this);
         setContentView(webView);
@@ -42,6 +62,7 @@ public class MainActivity extends Activity {
         settings.setDomStorageEnabled(true);
         settings.setAllowFileAccess(true);
         settings.setAllowContentAccess(true);
+        settings.setMediaPlaybackRequiresUserGesture(true);
 
         webView.addJavascriptInterface(
                 new MediaBridge(),
@@ -60,6 +81,8 @@ public class MainActivity extends Activity {
         });
 
         webView.setWebChromeClient(new WebChromeClient() {
+
+            // PEMILIH VIDEO MANUAL
 
             @Override
             public boolean onShowFileChooser(
@@ -110,6 +133,94 @@ public class MainActivity extends Activity {
 
                 return true;
             }
+
+            // MASUK FULLSCREEN
+
+            @Override
+            public void onShowCustomView(
+                    View view,
+                    CustomViewCallback callback) {
+
+                if (customView != null) {
+                    callback.onCustomViewHidden();
+                    return;
+                }
+
+                customView = view;
+                customViewCallback = callback;
+
+                originalSystemUiVisibility =
+                        getWindow().getDecorView()
+                                .getSystemUiVisibility();
+
+                ViewGroup parent =
+                        (ViewGroup) webView.getParent();
+
+                if (parent != null) {
+                    parent.removeView(webView);
+                }
+
+                fullscreenContainer.removeAllViews();
+
+                fullscreenContainer.addView(
+                        customView,
+                        new FrameLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.MATCH_PARENT
+                        )
+                );
+
+                setContentView(fullscreenContainer);
+
+                Window window = getWindow();
+
+                window.addFlags(
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN
+                );
+
+                View decorView = window.getDecorView();
+
+                int flags =
+                        View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+
+                decorView.setSystemUiVisibility(flags);
+            }
+
+            // KELUAR FULLSCREEN
+
+            @Override
+            public void onHideCustomView() {
+
+                if (customView == null) {
+                    return;
+                }
+
+                fullscreenContainer.removeView(customView);
+
+                customView = null;
+
+                setContentView(webView);
+
+                Window window = getWindow();
+
+                window.clearFlags(
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN
+                );
+
+                window.getDecorView().setSystemUiVisibility(
+                        originalSystemUiVisibility
+                );
+
+                if (customViewCallback != null) {
+                    customViewCallback.onCustomViewHidden();
+                    customViewCallback = null;
+                }
+            }
         });
 
         webView.loadUrl(
@@ -117,15 +228,18 @@ public class MainActivity extends Activity {
         );
     }
 
+    // =====================================
+    // IZIN AKSES VIDEO
+    // =====================================
+
     private String getVideoPermission() {
 
-        // Android 13+ dengan target SDK 33+
         if (Build.VERSION.SDK_INT >= 33
                 && getApplicationInfo().targetSdkVersion >= 33) {
+
             return "android.permission.READ_MEDIA_VIDEO";
         }
 
-        // Untuk aplikasi ini yang masih memakai target SDK 28
         return Manifest.permission.READ_EXTERNAL_STORAGE;
     }
 
@@ -150,6 +264,10 @@ public class MainActivity extends Activity {
                 MEDIA_PERMISSION_CODE
         );
     }
+
+    // =====================================
+    // PEMINDAIAN VIDEO
+    // =====================================
 
     private String scanVideos() {
 
@@ -256,11 +374,14 @@ public class MainActivity extends Activity {
                 "window.onNativeMediaPermissionResult(" +
                 granted + ");}";
 
-        webView.post(() -> webView.evaluateJavascript(
-                script,
-                null
-        ));
+        webView.post(() ->
+                webView.evaluateJavascript(script, null)
+        );
     }
+
+    // =====================================
+    // JAVASCRIPT BRIDGE
+    // =====================================
 
     private class MediaBridge {
 
@@ -282,6 +403,10 @@ public class MainActivity extends Activity {
             return scanVideos();
         }
     }
+
+    // =====================================
+    // HASIL PERMINTAAN IZIN
+    // =====================================
 
     @Override
     public void onRequestPermissionsResult(
@@ -313,6 +438,10 @@ public class MainActivity extends Activity {
             }
         }
     }
+
+    // =====================================
+    // HASIL PEMILIH VIDEO MANUAL
+    // =====================================
 
     @Override
     protected void onActivityResult(
@@ -346,8 +475,8 @@ public class MainActivity extends Activity {
                     for (int i = 0; i < count; i++) {
                         results[i] =
                                 data.getClipData()
-                                    .getItemAt(i)
-                                    .getUri();
+                                        .getItemAt(i)
+                                        .getUri();
                     }
 
                 } else if (data.getData() != null) {
@@ -363,8 +492,24 @@ public class MainActivity extends Activity {
         }
     }
 
+    // =====================================
+    // TOMBOL BACK
+    // =====================================
+
     @Override
     public void onBackPressed() {
+
+        if (customView != null) {
+            if (webView != null) {
+                webView.evaluateJavascript(
+                        "document.exitFullscreen && document.exitFullscreen();",
+                        null
+                );
+            }
+
+            onHideFullscreenFallback();
+            return;
+        }
 
         if (webView != null && webView.canGoBack()) {
             webView.goBack();
@@ -372,6 +517,36 @@ public class MainActivity extends Activity {
             super.onBackPressed();
         }
     }
+
+    private void onHideFullscreenFallback() {
+
+        if (customView != null) {
+
+            fullscreenContainer.removeView(customView);
+            customView = null;
+
+            setContentView(webView);
+
+            Window window = getWindow();
+
+            window.clearFlags(
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN
+            );
+
+            window.getDecorView().setSystemUiVisibility(
+                    originalSystemUiVisibility
+            );
+
+            if (customViewCallback != null) {
+                customViewCallback.onCustomViewHidden();
+                customViewCallback = null;
+            }
+        }
+    }
+
+    // =====================================
+    // PENUTUPAN APLIKASI
+    // =====================================
 
     @Override
     protected void onDestroy() {
@@ -381,6 +556,10 @@ public class MainActivity extends Activity {
             fileCallback = null;
         }
 
+        if (customView != null) {
+            onHideFullscreenFallback();
+        }
+
         if (webView != null) {
             webView.removeJavascriptInterface("AndroidMedia");
             webView.destroy();
@@ -388,4 +567,4 @@ public class MainActivity extends Activity {
 
         super.onDestroy();
     }
-    }
+            }
