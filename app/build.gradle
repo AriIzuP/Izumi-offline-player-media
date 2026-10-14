@@ -1,0 +1,20 @@
+plugins {
+id 'com.android.application'
+}
+
+android {
+namespace 'com.ariizup.offlineplayer'
+
+compileSdk 35
+
+defaultConfig {
+    applicationId 'com.ariizup.offlineplayer'
+
+    minSdk 24
+    targetSdk 28
+
+    versionCode 1
+    versionName '1.0.0'
+}
+
+}
