@@ -464,6 +464,29 @@ footer {
         pointer-events: none;
     }
             }
+
+      /* ===== ARZU V MEDIA SCANNER ===== */
+
+#mediaScanStatus {
+    margin-top: 10px;
+    padding: 12px;
+    background: #0a1322;
+    border: 1px solid #233b5d;
+    border-radius: 10px;
+    color: #91a8c8;
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+#scanMediaButton {
+    background: linear-gradient(
+        135deg,
+        #1766cc,
+        #103c88
+    );
+    border-color: #65b5ff;
+}
       
 </style>
 </head>
@@ -598,6 +621,14 @@ footer {
 
     <h3>📂 Tambahkan Video</h3>
 
+      <div id="mediaScanStatus">
+    Menyiapkan pemindaian video HP...
+</div>
+
+<button id="scanMediaButton">
+    🔍 Pindai Video di HP
+</button>
+
     <label class="file-picker" for="videoInput">
 
     <span class="file-icon">＋</span>
@@ -674,9 +705,193 @@ footer {
     var clearButton = document.getElementById("clearButton");
     var search = document.getElementById("search");
     var playlistElement = document.getElementById("playlist");
+      
+        addButton.addEventListener("click", function () {
+      
     var videoTitle = document.getElementById("videoTitle");
     var status = document.getElementById("status");
     var volumeButton = document.getElementById("volumeButton");
+
+// ===== ARZU V AUTOMATIC MEDIA SCANNER =====
+
+var scanMediaButton =
+    document.getElementById("scanMediaButton");
+
+var mediaScanStatus =
+    document.getElementById("mediaScanStatus");
+
+var mediaPermissionPending = false;
+var mediaScanInProgress = false;
+
+
+// Memperbarui pesan pemindaian
+function setMediaScanStatus(message) {
+    mediaScanStatus.textContent = message;
+}
+
+
+// Memindai video yang ditemukan Android
+function scanDeviceVideos() {
+
+    if (mediaScanInProgress) {
+        return;
+    }
+
+    if (
+        typeof AndroidMedia === "undefined"
+    ) {
+        setMediaScanStatus(
+            "Pemindaian Android tidak tersedia. " +
+            "Pastikan APK terbaru sudah terpasang."
+        );
+        return;
+    }
+
+    try {
+
+        if (!AndroidMedia.hasPermission()) {
+
+            setMediaScanStatus(
+                "Izin video diperlukan untuk memindai penyimpanan HP."
+            );
+
+            mediaPermissionPending = true;
+            AndroidMedia.requestPermission();
+
+            return;
+        }
+
+        mediaScanInProgress = true;
+
+        scanMediaButton.disabled = true;
+
+        setMediaScanStatus(
+            "Sedang mencari video di penyimpanan HP..."
+        );
+
+        // Membaca hasil pemindaian dari Android
+        var result = AndroidMedia.getVideos();
+
+        var foundVideos = JSON.parse(result);
+
+        var added = 0;
+
+        // Mencatat ID video yang sudah masuk playlist
+        var existingIds = {};
+
+        for (var i = 0; i < videos.length; i++) {
+
+            if (videos[i].mediaId !== undefined) {
+                existingIds[String(videos[i].mediaId)] = true;
+            }
+        }
+
+        // Menambahkan video yang belum terdaftar
+        for (var j = 0; j < foundVideos.length; j++) {
+
+            var item = foundVideos[j];
+
+            var mediaId = String(item.id);
+
+            if (existingIds[mediaId]) {
+                continue;
+            }
+
+            videos.push({
+                name: formatName(item.name),
+                url: item.uri,
+                mediaId: mediaId,
+                source: "android"
+            });
+
+            existingIds[mediaId] = true;
+
+            added++;
+        }
+
+        renderPlaylist();
+
+        if (foundVideos.length === 0) {
+
+            setMediaScanStatus(
+                "Belum ada video yang ditemukan. " +
+                "Pastikan ada video di penyimpanan HP."
+            );
+
+        } else {
+
+            setMediaScanStatus(
+                "Pemindaian selesai! Ditemukan " +
+                foundVideos.length +
+                " video. " +
+                added +
+                " video baru ditambahkan ke playlist."
+            );
+        }
+
+    } catch (error) {
+
+        setMediaScanStatus(
+            "Pemindaian gagal. Tutup dan buka kembali aplikasi, " +
+            "lalu coba lagi."
+        );
+
+    } finally {
+
+        mediaScanInProgress = false;
+        scanMediaButton.disabled = false;
+    }
+}
+
+
+// Tombol pemindaian manual
+scanMediaButton.addEventListener(
+    "click",
+    scanDeviceVideos
+);
+
+
+// Dipanggil oleh MainActivity setelah izin dijawab
+window.onNativeMediaPermissionResult = function(granted) {
+
+    mediaPermissionPending = false;
+
+    if (granted) {
+
+        setMediaScanStatus(
+            "Izin diberikan. Memindai video..."
+        );
+
+        scanDeviceVideos();
+
+    } else {
+
+        setMediaScanStatus(
+            "Izin belum diberikan. " +
+            "Kamu masih bisa memilih video secara manual."
+        );
+    }
+};
+
+
+// Pemindaian awal ketika halaman selesai dimuat
+if (typeof AndroidMedia !== "undefined") {
+
+    if (AndroidMedia.hasPermission()) {
+
+        scanDeviceVideos();
+
+    } else {
+
+        setMediaScanStatus(
+            "ARZU V memerlukan izin untuk menemukan video di HP."
+        );
+
+        mediaPermissionPending = true;
+        AndroidMedia.requestPermission();
+    }
+      }
+      
     // ===== CUSTOM VIDEO PLAYER CONTROLS =====
 
 var videoPlayer = document.getElementById("videoPlayer");
@@ -890,9 +1105,15 @@ updatePlayerButtons();
         player.removeAttribute("src");
         player.load();
 
-        for (var i = 0; i < videos.length; i++) {
-            URL.revokeObjectURL(videos[i].url);
-        }
+       for (var i = 0; i < videos.length; i++) {
+
+    if (
+        videos[i].url &&
+        videos[i].url.indexOf("blob:") === 0
+    ) {
+        URL.revokeObjectURL(videos[i].url);
+    }
+}
 
         videos = [];
         currentIndex = -1;
