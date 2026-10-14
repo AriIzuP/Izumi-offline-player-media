@@ -1117,4 +1117,1515 @@ footer {
 
             <div class="player-top-controls">
 
-                <
+                <div class="player-top-title" id="playerTopTitle">
+                    ARZU V PLAYER
+                </div>
+
+                <button class="p-control text-control"
+                        id="subtitleButton"
+                        type="button"
+                        title="Pilih subtitle">
+                    CC
+                </button>
+            </div>
+
+            <button class="center-play"
+                    id="bigPlayButton"
+                    type="button"
+                    aria-label="Putar video">▶</button>
+
+            <div class="player-bottom-controls">
+
+                <div class="player-time-row">
+                    <span class="time-label" id="currentTime">0:00</span>
+
+                    <input type="range"
+                           id="seekBar"
+                           min="0"
+                           max="1000"
+                           value="0"
+                           aria-label="Posisi video">
+
+                    <span class="time-label" id="duration">0:00</span>
+                </div>
+
+                <div class="player-control-row">
+
+                    <button class="p-control"
+                            id="previousButton"
+                            type="button"
+                            aria-label="Video sebelumnya">|◀</button>
+
+                    <button class="p-control"
+                            id="backwardButton"
+                            type="button"
+                            aria-label="Mundur 10 detik">↶</button>
+
+                    <button class="p-control primary"
+                            id="playPauseButton"
+                            type="button"
+                            aria-label="Putar atau jeda">▶</button>
+
+                    <button class="p-control"
+                            id="forwardButton"
+                            type="button"
+                            aria-label="Maju 10 detik">↷</button>
+
+                    <button class="p-control"
+                            id="nextButton"
+                            type="button"
+                            aria-label="Video berikutnya">▶|</button>
+
+                    <button class="p-control"
+                            id="fullscreenButton"
+                            type="button"
+                            aria-label="Layar penuh">⛶</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="player-footer">
+            ARZU V · LOCAL VIDEO PLAYER
+        </div>
+    </div>
+
+    <h3 id="videoTitle">Belum ada video dipilih</h3>
+
+    <p id="status">
+        Pilih video dari koleksi untuk memulai.
+    </p>
+
+    <div class="card">
+        <h3 class="card-title">🔊 Volume</h3>
+
+        <div class="volume-row">
+            <span id="volumeIcon">🔊</span>
+
+            <input type="range"
+                   id="volumeRange"
+                   min="0"
+                   max="100"
+                   value="100"
+                   aria-label="Volume">
+
+            <span id="volumeValue">100%</span>
+        </div>
+
+        <button class="btn btn-secondary"
+                id="muteButton">
+            Matikan Suara
+        </button>
+    </div>
+
+    <div class="card">
+        <h3 class="card-title">💬 Subtitle</h3>
+
+        <div class="muted small" id="subtitleStatus">
+            Belum ada subtitle tambahan.
+        </div>
+
+        <label class="file-picker" for="subtitleInput">
+            <span class="file-icon">CC</span>
+
+            <span class="file-info">
+                <strong>Pilih Subtitle .vtt</strong>
+                <small>
+                    Muat subtitle eksternal untuk video yang diputar.
+                </small>
+            </span>
+
+            <span>›</span>
+        </label>
+
+        <input type="file"
+               id="subtitleInput"
+               accept=".vtt,text/vtt">
+    </div>
+</section>
+
+<!-- LIBRARY -->
+
+<section class="page" id="page-library">
+
+    <h2 class="section-heading">Koleksi Video</h2>
+
+    <p class="section-description">
+        Kelola dan putar video dari perangkatmu.
+    </p>
+
+    <div class="card">
+
+        <h3 class="card-title">📂 Pemindaian Perangkat</h3>
+
+        <div class="scan-status" id="mediaScanStatus">
+            Menyiapkan pemindaian video...
+        </div>
+
+        <button class="btn" id="scanMediaButton">
+            🔍 Pindai Video di HP
+        </button>
+
+        <label class="file-picker" for="videoInput">
+
+            <span class="file-icon">＋</span>
+
+            <span class="file-info">
+                <strong>Pilih Video Manual</strong>
+                <small>
+                    Pilih video dari penyimpanan perangkat.
+                </small>
+            </span>
+
+            <span>›</span>
+        </label>
+
+        <input type="file"
+               id="videoInput"
+               accept="video/*,.mp4,.mkv,.webm,.mov,.3gp,.avi,.m4v"
+               multiple>
+
+        <button class="btn btn-secondary" id="addButton">
+            Tambahkan Video Terpilih
+        </button>
+    </div>
+
+    <div class="card">
+
+        <h3 class="card-title">
+            Daftar Video
+            <span class="muted" id="libraryCount"></span>
+        </h3>
+
+        <input type="text"
+               class="search-box"
+               id="search"
+               placeholder="Cari nama video...">
+
+        <div class="library-actions">
+            <button class="btn btn-secondary"
+                    id="refreshButton">
+                ↻ Pindai Ulang
+            </button>
+
+            <button class="btn btn-danger"
+                    id="clearButton">
+                Hapus Koleksi
+            </button>
+        </div>
+
+        <ul id="playlist"></ul>
+    </div>
+</section>
+
+<!-- SETTINGS -->
+
+<section class="page" id="page-settings">
+
+    <h2 class="section-heading">Pengaturan</h2>
+
+    <p class="section-description">
+        Atur pengalaman menontonmu.
+    </p>
+
+    <div class="card">
+        <h3 class="card-title">🎬 Pemutaran</h3>
+
+        <div class="setting-row">
+            <div class="setting-info">
+                <strong>Lanjut ke video berikutnya</strong>
+                <small>Putar video berikutnya secara otomatis.</small>
+            </div>
+
+            <button class="btn btn-secondary btn-small"
+                    id="autoplayButton">
+                Aktif
+            </button>
+        </div>
+
+        <div class="setting-row">
+            <div class="setting-info">
+                <strong>Sembunyikan kontrol otomatis</strong>
+                <small>Kontrol hilang setelah beberapa detik.</small>
+            </div>
+
+            <button class="btn btn-secondary btn-small"
+                    id="autoHideButton">
+                Aktif
+            </button>
+        </div>
+
+        <div class="setting-row">
+            <div class="setting-info">
+                <strong>Waktu sembunyikan kontrol</strong>
+                <small>Atur jeda sebelum kontrol menghilang.</small>
+            </div>
+
+            <button class="btn btn-secondary btn-small"
+                    id="hideDelayButton">
+                3,5 dtk
+            </button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3 class="card-title">🔄 Pembaruan</h3>
+
+        <p class="muted small">
+            Pemeriksaan versi membutuhkan koneksi internet.
+            Pemutaran video lokal tetap dapat digunakan offline.
+        </p>
+
+        <button class="btn" id="updateButton">
+            Periksa Pembaruan
+        </button>
+
+        <div id="updateStatus">
+            Versi aplikasi: 2.0.0
+        </div>
+    </div>
+
+    <div class="card">
+        <h3 class="card-title">ℹ️ Tentang ARZU V</h3>
+
+        <div class="setting-row">
+            <div class="setting-info">
+                <strong>Nama aplikasi</strong>
+                <small>ARZU V · Midnight Blue Edition</small>
+            </div>
+        </div>
+
+        <div class="setting-row">
+            <div class="setting-info">
+                <strong>Versi antarmuka</strong>
+                <small>2.0.0</small>
+            </div>
+        </div>
+
+        <div class="setting-row">
+            <div class="setting-info">
+                <strong>Platform</strong>
+                <small>Android WebView</small>
+            </div>
+        </div>
+
+        <p class="muted small">
+            Dirancang untuk pemutaran video lokal dengan
+            antarmuka ringan dan modern.
+        </p>
+    </div>
+</section>
+
+<footer>
+    ARZU V · MIDNIGHT BLUE EDITION<br>
+    Your personal media player
+</footer>
+
+</main>
+
+<!-- BOTTOM NAVIGATION -->
+
+<nav class="bottom-nav" id="bottomNav">
+
+    <button class="nav-button active"
+            data-page="home"
+            type="button">
+        <span class="nav-icon">⌂</span>
+        <span>Beranda</span>
+    </button>
+
+    <button class="nav-button"
+            data-page="library"
+            type="button">
+        <span class="nav-icon">▤</span>
+        <span>Koleksi</span>
+    </button>
+
+    <button class="nav-button"
+            data-page="player"
+            type="button">
+        <span class="nav-icon">▷</span>
+        <span>Pemutar</span>
+    </button>
+
+    <button class="nav-button"
+            data-page="settings"
+            type="button">
+        <span class="nav-icon">⚙</span>
+        <span>Pengaturan</span>
+    </button>
+
+</nav>
+
+<script>
+(function () {
+    "use strict";
+
+    /* =====================================
+       ELEMENTS
+    ===================================== */
+
+    var player = document.getElementById("player");
+    var playerShell = document.getElementById("playerShell");
+    var playerScreen = document.getElementById("playerScreen");
+
+    var videoInput = document.getElementById("videoInput");
+    var subtitleInput = document.getElementById("subtitleInput");
+
+    var addButton = document.getElementById("addButton");
+    var clearButton = document.getElementById("clearButton");
+    var refreshButton = document.getElementById("refreshButton");
+
+    var search = document.getElementById("search");
+    var playlistElement = document.getElementById("playlist");
+
+    var videoTitle = document.getElementById("videoTitle");
+    var playerTopTitle = document.getElementById("playerTopTitle");
+    var status = document.getElementById("status");
+
+    var playPauseButton = document.getElementById("playPauseButton");
+    var bigPlayButton = document.getElementById("bigPlayButton");
+    var previousButton = document.getElementById("previousButton");
+    var nextButton = document.getElementById("nextButton");
+    var backwardButton = document.getElementById("backwardButton");
+    var forwardButton = document.getElementById("forwardButton");
+    var fullscreenButton = document.getElementById("fullscreenButton");
+    var subtitleButton = document.getElementById("subtitleButton");
+
+    var seekBar = document.getElementById("seekBar");
+    var currentTimeLabel = document.getElementById("currentTime");
+    var durationLabel = document.getElementById("duration");
+
+    var volumeRange = document.getElementById("volumeRange");
+    var volumeValue = document.getElementById("volumeValue");
+    var volumeIcon = document.getElementById("volumeIcon");
+    var muteButton = document.getElementById("muteButton");
+
+    var scanMediaButton = document.getElementById("scanMediaButton");
+    var mediaScanStatus = document.getElementById("mediaScanStatus");
+
+    var subtitleStatus = document.getElementById("subtitleStatus");
+
+    var updateButton = document.getElementById("updateButton");
+    var updateStatus = document.getElementById("updateStatus");
+
+    var homeVideoCount = document.getElementById("homeVideoCount");
+    var homeLastVideo = document.getElementById("homeLastVideo");
+    var homeLastPlay = document.getElementById("homeLastPlay");
+
+    var libraryCount = document.getElementById("libraryCount");
+
+    /* =====================================
+       STATE
+    ===================================== */
+
+    var videos = [];
+    var currentIndex = -1;
+
+    var currentVolume = 1;
+    var lastNonZeroVolume = 1;
+
+    var mediaScanInProgress = false;
+    var scanRequestedAfterPermission = false;
+
+    var autoPlayNext = true;
+    var autoHideControls = true;
+    var hideDelay = 3500;
+    var hideTimer = null;
+
+    var currentSubtitleUrl = null;
+    var nativeFullscreenRequested = false;
+
+    /* =====================================
+       GENERAL HELPERS
+    ===================================== */
+
+    function formatName(name) {
+        return name || "Video tanpa nama";
+    }
+
+    function formatPlayerTime(seconds) {
+        if (!isFinite(seconds) || seconds < 0) {
+            return "0:00";
+        }
+
+        var minutes = Math.floor(seconds / 60);
+        var remainingSeconds = Math.floor(seconds % 60);
+
+        return minutes + ":" +
+            (remainingSeconds < 10 ? "0" : "") +
+            remainingSeconds;
+    }
+
+    function setScanStatus(message) {
+        mediaScanStatus.textContent = message;
+    }
+
+    function updateCounts() {
+        homeVideoCount.textContent = String(videos.length);
+        libraryCount.textContent = "(" + videos.length + ")";
+    }
+
+    function showPage(pageName) {
+        var pages = document.querySelectorAll(".page");
+        var buttons = document.querySelectorAll(".nav-button");
+
+        for (var i = 0; i < pages.length; i++) {
+            pages[i].classList.remove("active");
+        }
+
+        for (var j = 0; j < buttons.length; j++) {
+            buttons[j].classList.remove("active");
+        }
+
+        var targetPage = document.getElementById("page-" + pageName);
+
+        if (targetPage) {
+            targetPage.classList.add("active");
+        }
+
+        for (var k = 0; k < buttons.length; k++) {
+            if (buttons[k].getAttribute("data-page") === pageName) {
+                buttons[k].classList.add("active");
+            }
+        }
+
+        window.scrollTo(0, 0);
+    }
+
+    var navButtons = document.querySelectorAll(".nav-button");
+
+    for (var n = 0; n < navButtons.length; n++) {
+        navButtons[n].addEventListener("click", function () {
+            showPage(this.getAttribute("data-page"));
+        });
+    }
+
+    document.getElementById("heroPlayButton").addEventListener(
+        "click",
+        function () {
+            showPage("player");
+        }
+    );
+
+    document.getElementById("quickLibrary").addEventListener(
+        "click",
+        function () {
+            showPage("library");
+        }
+    );
+
+    document.getElementById("quickScan").addEventListener(
+        "click",
+        function () {
+            showPage("library");
+            scanDeviceVideos();
+        }
+    );
+
+    /* =====================================
+       PLAYER STATUS
+    ===================================== */
+
+    function updatePlayerButtons() {
+        var playing = !player.paused && !player.ended;
+
+        playerShell.classList.toggle("playing", playing);
+
+        playPauseButton.textContent = playing ? "Ⅱ" : "▶";
+        bigPlayButton.textContent = playing ? "Ⅱ" : "▶";
+
+        playPauseButton.setAttribute(
+            "aria-label",
+            playing ? "Jeda video" : "Putar video"
+        );
+    }
+
+    function togglePlayback() {
+        if (!player.src) {
+            if (videos.length > 0) {
+                playVideo(
+                    currentIndex >= 0 ? currentIndex : 0
+                );
+            } else {
+                status.textContent =
+                    "Pilih atau pindai video terlebih dahulu.";
+                showPage("library");
+            }
+
+            return;
+        }
+
+        if (player.paused) {
+            var result = player.play();
+
+            if (result && result.catch) {
+                result.catch(function () {
+                    status.textContent =
+                        "Video tidak dapat diputar. Periksa format video.";
+                });
+            }
+        } else {
+            player.pause();
+        }
+    }
+
+    function removeSubtitle() {
+        var tracks = player.querySelectorAll("track");
+
+        for (var i = 0; i < tracks.length; i++) {
+            player.removeChild(tracks[i]);
+        }
+
+        if (currentSubtitleUrl) {
+            URL.revokeObjectURL(currentSubtitleUrl);
+            currentSubtitleUrl = null;
+        }
+
+        subtitleStatus.textContent = "Belum ada subtitle tambahan.";
+        subtitleButton.textContent = "CC";
+    }
+
+    function resetSeekBar() {
+        currentTimeLabel.textContent = "0:00";
+        durationLabel.textContent = "0:00";
+        seekBar.value = 0;
+    }
+
+    function playVideo(index) {
+        if (index < 0 || index >= videos.length) {
+            return;
+        }
+
+        currentIndex = index;
+
+        removeSubtitle();
+
+        player.pause();
+        player.src = videos[index].url;
+        player.load();
+
+        videoTitle.textContent = videos[index].name;
+        playerTopTitle.textContent = videos[index].name;
+
+        status.textContent =
+            "Video " + (index + 1) + " dari " + videos.length;
+
+        homeLastVideo.textContent = videos[index].name;
+        homeLastPlay.disabled = false;
+
+        renderPlaylist();
+        updateCounts();
+        showPage("player");
+        showControls();
+
+        var result = player.play();
+
+        if (result && result.catch) {
+            result.catch(function () {
+                status.textContent =
+                    "Video siap. Tekan tombol Play untuk memulai.";
+                updatePlayerButtons();
+            });
+        }
+    }
+
+    function playNext() {
+        if (videos.length === 0) {
+            return;
+        }
+
+        if (currentIndex < videos.length - 1) {
+            playVideo(currentIndex + 1);
+        } else {
+            status.textContent = "Ini video terakhir dalam koleksi.";
+        }
+    }
+
+    function playPrevious() {
+        if (videos.length === 0) {
+            return;
+        }
+
+        if (currentIndex > 0) {
+            playVideo(currentIndex - 1);
+        } else if (currentIndex === 0) {
+            player.currentTime = 0;
+            status.textContent = "Memulai ulang video.";
+        }
+    }
+
+    playPauseButton.addEventListener("click", function (event) {
+        event.stopPropagation();
+        togglePlayback();
+        showControls();
+    });
+
+    bigPlayButton.addEventListener("click", function (event) {
+        event.stopPropagation();
+        togglePlayback();
+        showControls();
+    });
+
+    previousButton.addEventListener("click", function (event) {
+        event.stopPropagation();
+        playPrevious();
+    });
+
+    nextButton.addEventListener("click", function (event) {
+        event.stopPropagation();
+        playNext();
+    });
+
+    backwardButton.addEventListener("click", function (event) {
+        event.stopPropagation();
+
+        if (player.duration) {
+            player.currentTime = Math.max(0, player.currentTime - 10);
+        }
+
+        showControls();
+    });
+
+    forwardButton.addEventListener("click", function (event) {
+        event.stopPropagation();
+
+        if (player.duration) {
+            player.currentTime = Math.min(
+                player.duration,
+                player.currentTime + 10
+            );
+        }
+
+        showControls();
+    });
+
+    player.addEventListener("play", function () {
+        updatePlayerButtons();
+        scheduleHideControls();
+    });
+
+    player.addEventListener("pause", function () {
+        updatePlayerButtons();
+        showControls();
+    });
+
+    player.addEventListener("loadedmetadata", function () {
+        durationLabel.textContent =
+            formatPlayerTime(player.duration);
+
+        currentTimeLabel.textContent = "0:00";
+        seekBar.value = 0;
+    });
+
+    player.addEventListener("timeupdate", function () {
+        currentTimeLabel.textContent =
+            formatPlayerTime(player.currentTime);
+
+        if (isFinite(player.duration) && player.duration > 0) {
+            seekBar.value =
+                (player.currentTime / player.duration) * 1000;
+        }
+    });
+
+    seekBar.addEventListener("input", function () {
+        if (isFinite(player.duration) && player.duration > 0) {
+            player.currentTime =
+                (Number(seekBar.value) / 1000) * player.duration;
+        }
+
+        showControls();
+    });
+
+    player.addEventListener("ended", function () {
+        updatePlayerButtons();
+        showControls();
+
+        if (autoPlayNext && currentIndex < videos.length - 1) {
+            playVideo(currentIndex + 1);
+        } else {
+            status.textContent = "Pemutaran video selesai.";
+        }
+    });
+
+    player.addEventListener("emptied", function () {
+        resetSeekBar();
+        updatePlayerButtons();
+    });
+
+    player.addEventListener("error", function () {
+        if (player.currentSrc) {
+            status.textContent =
+                "Video tidak dapat diputar. Format atau codec mungkin tidak didukung.";
+        }
+    });
+
+    /* =====================================
+       AUTO-HIDE PLAYER CONTROLS
+    ===================================== */
+
+    function showControls() {
+        playerShell.classList.remove("controls-hidden");
+
+        if (hideTimer) {
+            clearTimeout(hideTimer);
+            hideTimer = null;
+        }
+
+        scheduleHideControls();
+    }
+
+    function hideControls() {
+        if (player.paused || !autoHideControls) {
+            return;
+        }
+
+        playerShell.classList.add("controls-hidden");
+    }
+
+    function scheduleHideControls() {
+        if (hideTimer) {
+            clearTimeout(hideTimer);
+            hideTimer = null;
+        }
+
+        if (
+            !autoHideControls ||
+            player.paused ||
+            playerShell.classList.contains("css-fullscreen")
+        ) {
+            return;
+        }
+
+        hideTimer = setTimeout(function () {
+            hideControls();
+        }, hideDelay);
+    }
+
+    playerScreen.addEventListener("click", function (event) {
+        if (event.target.closest &&
+            event.target.closest("button")) {
+            return;
+        }
+
+        if (playerShell.classList.contains("controls-hidden")) {
+            showControls();
+        } else {
+            hideControls();
+        }
+    });
+
+    playerScreen.addEventListener("touchstart", function () {
+        if (playerShell.classList.contains("controls-hidden")) {
+            showControls();
+        }
+    }, { passive: true });
+
+    playerScreen.addEventListener("mousemove", showControls);
+
+    playerScreen.addEventListener("keydown", function (event) {
+        if (event.key === " " || event.key === "Enter") {
+            togglePlayback();
+            event.preventDefault();
+        }
+    });
+
+    /* =====================================
+       FULLSCREEN
+    ===================================== */
+
+    function enterCssFullscreen() {
+        playerShell.classList.add("css-fullscreen");
+        document.body.classList.add("fullscreen-active");
+        fullscreenButton.textContent = "×";
+        fullscreenButton.setAttribute(
+            "aria-label",
+            "Keluar dari layar penuh"
+        );
+    }
+
+    function exitCssFullscreen() {
+        playerShell.classList.remove("css-fullscreen");
+        document.body.classList.remove("fullscreen-active");
+        fullscreenButton.textContent = "⛶";
+        fullscreenButton.setAttribute(
+            "aria-label",
+            "Layar penuh"
+        );
+    }
+
+    function toggleFullscreen() {
+        var isCssFullscreen =
+            playerShell.classList.contains("css-fullscreen");
+
+        if (isCssFullscreen) {
+            exitCssFullscreen();
+            return;
+        }
+
+        /*
+         * Android WebView dapat menyediakan
+         * webkitEnterFullscreen untuk elemen video.
+         */
+        try {
+            if (typeof player.webkitEnterFullscreen === "function") {
+                nativeFullscreenRequested = true;
+                player.webkitEnterFullscreen();
+                return;
+            }
+        } catch (error) {
+            nativeFullscreenRequested = false;
+        }
+
+        /*
+         * Fallback CSS tetap dapat memenuhi area WebView.
+         */
+        enterCssFullscreen();
+    }
+
+    fullscreenButton.addEventListener("click", function (event) {
+        event.stopPropagation();
+        toggleFullscreen();
+    });
+
+    player.addEventListener("webkitbeginfullscreen", function () {
+        nativeFullscreenRequested = true;
+        fullscreenButton.textContent = "×";
+    });
+
+    player.addEventListener("webkitendfullscreen", function () {
+        nativeFullscreenRequested = false;
+        fullscreenButton.textContent = "⛶";
+        showControls();
+    });
+
+    document.addEventListener("fullscreenchange", function () {
+        if (!document.fullscreenElement) {
+            exitCssFullscreen();
+        }
+    });
+
+    /* =====================================
+       VOLUME
+    ===================================== */
+
+    function setVolume(value) {
+        currentVolume = Math.max(0, Math.min(1, value));
+        player.volume = currentVolume;
+
+        if (currentVolume > 0) {
+            lastNonZeroVolume = currentVolume;
+        }
+
+        volumeRange.value = Math.round(currentVolume * 100);
+        volumeValue.textContent =
+            Math.round(currentVolume * 100) + "%";
+
+        volumeIcon.textContent =
+            currentVolume === 0 ? "🔇" :
+            currentVolume < 0.5 ? "🔉" : "🔊";
+
+        muteButton.textContent =
+            currentVolume === 0 ? "Nyalakan Suara" : "Matikan Suara";
+    }
+
+    volumeRange.addEventListener("input", function () {
+        setVolume(Number(volumeRange.value) / 100);
+    });
+
+    muteButton.addEventListener("click", function () {
+        if (currentVolume > 0) {
+            setVolume(0);
+        } else {
+            setVolume(lastNonZeroVolume || 1);
+        }
+    });
+
+    /* =====================================
+       SUBTITLES
+    ===================================== */
+
+    subtitleButton.addEventListener("click", function () {
+        subtitleInput.click();
+        showControls();
+    });
+
+    subtitleInput.addEventListener("change", function () {
+        var file = subtitleInput.files &&
+                   subtitleInput.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        if (!/\.vtt$/i.test(file.name)) {
+            subtitleStatus.textContent =
+                "Gunakan subtitle berformat .vtt. " +
+                "Berkas .srt belum didukung langsung.";
+            subtitleInput.value = "";
+            return;
+        }
+
+        removeSubtitle();
+
+        currentSubtitleUrl = URL.createObjectURL(file);
+
+        var track = document.createElement("track");
+
+        track.kind = "subtitles";
+        track.label = file.name;
+        track.srclang = "id";
+        track.src = currentSubtitleUrl;
+        track.default = true;
+
+        player.appendChild(track);
+
+        track.addEventListener("load", function () {
+            try {
+                if (player.textTracks.length > 0) {
+                    player.textTracks[
+                        player.textTracks.length - 1
+                    ].mode = "showing";
+                }
+            } catch (error) {
+                // Beberapa WebView memiliki dukungan track berbeda.
+            }
+        });
+
+        subtitleStatus.textContent =
+            "Subtitle dipilih: " + file.name;
+
+        subtitleButton.textContent = "CC ✓";
+        subtitleInput.value = "";
+    });
+
+    /* =====================================
+       PLAYLIST
+    ===================================== */
+
+    function renderPlaylist() {
+        var query = search.value.toLowerCase();
+
+        playlistElement.innerHTML = "";
+
+        for (var i = 0; i < videos.length; i++) {
+            if (
+                videos[i].name.toLowerCase().indexOf(query) === -1
+            ) {
+                continue;
+            }
+
+            var item = document.createElement("li");
+
+            if (i === currentIndex) {
+                item.className = "active";
+            }
+
+            var icon = document.createElement("span");
+            icon.className = "track-icon";
+            icon.textContent = i === currentIndex ? "♫" : "▶";
+
+            var name = document.createElement("span");
+            name.className = "track-name";
+            name.textContent = videos[i].name;
+
+            var playButton = document.createElement("button");
+            playButton.className = "track-play";
+            playButton.type = "button";
+            playButton.textContent = "Putar";
+            playButton.setAttribute("data-index", String(i));
+
+            playButton.addEventListener("click", function (event) {
+                event.stopPropagation();
+
+                playVideo(
+                    parseInt(this.getAttribute("data-index"), 10)
+                );
+            });
+
+            item.appendChild(icon);
+            item.appendChild(name);
+            item.appendChild(playButton);
+
+            item.addEventListener("click", function () {
+                var button = this.querySelector(".track-play");
+
+                if (button) {
+                    playVideo(
+                        parseInt(button.getAttribute("data-index"), 10)
+                    );
+                }
+            });
+
+            playlistElement.appendChild(item);
+        }
+
+        if (playlistElement.children.length === 0) {
+            var empty = document.createElement("li");
+
+            empty.textContent = videos.length === 0
+                ? "Koleksi masih kosong. Pindai atau tambahkan video."
+                : "Video tidak ditemukan.";
+
+            empty.style.display = "block";
+            empty.style.color = "#91a8c8";
+
+            playlistElement.appendChild(empty);
+        }
+
+        updateCounts();
+    }
+
+    search.addEventListener("input", renderPlaylist);
+
+    homeLastPlay.addEventListener("click", function () {
+        if (currentIndex >= 0) {
+            playVideo(currentIndex);
+        }
+    });
+
+    /* =====================================
+       ADD MANUAL VIDEOS
+    ===================================== */
+
+    addButton.addEventListener("click", function () {
+        var files = videoInput.files;
+
+        if (!files || files.length === 0) {
+            setScanStatus(
+                "Pilih video terlebih dahulu sebelum menambahkannya."
+            );
+            return;
+        }
+
+        var added = 0;
+
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+
+            if (
+                file.type.indexOf("video/") !== 0 &&
+                !/\.(mp4|mkv|webm|mov|3gp|avi|m4v)$/i.test(file.name)
+            ) {
+                continue;
+            }
+
+            videos.push({
+                name: formatName(file.name),
+                url: URL.createObjectURL(file),
+                source: "manual"
+            });
+
+            added++;
+        }
+
+        videoInput.value = "";
+
+        renderPlaylist();
+
+        status.textContent = added + " video ditambahkan.";
+        setScanStatus(added + " video manual berhasil ditambahkan.");
+
+        if (currentIndex === -1 && videos.length > 0) {
+            playVideo(0);
+        }
+    });
+
+    /* =====================================
+       CLEAR PLAYLIST
+    ===================================== */
+
+    clearButton.addEventListener("click", function () {
+        player.pause();
+        player.removeAttribute("src");
+        player.load();
+
+        removeSubtitle();
+
+        for (var i = 0; i < videos.length; i++) {
+            if (
+                videos[i].url &&
+                videos[i].url.indexOf("blob:") === 0
+            ) {
+                URL.revokeObjectURL(videos[i].url);
+            }
+        }
+
+        videos = [];
+        currentIndex = -1;
+
+        videoTitle.textContent = "Belum ada video dipilih";
+        playerTopTitle.textContent = "ARZU V PLAYER";
+        status.textContent = "Koleksi telah dikosongkan.";
+
+        homeLastVideo.textContent = "Belum ada video yang dipilih.";
+        homeLastPlay.disabled = true;
+
+        renderPlaylist();
+        updatePlayerButtons();
+        resetSeekBar();
+    });
+
+    /* =====================================
+       ANDROID MEDIA SCANNER
+    ===================================== */
+
+    function scanDeviceVideos() {
+        if (mediaScanInProgress) {
+            return;
+        }
+
+        if (typeof AndroidMedia === "undefined") {
+            setScanStatus(
+                "Penghubung Android tidak tersedia. " +
+                "Pemilihan video manual masih bisa digunakan."
+            );
+            return;
+        }
+
+        try {
+            if (!AndroidMedia.hasPermission()) {
+                scanRequestedAfterPermission = true;
+
+                setScanStatus(
+                    "Meminta izin akses video dari Android..."
+                );
+
+                AndroidMedia.requestPermission();
+                return;
+            }
+
+            mediaScanInProgress = true;
+            scanMediaButton.disabled = true;
+            refreshButton.disabled = true;
+
+            setScanStatus(
+                "Sedang memindai video di penyimpanan HP..."
+            );
+
+            var result = AndroidMedia.getVideos();
+            var foundVideos = JSON.parse(result);
+
+            var existingIds = {};
+            var added = 0;
+
+            for (var i = 0; i < videos.length; i++) {
+                if (videos[i].mediaId !== undefined) {
+                    existingIds[String(videos[i].mediaId)] = true;
+                }
+            }
+
+            for (var j = 0; j < foundVideos.length; j++) {
+                var item = foundVideos[j];
+                var mediaId = String(item.id);
+
+                if (existingIds[mediaId]) {
+                    continue;
+                }
+
+                videos.push({
+                    name: formatName(item.name),
+                    url: item.uri,
+                    mediaId: mediaId,
+                    source: "android"
+                });
+
+                existingIds[mediaId] = true;
+                added++;
+            }
+
+            renderPlaylist();
+
+            if (foundVideos.length === 0) {
+                setScanStatus(
+                    "Belum ada video ditemukan. Pastikan ada video " +
+                    "yang tersimpan di perangkat."
+                );
+            } else {
+                setScanStatus(
+                    "Pemindaian selesai. Ditemukan " +
+                    foundVideos.length + " video; " +
+                    added + " video baru ditambahkan."
+                );
+            }
+
+        } catch (error) {
+            setScanStatus(
+                "Pemindaian gagal. Periksa izin Android dan " +
+                "pastikan MainActivity.java versi terbaru terpasang."
+            );
+
+        } finally {
+            mediaScanInProgress = false;
+            scanMediaButton.disabled = false;
+            refreshButton.disabled = false;
+        }
+    }
+
+    scanMediaButton.addEventListener("click", scanDeviceVideos);
+    refreshButton.addEventListener("click", scanDeviceVideos);
+
+    window.onNativeMediaPermissionResult = function (granted) {
+        scanRequestedAfterPermission = false;
+
+        if (granted) {
+            setScanStatus(
+                "Izin diberikan. Memulai pemindaian video..."
+            );
+
+            scanDeviceVideos();
+        } else {
+            setScanStatus(
+                "Izin belum diberikan. Kamu masih bisa memilih video manual."
+            );
+        }
+    };
+
+    /* =====================================
+       SETTINGS
+    ===================================== */
+
+    var autoplayButton = document.getElementById("autoplayButton");
+    var autoHideButton = document.getElementById("autoHideButton");
+    var hideDelayButton = document.getElementById("hideDelayButton");
+
+    autoplayButton.addEventListener("click", function () {
+        autoPlayNext = !autoPlayNext;
+
+        autoplayButton.textContent = autoPlayNext ? "Aktif" : "Nonaktif";
+    });
+
+    autoHideButton.addEventListener("click", function () {
+        autoHideControls = !autoHideControls;
+
+        autoHideButton.textContent =
+            autoHideControls ? "Aktif" : "Nonaktif";
+
+        if (!autoHideControls) {
+            showControls();
+        } else {
+            scheduleHideControls();
+        }
+    });
+
+    hideDelayButton.addEventListener("click", function () {
+        if (hideDelay === 3500) {
+            hideDelay = 5000;
+            hideDelayButton.textContent = "5 dtk";
+        } else if (hideDelay === 5000) {
+            hideDelay = 2000;
+            hideDelayButton.textContent = "2 dtk";
+        } else {
+            hideDelay = 3500;
+            hideDelayButton.textContent = "3,5 dtk";
+        }
+
+        scheduleHideControls();
+    });
+
+    /* =====================================
+       GITHUB UPDATE CHECKER
+    ===================================== */
+
+    var CURRENT_VERSION = "2.0.0";
+
+    var RELEASES_API =
+        "https://api.github.com/repos/AriIzuP/Izumi-offline-player-media/releases/latest";
+
+    var RELEASES_PAGE =
+        "https://github.com/AriIzuP/Izumi-offline-player-media/releases";
+
+    function compareVersions(a, b) {
+        a = String(a).replace(/^v/i, "").split(".");
+        b = String(b).replace(/^v/i, "").split(".");
+
+        for (var i = 0; i < Math.max(a.length, b.length); i++) {
+            var av = parseInt(a[i] || "0", 10) || 0;
+            var bv = parseInt(b[i] || "0", 10) || 0;
+
+            if (av > bv) return 1;
+            if (av < bv) return -1;
+        }
+
+        return 0;
+    }
+
+    function addReleaseLink(url, label) {
+        var link = document.createElement("a");
+
+        link.href = url;
+        link.textContent = label;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+
+        updateStatus.appendChild(link);
+    }
+
+    updateButton.addEventListener("click", function () {
+        updateButton.disabled = true;
+        updateStatus.textContent = "Memeriksa rilis GitHub...";
+
+        var request = new XMLHttpRequest();
+
+        request.open("GET", RELEASES_API, true);
+        request.timeout = 15000;
+
+        request.setRequestHeader(
+            "Accept",
+            "application/vnd.github+json"
+        );
+
+        request.onload = function () {
+            updateButton.disabled = false;
+
+            if (request.status === 404) {
+                updateStatus.textContent =
+                    "Belum ada Release GitHub yang dipublikasikan.";
+
+                addReleaseLink(
+                    RELEASES_PAGE,
+                    "Buka halaman Release"
+                );
+
+                return;
+            }
+
+            if (request.status < 200 || request.status >= 300) {
+                updateStatus.textContent =
+                    "GitHub merespons dengan kode " +
+                    request.status + ". Coba lagi nanti.";
+                return;
+            }
+
+            try {
+                var release = JSON.parse(request.responseText);
+
+                var latest = release.tag_name || release.name || "";
+                var releaseUrl = release.html_url || RELEASES_PAGE;
+
+                updateStatus.textContent = "";
+
+                if (!latest) {
+                    updateStatus.textContent =
+                        "Informasi versi rilis tidak ditemukan.";
+
+                    addReleaseLink(
+                        RELEASES_PAGE,
+                        "Buka halaman Release"
+                    );
+
+                    return;
+                }
+
+                if (compareVersions(latest, CURRENT_VERSION) > 0) {
+                    updateStatus.appendChild(
+                        document.createTextNode(
+                            "Versi baru tersedia: " + latest +
+                            ". Versi antarmuka ini: " + CURRENT_VERSION +
+                            ". Pembaruan APK tidak dipasang otomatis."
+                        )
+                    );
+
+                    if (release.body) {
+                        var notes = document.createElement("p");
+
+                        notes.textContent = release.body.substring(0, 400);
+
+                        updateStatus.appendChild(notes);
+                    }
+
+                    addReleaseLink(
+                        releaseUrl,
+                        "Lihat dan unduh rilis"
+                    );
+
+                } else {
+                    updateStatus.textContent =
+                        "Versi antarmuka: " + CURRENT_VERSION +
+                        ". Versi rilis terbaru: " + latest + ".";
+
+                    addReleaseLink(
+                        releaseUrl,
+                        "Lihat catatan rilis"
+                    );
+                }
+
+            } catch (error) {
+                updateStatus.textContent =
+                    "Data rilis GitHub tidak dapat dibaca.";
+            }
+        };
+
+        request.onerror = function () {
+            updateButton.disabled = false;
+
+            updateStatus.textContent =
+                "Tidak dapat terhubung ke GitHub. Periksa koneksi internet.";
+        };
+
+        request.ontimeout = function () {
+            updateButton.disabled = false;
+
+            updateStatus.textContent =
+                "Pemeriksaan terlalu lama. Coba lagi nanti.";
+        };
+
+        request.send();
+    });
+
+    /* =====================================
+       BACK BUTTON SUPPORT
+    ===================================== */
+
+    window.exitArzuFullscreen = function () {
+        if (playerShell.classList.contains("css-fullscreen")) {
+            exitCssFullscreen();
+            return true;
+        }
+
+        return false;
+    };
+
+    /* =====================================
+       INITIALIZE
+    ===================================== */
+
+    renderPlaylist();
+    updateCounts();
+    updatePlayerButtons();
+    setVolume(1);
+
+    /*
+     * Otomatis meminta izin dan memindai video
+     * jika penghubung Android tersedia.
+     */
+    if (typeof AndroidMedia !== "undefined") {
+        try {
+            if (AndroidMedia.hasPermission()) {
+                scanDeviceVideos();
+            } else {
+                scanRequestedAfterPermission = true;
+
+                setScanStatus(
+                    "Meminta izin akses video dari Android..."
+                );
+
+                AndroidMedia.requestPermission();
+            }
+        } catch (error) {
+            setScanStatus(
+                "Pemindaian otomatis belum tersedia. " +
+                "Tekan tombol Pindai Video di HP."
+            );
+        }
+    } else {
+        setScanStatus(
+            "Penghubung Android tidak tersedia. " +
+            "Kamu masih bisa memilih video secara manual."
+        );
+    }
+
+})();
+</script>
+
+</body>
+</html>
