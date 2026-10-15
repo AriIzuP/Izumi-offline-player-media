@@ -1,3 +1,23 @@
 plugins {
-id 'com.android.application' version '8.6.1' apply false
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.ariizup.offlineplayer'
+
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.ariizup.offlineplayer'
+
+        minSdk 24
+        targetSdk 28
+
+        versionCode 1
+        versionName '1.0.0'
+    }
+}
+
+dependencies {
+    implementation 'com.github.junrar:junrar:7.5.10'
 }
