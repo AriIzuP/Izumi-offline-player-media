@@ -2,34 +2,38 @@ package com.ariizup.offlineplayer;
 
 import android.Manifest;
 import android.app.Activity;
-import android.os.Bundle;
-import android.os.Build;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
-import android.webkit.WebView;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.ValueCallback;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebViewClient;
-import android.webkit.JavascriptInterface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.github.junrar.Archive;
+import com.github.junrar.rarfile.FileHeader;
+
 import java.io.File;
-import java.io.InputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -48,7 +52,7 @@ public class MainActivity extends Activity {
 
     private static final int FILE_REQUEST_CODE = 1001;
     private static final int MEDIA_PERMISSION_CODE = 1002;
-    private static final int ZIP_REQUEST_CODE = 1003;
+    private static final int ARCHIVE_REQUEST_CODE = 1003;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +69,6 @@ public class MainActivity extends Activity {
         setContentView(webView);
 
         WebSettings settings = webView.getSettings();
-
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setAllowFileAccess(true);
@@ -78,12 +81,10 @@ public class MainActivity extends Activity {
         );
 
         webView.setWebViewClient(new WebViewClient() {
-
             @Override
             public boolean shouldOverrideUrlLoading(
                     WebView view,
                     WebResourceRequest request) {
-
                 return false;
             }
         });
@@ -123,6 +124,8 @@ public class MainActivity extends Activity {
                             FILE_REQUEST_CODE
                     );
 
+                    return true;
+
                 } catch (Exception e) {
 
                     fileCallback.onReceiveValue(null);
@@ -136,8 +139,6 @@ public class MainActivity extends Activity {
 
                     return false;
                 }
-
-                return true;
             }
 
             @Override
@@ -156,6 +157,10 @@ public class MainActivity extends Activity {
                 originalSystemUiVisibility =
                         getWindow().getDecorView()
                                 .getSystemUiVisibility();
+
+                setRequestedOrientation(
+                        ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+                );
 
                 ViewGroup parent =
                         (ViewGroup) webView.getParent();
@@ -182,17 +187,14 @@ public class MainActivity extends Activity {
                         WindowManager.LayoutParams.FLAG_FULLSCREEN
                 );
 
-                View decorView = window.getDecorView();
-
-                int flags =
+                window.getDecorView().setSystemUiVisibility(
                         View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-
-                decorView.setSystemUiVisibility(flags);
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                );
             }
 
             @Override
@@ -201,23 +203,29 @@ public class MainActivity extends Activity {
             }
         });
 
-        webView.loadUrl(
-                "file:///android_asset/index.html"
-        );
+        webView.loadUrl("file:///android_asset/index.html");
     }
 
-    // =====================================
-    // FULLSCREEN
-    // =====================================
+    // =========================================
+    // FULLSCREEN DAN ORIENTASI
+    // =========================================
+
+    private void setLandscape(boolean enabled) {
+        if (enabled) {
+            setRequestedOrientation(
+                    ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+            );
+        } else {
+            setRequestedOrientation(originalOrientation);
+        }
+    }
 
     private void exitFullscreen() {
-
         if (customView == null) {
             return;
         }
 
         fullscreenContainer.removeView(customView);
-
         customView = null;
 
         setContentView(webView);
@@ -226,10 +234,11 @@ public class MainActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
         );
 
-        getWindow().getDecorView()
-                .setSystemUiVisibility(
-                        originalSystemUiVisibility
-                );
+        getWindow().getDecorView().setSystemUiVisibility(
+                originalSystemUiVisibility
+        );
+
+        setLandscape(false);
 
         if (customViewCallback != null) {
             customViewCallback.onCustomViewHidden();
@@ -237,15 +246,13 @@ public class MainActivity extends Activity {
         }
     }
 
-    // =====================================
+    // =========================================
     // IZIN AKSES VIDEO
-    // =====================================
+    // =========================================
 
     private String getVideoPermission() {
-
         if (Build.VERSION.SDK_INT >= 33
                 && getApplicationInfo().targetSdkVersion >= 33) {
-
             return "android.permission.READ_MEDIA_VIDEO";
         }
 
@@ -253,7 +260,6 @@ public class MainActivity extends Activity {
     }
 
     private boolean hasVideoPermission() {
-
         String permission = getVideoPermission();
 
         return Build.VERSION.SDK_INT < 23
@@ -262,7 +268,6 @@ public class MainActivity extends Activity {
     }
 
     private void requestVideoPermission() {
-
         if (hasVideoPermission()) {
             notifyPermissionResult(true);
             return;
@@ -275,27 +280,25 @@ public class MainActivity extends Activity {
     }
 
     private void notifyPermissionResult(boolean granted) {
-
         if (webView == null) {
             return;
         }
 
         String script =
-                "if(window.onNativeMediaPermissionResult){" +
-                "window.onNativeMediaPermissionResult(" +
-                granted + ");}";
+                "if(window.onNativeMediaPermissionResult){"
+                + "window.onNativeMediaPermissionResult("
+                + granted + ");}";
 
         webView.post(() ->
                 webView.evaluateJavascript(script, null)
         );
     }
 
-    // =====================================
+    // =========================================
     // PEMINDAIAN VIDEO
-    // =====================================
+    // =========================================
 
     private String scanVideos() {
-
         JSONArray videos = new JSONArray();
 
         if (!hasVideoPermission()) {
@@ -324,7 +327,6 @@ public class MainActivity extends Activity {
             );
 
             if (cursor != null) {
-
                 int idColumn = cursor.getColumnIndexOrThrow(
                         MediaStore.Video.Media._ID
                 );
@@ -342,7 +344,6 @@ public class MainActivity extends Activity {
                 );
 
                 while (cursor.moveToNext()) {
-
                     long id = cursor.getLong(idColumn);
                     String name = cursor.getString(nameColumn);
                     long duration = cursor.getLong(durationColumn);
@@ -368,7 +369,6 @@ public class MainActivity extends Activity {
             }
 
         } catch (Exception e) {
-
             android.util.Log.e(
                     "ARZU_V",
                     "Gagal memindai video",
@@ -376,7 +376,6 @@ public class MainActivity extends Activity {
             );
 
         } finally {
-
             if (cursor != null) {
                 cursor.close();
             }
@@ -385,12 +384,11 @@ public class MainActivity extends Activity {
         return videos.toString();
     }
 
-    // =====================================
-    // PEMILIHAN FILE ZIP
-    // =====================================
+    // =========================================
+    // PEMILIH ARSIP ZIP / RAR
+    // =========================================
 
-    private void openZipPicker() {
-
+    private void openArchivePicker() {
         try {
             Intent intent = new Intent(
                     Intent.ACTION_OPEN_DOCUMENT
@@ -400,41 +398,39 @@ public class MainActivity extends Activity {
                     Intent.CATEGORY_OPENABLE
             );
 
-            intent.setType("application/zip");
-
-            String[] mimeTypes = {
-                    "application/zip",
-                    "application/x-zip-compressed",
-                    "application/octet-stream",
-                    "*/*"
-            };
+            intent.setType("*/*");
 
             intent.putExtra(
                     Intent.EXTRA_MIME_TYPES,
-                    mimeTypes
+                    new String[]{
+                            "application/zip",
+                            "application/x-zip-compressed",
+                            "application/vnd.rar",
+                            "application/x-rar-compressed",
+                            "application/octet-stream",
+                            "*/*"
+                    }
             );
 
             startActivityForResult(
                     intent,
-                    ZIP_REQUEST_CODE
+                    ARCHIVE_REQUEST_CODE
             );
 
         } catch (Exception e) {
-
             Toast.makeText(
-                    MainActivity.this,
-                    "Tidak bisa membuka pemilih ZIP",
+                    this,
+                    "Tidak bisa membuka pemilih ZIP/RAR",
                     Toast.LENGTH_SHORT
             ).show();
         }
     }
 
-    // =====================================
-    // ZIP ANIME MANAGER
-    // =====================================
+    // =========================================
+    // PEMBACA ZIP / RAR
+    // =========================================
 
     private boolean isSupportedVideo(String name) {
-
         if (name == null) {
             return false;
         }
@@ -453,8 +449,7 @@ public class MainActivity extends Activity {
                 || lower.endsWith(".mpg");
     }
 
-    private String getZipError(Exception e) {
-
+    private String getArchiveError(Exception e) {
         String message = e.getMessage();
 
         if (message == null || message.trim().isEmpty()) {
@@ -464,34 +459,92 @@ public class MainActivity extends Activity {
         return "ERROR:" + message;
     }
 
-    // Daftar episode tanpa mengekstrak semua video.
+    private boolean isRarArchive(String uriString) {
+        InputStream input = null;
 
+        try {
+            input = getContentResolver().openInputStream(
+                    Uri.parse(uriString)
+            );
+
+            if (input != null) {
+                byte[] signature = new byte[7];
+                int count = 0;
+
+                while (count < signature.length) {
+                    int read = input.read(
+                            signature,
+                            count,
+                            signature.length - count
+                    );
+
+                    if (read < 0) {
+                        break;
+                    }
+
+                    count += read;
+                }
+
+                // Signature RAR4 atau RAR5.
+                if (count >= 6
+                        && signature[0] == 'R'
+                        && signature[1] == 'a'
+                        && signature[2] == 'r'
+                        && signature[3] == '!'
+                        && signature[4] == 0x1A
+                        && signature[5] == 0x07) {
+                    return true;
+                }
+            }
+
+        } catch (Exception e) {
+            android.util.Log.w(
+                    "ARZU_V",
+                    "Gagal mendeteksi arsip",
+                    e
+            );
+
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (Exception ignored) {
+                }
+            }
+        }
+
+        String name = getDisplayName(Uri.parse(uriString));
+
+        return name != null
+                && name.toLowerCase(Locale.ROOT).endsWith(".rar");
+    }
+
+    // Membaca daftar ZIP tanpa mengekstrak seluruh video.
     private String listZipEntries(String uriString) {
+        if (isRarArchive(uriString)) {
+            return listRarEntries(uriString);
+        }
 
         JSONArray entries = new JSONArray();
 
         try {
-            Uri uri = Uri.parse(uriString);
-
             InputStream input =
-                    getContentResolver().openInputStream(uri);
+                    getContentResolver().openInputStream(
+                            Uri.parse(uriString)
+                    );
 
             if (input == null) {
-                return "ERROR:File ZIP tidak bisa dibuka";
+                return "ERROR:Arsip tidak bisa dibuka";
             }
 
-            try (ZipInputStream zip =
-                         new ZipInputStream(input)) {
-
+            try (ZipInputStream zip = new ZipInputStream(input)) {
                 ZipEntry entry;
 
                 while ((entry = zip.getNextEntry()) != null) {
-
                     if (!entry.isDirectory()
                             && isSupportedVideo(entry.getName())) {
 
                         JSONObject item = new JSONObject();
-
                         item.put("name", entry.getName());
                         item.put("size", entry.getSize());
 
@@ -505,55 +558,117 @@ public class MainActivity extends Activity {
             return entries.toString();
 
         } catch (Exception e) {
-            return getZipError(e);
+            return getArchiveError(e);
         }
     }
 
-    // Ekstrak hanya episode yang dipilih.
+    // Membaca daftar RAR tanpa mengekstrak seluruh video.
+    private String listRarEntries(String uriString) {
+        JSONArray entries = new JSONArray();
+
+        try {
+            InputStream input =
+                    getContentResolver().openInputStream(
+                            Uri.parse(uriString)
+                    );
+
+            if (input == null) {
+                return "ERROR:Arsip RAR tidak bisa dibuka";
+            }
+
+            try (Archive archive = new Archive(input)) {
+                FileHeader header;
+
+                while ((header = archive.nextFileHeader()) != null) {
+                    String name = header.getFileName();
+
+                    if (!header.isDirectory()
+                            && isSupportedVideo(name)) {
+
+                        JSONObject item = new JSONObject();
+                        item.put("name", name);
+                        item.put("size", header.getFullUnpackSize());
+
+                        entries.put(item);
+                    }
+                }
+            }
+
+            return entries.toString();
+
+        } catch (Exception e) {
+            return getArchiveError(e);
+        }
+    }
+
+    // =========================================
+    // EKSTRAK SATU EPISODE
+    // =========================================
+
+    private File getArchiveCacheDir() throws Exception {
+        File cacheDir = new File(
+                getCacheDir(),
+                "arzu_archive_cache"
+        );
+
+        if (!cacheDir.exists() && !cacheDir.mkdirs()) {
+            throw new Exception("Gagal membuat folder cache");
+        }
+
+        return cacheDir;
+    }
+
+    private String getSafeExtension(String name) {
+        int dot = name.lastIndexOf('.');
+
+        if (dot >= 0) {
+            String ext = name.substring(dot).toLowerCase(
+                    Locale.ROOT
+            );
+
+            if (ext.matches("\\.[a-z0-9]{1,8}")) {
+                return ext;
+            }
+        }
+
+        return ".video";
+    }
 
     private String extractZipEntry(
             String uriString,
             String entryName) {
 
-        if (entryName == null || !isSupportedVideo(entryName)) {
+        if (isRarArchive(uriString)) {
+            return extractRarEntry(uriString, entryName);
+        }
+
+        if (!isSupportedVideo(entryName)) {
             return "ERROR:Episode tidak valid";
         }
 
         File output = null;
 
         try {
-            Uri uri = Uri.parse(uriString);
-
-            File cacheDir = new File(
-                    getCacheDir(),
-                    "arzu_zip_cache"
-            );
-
-            if (!cacheDir.exists() && !cacheDir.mkdirs()) {
-                return "ERROR:Gagal membuat folder cache";
-            }
-
             InputStream input =
-                    getContentResolver().openInputStream(uri);
+                    getContentResolver().openInputStream(
+                            Uri.parse(uriString)
+                    );
 
             if (input == null) {
-                return "ERROR:File ZIP tidak bisa dibuka";
+                return "ERROR:ZIP tidak bisa dibuka";
             }
 
-            try (ZipInputStream zip =
-                         new ZipInputStream(input)) {
-
+            try (ZipInputStream zip = new ZipInputStream(input)) {
                 ZipEntry entry;
 
                 while ((entry = zip.getNextEntry()) != null) {
-
                     if (!entry.isDirectory()
                             && entry.getName().equals(entryName)) {
 
                         output = File.createTempFile(
                                 "episode_",
                                 getSafeExtension(entryName),
-                                cacheDir
+                                getArchiveCacheDir()
                         );
 
                         long total = 0;
@@ -565,7 +680,6 @@ public class MainActivity extends Activity {
                             int count;
 
                             while ((count = zip.read(buffer)) != -1) {
-
                                 total += count;
 
                                 if (total > 2147483647L) {
@@ -588,51 +702,89 @@ public class MainActivity extends Activity {
             return "ERROR:Episode tidak ditemukan dalam ZIP";
 
         } catch (Exception e) {
-
-            if (output != null && output.exists()) {
+            if (output != null) {
                 //noinspection ResultOfMethodCallIgnored
                 output.delete();
             }
 
-            return getZipError(e);
+            return getArchiveError(e);
         }
     }
 
-    private String getSafeExtension(String name) {
+    private String extractRarEntry(
+            String uriString,
+            String entryName) {
 
-        int dot = name.lastIndexOf('.');
+        if (!isSupportedVideo(entryName)) {
+            return "ERROR:Episode tidak valid";
+        }
 
-        if (dot >= 0) {
+        File output = null;
 
-            String ext = name.substring(dot).toLowerCase(
-                    Locale.ROOT
-            );
+        try {
+            InputStream input =
+                    getContentResolver().openInputStream(
+                            Uri.parse(uriString)
+                    );
 
-            if (ext.matches("\\.[a-z0-9]{1,8}")) {
-                return ext;
+            if (input == null) {
+                return "ERROR:RAR tidak bisa dibuka";
             }
-        }
 
-        return ".video";
+            try (Archive archive = new Archive(input)) {
+                FileHeader header;
+
+                while ((header = archive.nextFileHeader()) != null) {
+                    String name = header.getFileName();
+
+                    if (!header.isDirectory()
+                            && entryName.equals(name)) {
+
+                        output = File.createTempFile(
+                                "episode_",
+                                getSafeExtension(entryName),
+                                getArchiveCacheDir()
+                        );
+
+                        try (FileOutputStream out =
+                                     new FileOutputStream(output)) {
+                            archive.extractFile(header, out);
+                        }
+
+                        return Uri.fromFile(output).toString();
+                    }
+                }
+            }
+
+            return "ERROR:Episode tidak ditemukan dalam RAR";
+
+        } catch (Exception e) {
+            if (output != null) {
+                //noinspection ResultOfMethodCallIgnored
+                output.delete();
+            }
+
+            return getArchiveError(e);
+        }
     }
+
+    // =========================================
+    // NAMA FILE
+    // =========================================
 
     private String getDisplayName(Uri uri) {
-
         Cursor cursor = null;
 
         try {
             cursor = getContentResolver().query(
                     uri,
-                    new String[]{
-                            OpenableColumns.DISPLAY_NAME
-                    },
+                    new String[]{OpenableColumns.DISPLAY_NAME},
                     null,
                     null,
                     null
             );
 
             if (cursor != null && cursor.moveToFirst()) {
-
                 int column = cursor.getColumnIndex(
                         OpenableColumns.DISPLAY_NAME
                 );
@@ -647,7 +799,6 @@ public class MainActivity extends Activity {
             }
 
         } catch (Exception e) {
-
             android.util.Log.e(
                     "ARZU_V",
                     "Gagal membaca nama file",
@@ -655,7 +806,6 @@ public class MainActivity extends Activity {
             );
 
         } finally {
-
             if (cursor != null) {
                 cursor.close();
             }
@@ -664,9 +814,9 @@ public class MainActivity extends Activity {
         return "Anime.zip";
     }
 
-    // =====================================
+    // =========================================
     // JAVASCRIPT BRIDGE
-    // =====================================
+    // =========================================
 
     private class MediaBridge {
 
@@ -687,10 +837,7 @@ public class MainActivity extends Activity {
 
         @JavascriptInterface
         public void openZipPicker() {
-
-            runOnUiThread(() -> {
-                MainActivity.this.openZipPicker();
-            });
+            runOnUiThread(() -> openArchivePicker());
         }
 
         @JavascriptInterface
@@ -702,7 +849,6 @@ public class MainActivity extends Activity {
         public String extractZipEntry(
                 String uri,
                 String entryName) {
-
             return MainActivity.this.extractZipEntry(
                     uri,
                     entryName
@@ -710,12 +856,14 @@ public class MainActivity extends Activity {
         }
 
         @JavascriptInterface
+        public void setFullscreenOrientation(boolean enabled) {
+            runOnUiThread(() -> setLandscape(enabled));
+        }
+
+        @JavascriptInterface
         public void setImmersiveMode(boolean enabled) {
-
             runOnUiThread(() -> {
-
                 if (enabled) {
-
                     getWindow().getDecorView()
                             .setSystemUiVisibility(
                                     View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -725,9 +873,7 @@ public class MainActivity extends Activity {
                                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                             );
-
                 } else {
-
                     getWindow().getDecorView()
                             .setSystemUiVisibility(
                                     View.SYSTEM_UI_FLAG_VISIBLE
@@ -737,9 +883,9 @@ public class MainActivity extends Activity {
         }
     }
 
-    // =====================================
+    // =========================================
     // HASIL PEMILIHAN FILE
-    // =====================================
+    // =========================================
 
     @Override
     protected void onActivityResult(
@@ -753,10 +899,7 @@ public class MainActivity extends Activity {
                 data
         );
 
-        // Pemilihan video biasa.
-
         if (requestCode == FILE_REQUEST_CODE) {
-
             if (fileCallback == null) {
                 return;
             }
@@ -764,54 +907,40 @@ public class MainActivity extends Activity {
             Uri[] results = null;
 
             if (resultCode == RESULT_OK && data != null) {
-
                 if (data.getClipData() != null) {
-
                     int count = data.getClipData().getItemCount();
-
                     results = new Uri[count];
 
                     for (int i = 0; i < count; i++) {
-                        results[i] =
-                                data.getClipData()
-                                        .getItemAt(i)
-                                        .getUri();
+                        results[i] = data.getClipData()
+                                .getItemAt(i)
+                                .getUri();
                     }
 
                 } else if (data.getData() != null) {
-
-                    results = new Uri[]{
-                            data.getData()
-                    };
+                    results = new Uri[]{data.getData()};
                 }
             }
 
             fileCallback.onReceiveValue(results);
             fileCallback = null;
-
             return;
         }
 
-        // Pemilihan file ZIP anime.
-
-        if (requestCode == ZIP_REQUEST_CODE) {
-
+        if (requestCode == ARCHIVE_REQUEST_CODE) {
             if (resultCode != RESULT_OK
                     || data == null
                     || data.getData() == null) {
-
                 return;
             }
 
             Uri uri = data.getData();
 
             try {
-                getContentResolver()
-                        .takePersistableUriPermission(
-                                uri,
-                                Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        );
-
+                getContentResolver().takePersistableUriPermission(
+                        uri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                );
             } catch (Exception ignored) {
                 // Beberapa penyedia file tidak mendukung izin persisten.
             }
@@ -819,42 +948,24 @@ public class MainActivity extends Activity {
             String uriString = uri.toString();
             String displayName = getDisplayName(uri);
 
-            try {
-                JSONObject result = new JSONObject();
+            String script =
+                    "if(window.onZipPicked){"
+                    + "window.onZipPicked("
+                    + JSONObject.quote(uriString) + ","
+                    + JSONObject.quote(displayName)
+                    + ");}";
 
-                result.put("uri", uriString);
-                result.put("name", displayName);
-
-                String script =
-                        "if(window.onZipPicked){" +
-                        "window.onZipPicked(" +
-                        JSONObject.quote(uriString) + "," +
-                        JSONObject.quote(displayName) +
-                        ");}";
-
-                if (webView != null) {
-                    webView.post(() ->
-                            webView.evaluateJavascript(
-                                    script,
-                                    null
-                            )
-                    );
-                }
-
-            } catch (Exception e) {
-
-                Toast.makeText(
-                        this,
-                        "Gagal membaca file ZIP",
-                        Toast.LENGTH_SHORT
-                ).show();
+            if (webView != null) {
+                webView.post(() ->
+                        webView.evaluateJavascript(script, null)
+                );
             }
         }
     }
 
-    // =====================================
+    // =========================================
     // HASIL PERMINTAAN IZIN
-    // =====================================
+    // =========================================
 
     @Override
     public void onRequestPermissionsResult(
@@ -869,7 +980,6 @@ public class MainActivity extends Activity {
         );
 
         if (requestCode == MEDIA_PERMISSION_CODE) {
-
             boolean granted =
                     grantResults.length > 0
                     && grantResults[0]
@@ -878,7 +988,6 @@ public class MainActivity extends Activity {
             notifyPermissionResult(granted);
 
             if (!granted) {
-
                 Toast.makeText(
                         this,
                         "Izin video belum diberikan",
@@ -888,13 +997,12 @@ public class MainActivity extends Activity {
         }
     }
 
-    // =====================================
+    // =========================================
     // TOMBOL KEMBALI
-    // =====================================
+    // =========================================
 
     @Override
     public void onBackPressed() {
-
         if (customView != null) {
             exitFullscreen();
             return;
@@ -908,13 +1016,12 @@ public class MainActivity extends Activity {
         super.onBackPressed();
     }
 
-    // =====================================
+    // =========================================
     // PEMBERSIHAN
-    // =====================================
+    // =========================================
 
     @Override
     protected void onDestroy() {
-
         if (fileCallback != null) {
             fileCallback.onReceiveValue(null);
             fileCallback = null;
